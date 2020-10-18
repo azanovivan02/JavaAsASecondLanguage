@@ -22,7 +22,7 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
 //    Uncomment this dependency in order to include frontend files to your app
-//    runtimeOnly(project(":frontend"))
+    runtimeOnly(project(":frontend"))
 }
 
 tasks.test {

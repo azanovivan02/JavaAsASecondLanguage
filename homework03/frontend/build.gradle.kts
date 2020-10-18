@@ -18,7 +18,7 @@ repositories {
 
 frontend {
     nodeVersion.set("10.16.0")
-    cleanScript.set("run clean")
+    //cleanScript.set("run clean")
     installScript.set("install")
     assembleScript.set("run build")
 }
