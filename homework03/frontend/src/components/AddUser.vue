@@ -20,6 +20,12 @@
 
             </b-form>
         </b-card>
+
+        <b-modal ref="my-modal" hide-footer v-bind:title="modalTitle">
+            <div class="d-block text-center">
+                {{ message }}
+            </div>
+        </b-modal>
     </div>
 </template>
 
@@ -33,17 +39,32 @@
             return {
                 form: {
                     userName: ""
-                }
+                },
+                modalTitle: "",
+                message: ""
             }
         },
         methods: {
+            showModal(responseData) {
+                if (responseData.errorMessage != null) {
+                    this.modalTitle = "Error"
+                    this.message = responseData.errorMessage
+                } else {
+                    this.modalTitle = "Success"
+                    this.message = "Your new token: " + responseData.data.userToken
+                }
+                this.$refs['my-modal'].show()
+            },
             onSubmit: function (event) {
                 event.preventDefault()
                 axios.post('/user/register', {
                     "userName": this.form.userName,
                 }).then(response => {
-                    alert(JSON.stringify(response.data))
+                    this.showModal(response.data)
                 }).catch(error => {
+                    if (error.response) {
+                        this.showModal(error.response.data)
+                    }
                     console.log('ERROR: ' + error);
                 })
                 this.form.userName = ''

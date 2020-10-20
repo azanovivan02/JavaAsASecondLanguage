@@ -28,6 +28,12 @@
                 </div>
             </b-form>
         </b-card>
+
+        <b-modal ref="my-modal" hide-footer v-bind:title="modalTitle">
+            <div class="d-block text-center">
+                {{ message }}
+            </div>
+        </b-modal>
     </div>
 </template>
 
@@ -42,18 +48,33 @@
                 form: {
                     userToken: "",
                     content: ""
-                }
+                },
+                modalTitle: "",
+                message: ""
             }
         },
         methods: {
+            showModal(responseData) {
+                if (responseData.errorMessage != null) {
+                    this.modalTitle = "Error"
+                    this.message = responseData.errorMessage
+                } else {
+                    this.modalTitle = "Success"
+                    this.message = "Successfully added flit"
+                }
+                this.$refs['my-modal'].show()
+            },
             onSubmit: function (event) {
                 event.preventDefault()
                 axios.post('/flit/add', {
                     "userToken": this.form.userToken,
                     "content": this.form.content
                 }).then(response => {
-                    alert(JSON.stringify(response.data))
+                    this.showModal(response.data)
                 }).catch(error => {
+                    if (error.response) {
+                        this.showModal(error.response.data)
+                    }
                     console.log('ERROR: ' + error);
                 })
                 this.form.userToken = ''
