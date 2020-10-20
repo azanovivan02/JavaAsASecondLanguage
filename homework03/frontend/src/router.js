@@ -20,7 +20,7 @@ export default new Router({
       {
         path: '/view',
         name: 'ViewFlits',
-        component: ViewFlits``
+        component: ViewFlits
       },
       {
         path: '/users',
