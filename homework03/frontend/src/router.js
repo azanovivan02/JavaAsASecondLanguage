@@ -7,7 +7,7 @@ import Home from '@/components/Home'
 import ViewUsers from "./components/ViewUsers";
 import AddUser from "./components/AddUser";
 import ViewUserFlits from "./components/ViewUserFlits";
-import Modal from "./components/Modal";
+import ViewFeed from "./components/ViewFeed";
 
 Vue.use(Router)
 
@@ -45,9 +45,9 @@ export default new Router({
         component: AddUser
       },
       {
-        path: '/modal',
-        name: 'Modal',
-        component: Modal
+        path: '/feed',
+        name: 'ViewFeed',
+        component: ViewFeed
       }
     ]
 })

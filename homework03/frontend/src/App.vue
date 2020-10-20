@@ -5,7 +5,7 @@
             <router-link to="/add" class="nav-link text-light">Add flit</router-link>
             <router-link to="/discover" class="nav-link text-light">Discover flits</router-link>
             <router-link to="/users" class="nav-link text-light">View users</router-link>
-            <router-link to="/modal" class="nav-link text-light">Modal</router-link>
+            <router-link to="/feed" class="nav-link text-light">Feed</router-link>
         </b-navbar>
         <b-main>
             <b-container class="back" fill-height fluid>

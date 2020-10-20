@@ -25,6 +25,7 @@ public class SubscriptionController {
 
     @PostMapping("/subscribe")
     public ResponseEntity<AppResult<Boolean>> add(@RequestBody SubscribeForm form) {
+        System.out.println("Received subscription form: "+form);
         var subscriberToken = form.getSubscriberToken();
         if (subscriberToken == null || subscriberToken.isEmpty()) {
             return fail("Token is empty");

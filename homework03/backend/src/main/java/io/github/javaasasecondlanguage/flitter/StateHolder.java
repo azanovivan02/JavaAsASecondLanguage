@@ -5,6 +5,7 @@ import io.github.javaasasecondlanguage.flitter.dto.Flit;
 import io.github.javaasasecondlanguage.flitter.dto.User;
 
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -47,7 +48,8 @@ public class StateHolder {
 
         List<User> sampleUsers = List.of(
                 new User("Sasha", "1111"),
-                new User("Shamil", "2222")
+                new User("Shamil", "2222"),
+                new User("Nikita", "3333")
         );
 
         for (User user : sampleUsers) {
@@ -64,6 +66,31 @@ public class StateHolder {
 
             Flit flit = new Flit(user.getUserName(), macro);
             flits.add(flit);
+        }
+
+
+        User sasha = sampleUsers.get(0);
+
+        List<User> localPublishers = List.of(
+                sampleUsers.get(1),
+                sampleUsers.get(2)
+        );
+
+        String subscriberToken = sasha.getUserToken();
+        var subscriberName = getTokenToUserMap()
+                .get(subscriberToken)
+                .getUserName();
+
+        for (User publisher : localPublishers) {
+            var publisherName = publisher.getUserName();
+
+            var subscribers = getPublisherNameToSubscribersMap()
+                    .computeIfAbsent(publisherName, e -> new LinkedHashSet<>());
+            subscribers.add(subscriberName);
+
+            var publishers = getSubscriberNameToPublishersMap()
+                    .computeIfAbsent(subscriberName, e -> new LinkedHashSet<>());
+            publishers.add(publisherName);
         }
     }
 }
