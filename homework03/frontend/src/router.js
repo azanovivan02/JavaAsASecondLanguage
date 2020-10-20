@@ -6,6 +6,7 @@ import AddFlit from "./components/AddFlit";
 import Home from '@/components/Home'
 import ViewUsers from "./components/ViewUsers";
 import AddUser from "./components/AddUser";
+import ViewUserFlits from "./components/ViewUserFlits";
 
 Vue.use(Router)
 
@@ -18,9 +19,14 @@ export default new Router({
         component: Home
       },
       {
-        path: '/view',
+        path: '/discover',
         name: 'ViewFlits',
         component: ViewFlits
+      },
+      {
+        path: '/user',
+        name: 'ViewUserFlits',
+        component: ViewUserFlits
       },
       {
         path: '/users',

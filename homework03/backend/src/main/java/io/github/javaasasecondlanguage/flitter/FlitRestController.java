@@ -70,6 +70,7 @@ public class FlitRestController {
 
     @GetMapping("list/{userName}")
     public ResponseEntity<AppResult<List<Flit>>> listFlitsPublishedUser(@PathVariable String userName) {
+
         if (userName == null || userName.isEmpty()) {
             return fail("User name is empty");
         }

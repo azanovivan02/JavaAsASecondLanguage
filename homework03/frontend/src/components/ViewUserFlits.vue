@@ -1,6 +1,6 @@
 <template>
     <div id="view-flits">
-        <h2 class="center-align mb-3">All flits</h2>
+        <h2 class="center-align mb-3">Flits from {{ this.$route.query.user }}</h2>
         <div v-for="flit in flits" v-bind:key="flit">
             <b-card
                     v-bind:title="flit.userName"
@@ -21,7 +21,7 @@
     import axios from 'axios';
 
     export default {
-        name: 'ViewFlits',
+        name: 'ViewUserFlits',
         data() {
             return {
                 flits: [],
@@ -30,7 +30,8 @@
         },
         methods: {
             load() {
-                axios.get('/flit/discover')
+                const currentUserName = this.$route.query.user;
+                axios.get('flit/list/'+currentUserName)
                     .then(response => {
                         this.$data.flits = response.data.data;
                         this.$data.errorMessage = response.data.errorMessage;
