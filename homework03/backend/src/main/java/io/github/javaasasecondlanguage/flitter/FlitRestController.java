@@ -94,9 +94,12 @@ public class FlitRestController {
             return fail("User token not found");
         }
 
+        System.out.println("Received user token: "+userToken);
+
         var userName = holder.getTokenToUserMap()
                 .get(userToken)
                 .getUserName();
+
         var publishers = holder
                 .getSubscriberNameToPublishersMap()
                 .getOrDefault(userName, emptySet())
@@ -104,6 +107,7 @@ public class FlitRestController {
 				.sorted()
 				.collect(Collectors.toList());
 
+        System.out.println("His oublishers: "+publishers);
 		var consumedFlits = publishers
 				.stream()
 				.map(name -> holder.getNameToFlitsMap().getOrDefault(name, emptyList()))

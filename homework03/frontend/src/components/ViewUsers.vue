@@ -13,7 +13,7 @@
                         <b-button variant="success">View</b-button>
                     </router-link>
                     <b-form @submit="onSubscribe">
-                        <b-button v-on:click="this.publisherName = user" type="submit" variant="primary">Subscribe
+                        <b-button v-on:click="publisherName = user" type="submit" variant="primary">Subscribe
                         </b-button>
                     </b-form>
                 </b-button-group>
@@ -104,6 +104,7 @@
                     .catch(error => {
                         console.log('ERROR: ' + error.response.data);
                     })
+                this.modalMode = "response"
                 this.form.userToken = ''
                 this.publisherName = ''
             },

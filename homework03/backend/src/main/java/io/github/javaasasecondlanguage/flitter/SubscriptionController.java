@@ -33,12 +33,15 @@ public class SubscriptionController {
         if (!holder.getTokenToUserMap().containsKey(subscriberToken)) {
             return fail("Subscriber token not found");
         }
+        var publisherName = form.getPublisherName();
+        if (!holder.getNameToUserMap().containsKey(publisherName)) {
+            return fail("Unknown publisher: "+publisherName);
+        }
 
         var subscriberName = holder
                 .getTokenToUserMap()
                 .get(subscriberToken)
                 .getUserName();
-        var publisherName = form.getPublisherName();
 
         var subscribers = holder
                 .getPublisherNameToSubscribersMap()
