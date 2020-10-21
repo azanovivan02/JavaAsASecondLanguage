@@ -1,24 +1,30 @@
 <template>
     <div id="view-users">
-        <h2 class="center-align mb-3">All users</h2>
-        <div v-for="user in users" v-bind:key="user">
-            <b-card
-                    v-bind:title="user"
-                    tag="article"
-                    style="max-width: 20rem;"
-                    class="mb-2"
-            >
-                <b-button-group>
-                    <router-link :to="{ path: '/user', query: { user: user }}">
-                        <b-button variant="success">View</b-button>
-                    </router-link>
-                    <b-form @submit="onSubscribe">
-                        <b-button v-on:click="publisherName = user" type="submit" variant="primary">Subscribe
-                        </b-button>
-                    </b-form>
-                </b-button-group>
-            </b-card>
-        </div>
+        <template v-if="isImplemented">
+            <h2 class="center-align mb-3">All users</h2>
+            <div v-for="user in users" v-bind:key="user">
+                <b-card
+                        v-bind:title="user"
+                        tag="article"
+                        style="max-width: 20rem;"
+                        class="mb-2"
+                >
+                    <b-button-group>
+                        <router-link :to="{ path: '/user', query: { user: user }}">
+                            <b-button variant="success">View</b-button>
+                        </router-link>
+                        <b-form @submit="onSubscribe">
+                            <b-button v-on:click="publisherName = user" type="submit" variant="primary">Subscribe
+                            </b-button>
+                        </b-form>
+                    </b-button-group>
+                </b-card>
+            </div>
+        </template>
+        <template v-else>
+            <h2 class="center-align mb-3">You have not implemented it yet</h2>
+            <p>Implement handle: "/user/list" to enable this page</p>
+        </template>
 
         <b-modal ref="my-modal" hide-footer v-bind:title="modalTitle">
             <template v-if="modalMode === 'input'">
@@ -65,7 +71,8 @@
                 errorMessage: null,
                 modalMode: "input",
                 modalTitle: "",
-                modalMessage: ""
+                modalMessage: "",
+                isImplemented: true
             }
         },
         methods: {
@@ -76,7 +83,10 @@
                         this.$data.errorMessage = response.data.errorMessage;
                     })
                     .catch(error => {
-                        console.log('ERROR: ' + error.response.data);
+                        console.log('ERROR: ' + JSON.stringify(error.response));
+                        if (error.response.status === 404) {
+                            this.isImplemented = false
+                        }
                     })
             },
             showModalForm() {
