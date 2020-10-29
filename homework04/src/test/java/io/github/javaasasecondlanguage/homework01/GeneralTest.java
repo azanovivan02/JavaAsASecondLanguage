@@ -1,18 +1,19 @@
 package io.github.javaasasecondlanguage.homework01;
 
-
 import io.github.javaasasecondlanguage.homework01.cases.TestCase;
 import io.github.javaasasecondlanguage.homework01.cases.TfIdfCase;
 import io.github.javaasasecondlanguage.homework01.nodes.CompNode;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework01.ui.GraphVisualizer.visualizeGraph;
 
-public class Main {
+public class GeneralTest {
 
-    public static void main(String[] args) {
+    @Test
+    void general() {
         List<TestCase> testCases = Arrays.asList(
 //                new BaseCase()
 //                new TableCase()
@@ -25,10 +26,8 @@ public class Main {
 
             System.out.printf("\n== %s ========\n\n", caseName);
             testCase.launch();
-
-            List<CompNode> compGraph = testCase.createGraph();
-            visualizeGraph(compGraph);
+//            List<CompNode> compGraph = testCase.createGraph();
+//            visualizeGraph(compGraph);
         }
     }
-
 }
