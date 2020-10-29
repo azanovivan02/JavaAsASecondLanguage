@@ -82,8 +82,8 @@ public class CompNode {
 
     private void collect(Row row) {
         for (Connection info : connections) {
-            CompNode node = info.getNode();
-            int gateNumber = info.getGate();
+            var node = info.getNode();
+            var gateNumber = info.getGate();
             node.push(row, gateNumber);
         }
     }

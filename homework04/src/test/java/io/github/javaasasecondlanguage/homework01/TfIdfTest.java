@@ -32,6 +32,18 @@ public class TfIdfTest {
         assertRowsEqual(expectedRows, actualRows);
     }
 
+    public static final List<Row> inputRows = convertToRows(
+            new String[]{"Id", "Text"},
+            new Object[][]{
+                    {1, "hello, little world"},
+                    {2, "little"},
+                    {3, "little little little"},
+                    {4, "little? hello little world"},
+                    {5, "HELLO HELLO! WORLD..."},
+                    {6, "world? world... world!!! WORLD!!! HELLO!!!"}
+            }
+    );
+
     // TODO replace test cases
     public static final List<Row> expectedRows = convertToRows(
             new String[]{"Id", "Word", "TfIdf"},
@@ -56,15 +68,4 @@ public class TfIdfTest {
             }
     );
 
-    public static final List<Row> inputRows = convertToRows(
-            new String[]{"Id", "Text"},
-            new Object[][]{
-                    {1, "hello, little world"},
-                    {2, "little"},
-                    {3, "little little little"},
-                    {4, "little? hello little world"},
-                    {5, "HELLO HELLO! WORLD..."},
-                    {6, "world? world... world!!! WORLD!!! HELLO!!!"}
-            }
-    );
 }
