@@ -1,8 +1,9 @@
 package io.github.javaasasecondlanguage.homework01.cases;
 
-import io.github.javaasasecondlanguage.homework01.GraphBuilder;
+import io.github.javaasasecondlanguage.homework01.CompGraph;
+import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
 import io.github.javaasasecondlanguage.homework01.Row;
-import io.github.javaasasecondlanguage.homework01.nodes.CompNode;
+import io.github.javaasasecondlanguage.homework01.CompNode;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.Printer;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.TokenizerMapper;
 import io.github.javaasasecondlanguage.homework01.ops.reducers.CountReducer;
@@ -11,7 +12,6 @@ import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
-import static java.util.Collections.singletonList;
 import static java.util.List.of;
 
 public class TableCase implements TestCase {
@@ -19,19 +19,21 @@ public class TableCase implements TestCase {
     @Override
     public void launch() {
         List<Row> inputRows = createInputs().get(0);
-        CompNode graph = createGraph().get(0);
+        CompNode graph = createGraph().getInputNodes().get(0);
         pushAllRowsThenTerminal(graph, inputRows);
     }
 
     @Override
-    public List<CompNode> createGraph() {
-        CompNode startNode = GraphBuilder
+    public CompGraph createGraph() {
+        var mainPart = GraphPartBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
                 .sortThenReduceBy(of("Author", "Word"), new CountReducer("Count"))
-                .then(new Printer("+++ "))
-                .getStartNode();
+                .then(new Printer("+++ "));
 
-        return singletonList(startNode);
+        return new CompGraph(
+                List.of(mainPart.getStartNode()),
+                List.of(mainPart.getEndNode())
+        );
     }
 
     @Override

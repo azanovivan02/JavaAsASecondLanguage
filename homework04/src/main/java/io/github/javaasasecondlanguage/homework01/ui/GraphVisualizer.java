@@ -1,7 +1,8 @@
 package io.github.javaasasecondlanguage.homework01.ui;
 
-import io.github.javaasasecondlanguage.homework01.nodes.CompNode;
-import io.github.javaasasecondlanguage.homework01.nodes.Connection;
+import io.github.javaasasecondlanguage.homework01.CompGraph;
+import io.github.javaasasecondlanguage.homework01.CompNode;
+import io.github.javaasasecondlanguage.homework01.Connection;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.OpType;
 import org.graphstream.graph.Element;
 import org.graphstream.graph.Graph;
@@ -20,7 +21,7 @@ import java.util.UUID;
 
 public class GraphVisualizer {
 
-    public static void visualizeGraph(List<CompNode> startCompNodes) {
+    public static void visualizeGraph(CompGraph compGraph) {
         System.setProperty("gs.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         System.setProperty("org.graphstream.ui", "swing");
 
@@ -32,7 +33,7 @@ public class GraphVisualizer {
 //        visualGraph.setAttribute("layout.quality", 4);
 
         Map<CompNode, Node> compVisualNodeMapping = new LinkedHashMap<>();
-        for (CompNode compNode : startCompNodes) {
+        for (CompNode compNode : compGraph.getInputNodes()) {
             visit(compNode, visualGraph, null, compVisualNodeMapping);
         }
 

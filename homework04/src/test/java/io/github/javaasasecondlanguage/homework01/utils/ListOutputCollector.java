@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.utils;
 
 import io.github.javaasasecondlanguage.homework01.Row;
-import io.github.javaasasecondlanguage.homework01.nodes.OutputCollector;
+import io.github.javaasasecondlanguage.homework01.OutputCollector;
 
 import java.util.ArrayList;
 import java.util.List;

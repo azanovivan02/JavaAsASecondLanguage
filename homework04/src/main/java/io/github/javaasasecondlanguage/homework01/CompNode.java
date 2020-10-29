@@ -1,6 +1,5 @@
-package io.github.javaasasecondlanguage.homework01.nodes;
+package io.github.javaasasecondlanguage.homework01;
 
-import io.github.javaasasecondlanguage.homework01.Row;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Joiner;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;

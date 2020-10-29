@@ -1,6 +1,5 @@
 package io.github.javaasasecondlanguage.homework01;
 
-import io.github.javaasasecondlanguage.homework01.nodes.CompNode;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Joiner;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
@@ -11,26 +10,26 @@ import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
 
-public class GraphBuilder {
+public class GraphPartBuilder {
 
-    public static GraphBuilder startWith(CompNode node) {
-        GraphBuilder graphBuilder = new GraphBuilder();
+    public static GraphPartBuilder startFrom(CompNode node) {
+        GraphPartBuilder graphBuilder = new GraphPartBuilder();
         graphBuilder.startNode = node;
         graphBuilder.endNode = node;
         return graphBuilder;
     }
 
-    public static GraphBuilder startWith(Operator operator) {
-        return startWith(new CompNode(operator));
+    public static GraphPartBuilder startWith(Operator operator) {
+        return startFrom(new CompNode(operator));
     }
 
     private CompNode startNode;
     private CompNode endNode;
 
-    private GraphBuilder() {
+    private GraphPartBuilder() {
     }
 
-    private GraphBuilder(CompNode startNode, CompNode endNode) {
+    private GraphPartBuilder(CompNode startNode, CompNode endNode) {
         this.startNode = startNode;
         this.endNode = endNode;
     }
@@ -43,34 +42,34 @@ public class GraphBuilder {
         return endNode;
     }
 
-    public GraphBuilder then(Operator operator) {
+    public GraphPartBuilder then(Operator operator) {
         CompNode newNode = new CompNode(operator);
         endNode.addConnection(newNode, 0);
         endNode = newNode;
         return this;
     }
 
-    public GraphBuilder sortBy(List<String> keyColumns, Order order) {
+    public GraphPartBuilder sortBy(List<String> keyColumns, Order order) {
         Sorter sorter = new Sorter(order);
         sorter.setKeyColumns(keyColumns);
         return then(sorter);
     }
 
-    public GraphBuilder sortBy(List<String> keyColumns) {
+    public GraphPartBuilder sortBy(List<String> keyColumns) {
         return sortBy(keyColumns, ASCENDING);
     }
 
-    public GraphBuilder reduceBy(List<String> keyColumns, Reducer reducer) {
+    public GraphPartBuilder reduceBy(List<String> keyColumns, Reducer reducer) {
         reducer.setKeyColumns(keyColumns);
         return then(reducer);
     }
 
-    public GraphBuilder sortThenReduceBy(List<String> keyColumns, Reducer reducer) {
+    public GraphPartBuilder sortThenReduceBy(List<String> keyColumns, Reducer reducer) {
         return sortBy(keyColumns)
                 .reduceBy(keyColumns, reducer);
     }
 
-    public GraphBuilder join(GraphBuilder rightGraphBuilder, List<String> keyColumns, Joiner joiner) {
+    public GraphPartBuilder join(GraphPartBuilder rightGraphBuilder, List<String> keyColumns, Joiner joiner) {
         joiner.setKeyColumns(keyColumns);
 
         CompNode joinNode = new CompNode(joiner);
@@ -84,7 +83,7 @@ public class GraphBuilder {
         return this;
     }
 
-    public GraphBuilder branch() {
-        return new GraphBuilder(startNode, endNode);
+    public GraphPartBuilder branch() {
+        return new GraphPartBuilder(startNode, endNode);
     }
 }

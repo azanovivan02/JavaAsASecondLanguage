@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.ops.reducers;
 
+import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Row;
-import io.github.javaasasecondlanguage.homework01.nodes.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.ops.OpUtils;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 

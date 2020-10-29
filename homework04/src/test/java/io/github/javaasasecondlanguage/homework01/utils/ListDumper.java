@@ -1,20 +1,23 @@
-package io.github.javaasasecondlanguage.homework01.ops.mappers;
+package io.github.javaasasecondlanguage.homework01.utils;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Row;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
-public class Printer implements Operator.Mapper {
+import java.util.ArrayList;
+import java.util.List;
 
-    private final String prefix;
+public class ListDumper implements Operator.Mapper {
 
-    public Printer(String prefix) {
-        this.prefix = prefix;
+    private final List<Row> rows = new ArrayList<>();
+
+    public List<Row> getRows() {
+        return rows;
     }
 
     @Override
     public void apply(Row inputRow, OutputCollector collector) {
-        System.out.printf("%s: %s%n", prefix, inputRow);
+        rows.add(inputRow);
         collector.collect(inputRow);
     }
 }

@@ -1,8 +1,9 @@
 package io.github.javaasasecondlanguage.homework01.cases;
 
-import io.github.javaasasecondlanguage.homework01.GraphBuilder;
+import io.github.javaasasecondlanguage.homework01.CompGraph;
+import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
 import io.github.javaasasecondlanguage.homework01.Row;
-import io.github.javaasasecondlanguage.homework01.nodes.CompNode;
+import io.github.javaasasecondlanguage.homework01.CompNode;
 import io.github.javaasasecondlanguage.homework01.ops.InnerJoin;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.Printer;
 
@@ -10,14 +11,13 @@ import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
-import static java.util.Arrays.asList;
 import static java.util.List.of;
 
 public class JoinCase implements TestCase {
 
     @Override
     public void launch() {
-        List<CompNode> startNodes = createGraph();
+        List<CompNode> startNodes = createGraph().getInputNodes();
 
         List<List<Row>> inputs = createInputs();
         List<Row> leftRows = inputs.get(0);
@@ -31,18 +31,18 @@ public class JoinCase implements TestCase {
     }
 
     @Override
-    public List<CompNode> createGraph() {
-        GraphBuilder rightGraphBuilder = GraphBuilder
+    public CompGraph createGraph() {
+        GraphPartBuilder rightPart = GraphPartBuilder
                 .startWith(new Printer("--- right: "));
 
-        GraphBuilder leftGraphBuilder = GraphBuilder
+        GraphPartBuilder leftPart = GraphPartBuilder
                 .startWith(new Printer("+++ left: "))
-                .join(rightGraphBuilder, of("AuthorId"), new InnerJoin())
+                .join(rightPart, of("AuthorId"), new InnerJoin())
                 .then(new Printer("*** output: "));
 
-        return asList(
-                leftGraphBuilder.getStartNode(),
-                rightGraphBuilder.getStartNode()
+        return new CompGraph(
+                List.of(leftPart.getStartNode(), rightPart.getStartNode()),
+                List.of(leftPart.getEndNode())
         );
     }
 

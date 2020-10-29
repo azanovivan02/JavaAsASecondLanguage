@@ -1,4 +1,4 @@
-package io.github.javaasasecondlanguage.homework01.nodes;
+package io.github.javaasasecondlanguage.homework01;
 
 public class Connection {
     private final CompNode node;

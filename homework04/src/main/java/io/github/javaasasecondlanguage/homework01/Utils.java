@@ -1,6 +1,8 @@
 package io.github.javaasasecondlanguage.homework01;
 
+import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Utils {
 
@@ -28,5 +30,12 @@ public class Utils {
         }
 
         return true;
+    }
+
+    public static String rowsToString(Collection<Row> rows) {
+        return rows
+                .stream()
+                .map(Row::toString)
+                .collect(Collectors.joining("\n"));
     }
 }

@@ -1,4 +1,4 @@
-# Computational graph
+# Computational compGraph
 
 ## What it is?
 

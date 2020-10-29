@@ -1,8 +1,9 @@
 package io.github.javaasasecondlanguage.homework01.cases;
 
-import io.github.javaasasecondlanguage.homework01.GraphBuilder;
+import io.github.javaasasecondlanguage.homework01.CompGraph;
+import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
 import io.github.javaasasecondlanguage.homework01.Row;
-import io.github.javaasasecondlanguage.homework01.nodes.CompNode;
+import io.github.javaasasecondlanguage.homework01.CompNode;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.AddColumnMapper;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.Printer;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.TokenizerMapper;
@@ -14,39 +15,41 @@ import java.util.List;
 import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.DESCENDING;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
-import static java.util.Collections.singletonList;
 import static java.util.List.of;
 
 public class BaseCase implements TestCase {
 
     @Override
     public void launch() {
-        CompNode headGraphNode = createGraph().get(0);
+        CompNode inputNode = createGraph().getInputNodes().get(0);
         List<Row> inputRows = createInputs().get(0);
-        pushAllRowsThenTerminal(headGraphNode, inputRows);
+        pushAllRowsThenTerminal(inputNode, inputRows);
     }
 
     @Override
-    public List<CompNode> createGraph() {
-        GraphBuilder graphBuilder = GraphBuilder
+    public CompGraph createGraph() {
+        var inputPart = GraphPartBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
                 .then(new AddColumnMapper("Word", row -> row.getString("Word").toLowerCase()))
                 .sortThenReduceBy(of("Word"), new CountReducer("WordCount"));
 
-        graphBuilder
+        var commonOutputNode = inputPart
                 .branch()
                 .sortBy(of("WordCount"), DESCENDING)
                 .then(new FirstNReducer(5))
-                .then(new Printer("+++ Top 5 common words"));
+                .then(new Printer("+++ Top 5 common words"))
+                .getEndNode();
 
-        graphBuilder
+        var rareOutputNode = inputPart
                 .branch()
                 .sortBy(of("WordCount"))
                 .then(new FirstNReducer(10))
-                .then(new Printer("--- Top 10 rare words"));
+                .then(new Printer("--- Top 10 rare words"))
+                .getEndNode();
 
-        return singletonList(
-                graphBuilder.getStartNode()
+        return new CompGraph(
+                List.of(inputPart.getStartNode()),
+                List.of(commonOutputNode, rareOutputNode)
         );
     }
 
