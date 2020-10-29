@@ -16,10 +16,10 @@ public class TokenizerMapper implements Operator.Mapper {
 
     @Override
     public void apply(Row inputRow, OutputCollector collector) {
-        String inputValue = inputRow.getString(inputColumn);
-        String[] words = inputValue.split("[\\s,\\.\\!\\;\\?\\'\\:\"]+");
+        var inputValue = inputRow.getString(inputColumn);
+        var words = inputValue.split("[\\s,\\.\\!\\;\\?\\'\\:\"]+");
         for (String word : words) {
-            Row newRow = inputRow
+            var newRow = inputRow
                     .copyColumnsExcept(inputColumn)
                     .set(outputColumn, word);
             collector.collect(newRow);

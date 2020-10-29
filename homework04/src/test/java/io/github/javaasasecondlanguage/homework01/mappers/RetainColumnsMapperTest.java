@@ -33,9 +33,9 @@ public class RetainColumnsMapperTest {
 
     @Test
     void general() {
-        RetainColumnsMapper mapper = new RetainColumnsMapper(of("Id", "Name"));
+        var mapper = new RetainColumnsMapper(of("Id", "Name"));
 
-        List<Row> actualRows = applyToAllRows(mapper, inputRows);
+        var actualRows = applyToAllRows(mapper, inputRows);
         assertRowsEqual(expectedRows, actualRows);
     }
 }

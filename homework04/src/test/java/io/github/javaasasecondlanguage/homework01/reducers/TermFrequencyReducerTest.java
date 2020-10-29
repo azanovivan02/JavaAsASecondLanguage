@@ -68,10 +68,10 @@ class TermFrequencyReducerTest {
 
     @Test
     void general() {
-        TermFrequencyReducer reducer = new TermFrequencyReducer("Word", "Tf");
+        var reducer = new TermFrequencyReducer("Word", "Tf");
         reducer.setKeyColumns(of("DocId"));
 
-        List<Row> actualRows = applyToAllRowsThenTerminal(reducer, inputRows);
+        var actualRows = applyToAllRowsThenTerminal(reducer, inputRows);
         assertRowsEqual(expectedRows, actualRows);
     }
 }

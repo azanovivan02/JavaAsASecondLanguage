@@ -43,14 +43,14 @@ public class GraphPartBuilder {
     }
 
     public GraphPartBuilder then(Operator operator) {
-        CompNode newNode = new CompNode(operator);
+        var newNode = new CompNode(operator);
         endNode.addConnection(newNode, 0);
         endNode = newNode;
         return this;
     }
 
     public GraphPartBuilder sortBy(List<String> keyColumns, Order order) {
-        Sorter sorter = new Sorter(order);
+        var sorter = new Sorter(order);
         sorter.setKeyColumns(keyColumns);
         return then(sorter);
     }
@@ -72,9 +72,9 @@ public class GraphPartBuilder {
     public GraphPartBuilder join(GraphPartBuilder rightGraphBuilder, List<String> keyColumns, Joiner joiner) {
         joiner.setKeyColumns(keyColumns);
 
-        CompNode joinNode = new CompNode(joiner);
-        CompNode leftInputNode = this.endNode;
-        CompNode rightInputNode = rightGraphBuilder.endNode;
+        var joinNode = new CompNode(joiner);
+        var leftInputNode = this.endNode;
+        var rightInputNode = rightGraphBuilder.endNode;
 
         leftInputNode.addConnection(joinNode, 0);
         rightInputNode.addConnection(joinNode, 1);

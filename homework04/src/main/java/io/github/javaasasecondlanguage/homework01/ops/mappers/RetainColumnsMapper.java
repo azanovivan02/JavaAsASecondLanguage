@@ -16,7 +16,7 @@ public class RetainColumnsMapper implements Mapper {
 
     @Override
     public void apply(Row inputRow, OutputCollector collector) {
-        Row newRow = inputRow.copyColumns(retainedColumns);
+        var newRow = inputRow.copyColumns(retainedColumns);
         collector.collect(newRow);
     }
 }

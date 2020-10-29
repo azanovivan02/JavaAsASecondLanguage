@@ -18,8 +18,8 @@ public class TableCase implements TestCase {
 
     @Override
     public void launch() {
-        List<Row> inputRows = createInputs().get(0);
-        CompNode graph = createGraph().getInputNodes().get(0);
+        var inputRows = createInputs().get(0);
+        var graph = createGraph().getInputNodes().get(0);
         pushAllRowsThenTerminal(graph, inputRows);
     }
 

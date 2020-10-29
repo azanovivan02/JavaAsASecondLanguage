@@ -51,8 +51,8 @@ public class TermFrequencyReducer implements Operator.Reducer {
             currentRow = inputRow;
         }
 
-        String currentWord = inputRow.getString(termColumn);
-        Integer currentCount = wordCounts.getOrDefault(currentWord, 0);
+        var currentWord = inputRow.getString(termColumn);
+        var currentCount = wordCounts.getOrDefault(currentWord, 0);
         wordCounts.put(currentWord, currentCount + 1);
     }
 
@@ -61,10 +61,10 @@ public class TermFrequencyReducer implements Operator.Reducer {
             return;
         }
 
-        int totalCount = getTotalCount();
-        TreeMap<String, Integer> sortedWordCounts = new TreeMap<>(wordCounts);
+        var totalCount = getTotalCount();
+        var sortedWordCounts = new TreeMap<String, Integer>(wordCounts);
 
-        for (Entry<String, Integer> entry : sortedWordCounts.entrySet()) {
+        for (var entry : sortedWordCounts.entrySet()) {
             String term = entry.getKey();
             Integer termCount = entry.getValue();
             float frequency = ((float) termCount) / totalCount;

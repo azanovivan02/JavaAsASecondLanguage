@@ -21,8 +21,8 @@ public class BaseCase implements TestCase {
 
     @Override
     public void launch() {
-        CompNode inputNode = createGraph().getInputNodes().get(0);
-        List<Row> inputRows = createInputs().get(0);
+        var inputNode = createGraph().getInputNodes().get(0);
+        var inputRows = createInputs().get(0);
         pushAllRowsThenTerminal(inputNode, inputRows);
     }
 

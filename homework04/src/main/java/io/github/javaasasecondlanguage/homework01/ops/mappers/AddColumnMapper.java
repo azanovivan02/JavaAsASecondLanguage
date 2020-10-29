@@ -18,9 +18,9 @@ public class AddColumnMapper implements Operator.Mapper {
 
     @Override
     public void apply(Row inputRow, OutputCollector collector) {
-        Object outputValue = lambda.apply(inputRow);
+        var outputValue = lambda.apply(inputRow);
 
-        Row outputRow = inputRow
+        var outputRow = inputRow
                 .copy()
                 .set(outputColumn, outputValue);
         collector.collect(outputRow);

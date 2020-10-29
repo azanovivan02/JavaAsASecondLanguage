@@ -10,9 +10,9 @@ public class OpUtils {
             return false;
         }
 
-        for (String column : keyColumns) {
-            Object leftValue = left.get(column);
-            Object rightValue = right.get(column);
+        for (var column : keyColumns) {
+            var leftValue = left.get(column);
+            var rightValue = right.get(column);
             if (!leftValue.equals(rightValue)) {
                 return false;
             }
@@ -21,9 +21,9 @@ public class OpUtils {
     }
 
     public static int compareRows(Row o1, Row o2, List<String> keyColumns) {
-        for (String column : keyColumns) {
-            Comparable leftValue = o1.getComparable(column);
-            Comparable rightValue = o2.getComparable(column);
+        for (var column : keyColumns) {
+            var leftValue = o1.getComparable(column);
+            var rightValue = o2.getComparable(column);
             int comparisonResult = leftValue.compareTo(rightValue);
             if (comparisonResult != 0) {
                 return comparisonResult;

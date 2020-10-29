@@ -23,9 +23,9 @@ public class TestUtils {
     }
 
     public static List<Row> convertToRows(String[] schema, Object[]... inputTuples) {
-        ArrayList<Row> outputRows = new ArrayList<>();
-        for (Object[] tuple : inputTuples) {
-            Row row = new Row(new HashMap<>());
+        var outputRows = new ArrayList<Row>();
+        for (var tuple : inputTuples) {
+            var row = new Row(new HashMap<>());
             for (int columnIndex = 0; columnIndex < schema.length; columnIndex++) {
                 String columnName = schema[columnIndex];
                 Object columnValue = tuple[columnIndex];
@@ -38,16 +38,16 @@ public class TestUtils {
     }
 
     public static void pushAllRowsThenTerminal(CompNode node, List<Row> rows) {
-        for (Row row : rows) {
+        for (var row : rows) {
             node.pushIntoZero(row);
         }
         node.pushIntoZero(Row.terminalRow());
     }
 
     public static List<Row> applyToAllRowsThenTerminal(Reducer operator, List<Row> rows) {
-        ListOutputCollector collector = new ListOutputCollector();
+        var collector = new ListOutputCollector();
 
-        for (Row row : rows) {
+        for (var row : rows) {
             operator.apply(row, collector);
         }
         operator.apply(Row.terminalRow(), collector);
@@ -56,9 +56,9 @@ public class TestUtils {
     }
 
     public static List<Row> applyToAllRows(Mapper operator, List<Row> rows) {
-        ListOutputCollector collector = new ListOutputCollector();
+        var collector = new ListOutputCollector();
 
-        for (Row row : rows) {
+        for (var row : rows) {
             operator.apply(row, collector);
         }
 

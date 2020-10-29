@@ -48,9 +48,9 @@ public class InnerJoin implements Operator.Joiner {
         leftRows.removeLast();
         rightRows.removeLast();
 
-        for (Row rightRow : rightRows) {
-            for (Row leftRow : leftRows) {
-                int comparisonResult = compareRows(leftRow, rightRow, keyColumns);
+        for (var rightRow : rightRows) {
+            for (var leftRow : leftRows) {
+                var comparisonResult = compareRows(leftRow, rightRow, keyColumns);
                 if (comparisonResult == 0) {
                     Row joinedRow = leftRow.copy().setAll(rightRow.getValues());
                     collector.collect(joinedRow);

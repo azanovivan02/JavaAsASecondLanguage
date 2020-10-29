@@ -11,9 +11,9 @@ public class AssertionUtils {
 
 
     public static void assertRowsEqual(List<Row> expectedRows, List<Row> actualRows) {
-        for (int rowIndex = 0; rowIndex < expectedRows.size(); rowIndex++) {
-            Row actualRow = actualRows.get(rowIndex);
-            Row expectedRow = expectedRows.get(rowIndex);
+        for (var rowIndex = 0; rowIndex < expectedRows.size(); rowIndex++) {
+            var actualRow = actualRows.get(rowIndex);
+            var expectedRow = expectedRows.get(rowIndex);
             assertEquals(expectedRow, actualRow, format("Row index: %d", rowIndex));
         }
     }

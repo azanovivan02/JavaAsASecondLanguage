@@ -32,10 +32,10 @@ public class JoinCase implements TestCase {
 
     @Override
     public CompGraph createGraph() {
-        GraphPartBuilder rightPart = GraphPartBuilder
+        var rightPart = GraphPartBuilder
                 .startWith(new Printer("--- right: "));
 
-        GraphPartBuilder leftPart = GraphPartBuilder
+        var leftPart = GraphPartBuilder
                 .startWith(new Printer("+++ left: "))
                 .join(rightPart, of("AuthorId"), new InnerJoin())
                 .then(new Printer("*** output: "));

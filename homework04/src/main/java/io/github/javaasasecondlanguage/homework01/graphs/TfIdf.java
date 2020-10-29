@@ -20,41 +20,41 @@ import static java.util.List.of;
 public class TfIdf {
 
     public static CompGraph createGraph() {
-        GraphPartBuilder inputGraph = GraphPartBuilder
+        var inputGraph = GraphPartBuilder
                 .startWith(new IdentityMapper());
 
-        GraphPartBuilder docCountGraph = inputGraph
+        var docCountGraph = inputGraph
                 .branch()
                 .sortThenReduceBy(of(), new CountReducer("DocsCount"));
 
-        GraphPartBuilder wordGraph = inputGraph
+        var wordGraph = inputGraph
                 .branch()
                 .then(new AddColumnMapper("Text", row -> row.getString("Text").toLowerCase()))
                 .then(new TokenizerMapper("Text", "Word"));
 
-        GraphPartBuilder uniqueDocWordGraph = wordGraph
+        var uniqueDocWordGraph = wordGraph
                 .branch()
                 .sortThenReduceBy(of("Id", "Word"), new FirstNReducer(1))
                 .sortBy(of("Word"));
 
-        GraphPartBuilder countIdfGraph = uniqueDocWordGraph
+        var countIdfGraph = uniqueDocWordGraph
                 .branch()
                 .reduceBy(of("Word"), new CountReducer("DocsWithWordCount"))
                 .join(uniqueDocWordGraph, of("Word"), new InnerJoin())
                 .sortBy(of("Id", "Word"));
 
-        GraphPartBuilder rawTfIdfGraph = wordGraph
+        var rawTfIdfGraph = wordGraph
                 .branch()
                 .sortThenReduceBy(of("Id"), new TermFrequencyReducer("Word", "Tf"))
                 .join(countIdfGraph, of("Id", "Word"), new InnerJoin())
                 .join(docCountGraph, of(), new InnerJoin())
                 .then(new AddColumnMapper("RawTfIdf", TfIdf::calculateTfIdf));
 
-        GraphPartBuilder tfIdsSumGraph = rawTfIdfGraph
+        var tfIdsSumGraph = rawTfIdfGraph
                 .branch()
                 .reduceBy(of("Id"), new SumReducer("RawTfIdf", "TfIdfSum"));
 
-        GraphPartBuilder normalizedTfIdfGraph = rawTfIdfGraph
+        var normalizedTfIdfGraph = rawTfIdfGraph
                 .join(tfIdsSumGraph, of("Id"), new InnerJoin())
                 .then(new AddColumnMapper("TfIdf", row -> row.getDouble("RawTfIdf") / row.getDouble("TfIdfSum")))
                 .then(new RetainColumnsMapper(of("Id", "Word", "TfIdf")));

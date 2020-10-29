@@ -54,7 +54,7 @@ public class Row {
     }
 
     public Row copyColumns(List<String> columns) {
-        LinkedHashMap<String, Object> newValues = new LinkedHashMap<>();
+        var newValues = new LinkedHashMap<String, Object>();
         for (String column : columns) {
             newValues.put(
                     column,
@@ -65,7 +65,7 @@ public class Row {
     }
 
     public Row copyColumnsExcept(String... excludedColumns) {
-        LinkedHashMap<String, Object> newValues = new LinkedHashMap<>(values);
+        var newValues = new LinkedHashMap<>(values);
         newValues
                 .keySet()
                 .removeAll(Arrays.asList(excludedColumns));

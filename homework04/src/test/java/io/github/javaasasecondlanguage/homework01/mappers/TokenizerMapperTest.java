@@ -49,9 +49,9 @@ class TokenizerMapperTest {
 
     @Test
     void general() {
-        TokenizerMapper mapper = new TokenizerMapper("Text", "Word");
+        var mapper = new TokenizerMapper("Text", "Word");
 
-        List<Row> actualRows = applyToAllRows(mapper, inputRows);
+        var actualRows = applyToAllRows(mapper, inputRows);
         assertRowsEqual(expectedRows, actualRows);
     }
 }
