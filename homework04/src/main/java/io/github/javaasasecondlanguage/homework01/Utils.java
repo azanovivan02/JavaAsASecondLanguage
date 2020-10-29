@@ -1,43 +1,32 @@
 package io.github.javaasasecondlanguage.homework01;
 
-import io.github.javaasasecondlanguage.homework01.nodes.CompNode;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import static java.util.Collections.singletonMap;
+import java.util.Map;
 
 public class Utils {
 
-    public static List<Row> convertToRows(String columnName, Collection<?> inputValues) {
-        return inputValues
-                .stream()
-                .map(value -> new Row(singletonMap(columnName, value)))
-                .collect(Collectors.toList());
-    }
+    public static boolean rowsEqual(Row leftRow, Row rightRow, double precisionForDouble) {
+        Map<String, Object> leftValues = leftRow.getValues();
+        Map<String, Object> rightValues = rightRow.getValues();
 
-    public static List<Row> convertToRows(String[] schema, Object[]...inputTuples) {
-        ArrayList<Row> outputRows = new ArrayList<>();
-        for (Object[] tuple : inputTuples) {
-            Row row = new Row(new HashMap<>());
-            for (int columnIndex = 0; columnIndex < schema.length; columnIndex++) {
-                String columnName = schema[columnIndex];
-                Object columnValue = tuple[columnIndex];
-                row.set(columnName, columnValue);
+        if (!leftValues.keySet().equals(rightValues.keySet())) {
+            return false;
+        }
+
+        for (String key : leftValues.keySet()) {
+            Object leftValue = leftValues.get(key);
+            Object rightValue = rightValues.get(key);
+
+            if (leftValue instanceof Number && rightValue instanceof Number) {
+                double leftDouble = ((Number) leftValue).doubleValue();
+                double rightDouble = ((Number) rightValue).doubleValue();
+                if (Math.abs(leftDouble - rightDouble) > precisionForDouble) {
+                    return false;
+                }
+            } else if (!leftValue.equals(rightValue)) {
+                return false;
             }
-            outputRows.add(row);
         }
 
-        return outputRows;
-    }
-
-    public static void pushAllThenTerminal(CompNode node, List<Row> rows) {
-        for (Row row : rows) {
-            node.pushIntoZero(row);
-        }
-        node.pushIntoZero(Row.terminalRow());
+        return true;
     }
 }

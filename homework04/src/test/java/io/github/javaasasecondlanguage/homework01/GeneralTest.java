@@ -13,7 +13,7 @@ import static io.github.javaasasecondlanguage.homework01.ui.GraphVisualizer.visu
 public class GeneralTest {
 
     @Test
-    void general() {
+    void general() throws InterruptedException {
         List<TestCase> testCases = Arrays.asList(
 //                new BaseCase()
 //                new TableCase()
@@ -26,8 +26,6 @@ public class GeneralTest {
 
             System.out.printf("\n== %s ========\n\n", caseName);
             testCase.launch();
-//            List<CompNode> compGraph = testCase.createGraph();
-//            visualizeGraph(compGraph);
         }
     }
 }

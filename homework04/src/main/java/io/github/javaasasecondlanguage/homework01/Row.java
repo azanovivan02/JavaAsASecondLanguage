@@ -1,8 +1,16 @@
 package io.github.javaasasecondlanguage.homework01;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializer;
+
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
@@ -80,6 +88,37 @@ public class Row {
 
     @Override
     public String toString() {
-        return format("Row %s", values);
+        String valuesString = values
+                .entrySet()
+                .stream()
+                .map(e -> format("%s: %s", e.getKey(), getFormattedValue(e)))
+                .collect(Collectors.joining(", "));
+        return format("Row {%s}", valuesString);
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        Row leftRow = this;
+        Row rightRow = (Row) o;
+
+        return Utils.rowsEqual(leftRow, rightRow, 0.001);
+    }
+
+    private static String getFormattedValue(Map.Entry<String, Object> e) {
+        Object value = e.getValue();
+        if (value instanceof Double) {
+            return format("%1$,.3f", value);
+        } else {
+            return value.toString();
+        }
+    }
+
 }

@@ -9,15 +9,16 @@ import io.github.javaasasecondlanguage.homework01.ops.mappers.IdentityMapper;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.LambdaMapper;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.Printer;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.RetainColumnsMapper;
-import io.github.javaasasecondlanguage.homework01.ops.mappers.WordSplitMapper;
+import io.github.javaasasecondlanguage.homework01.ops.mappers.TokenizerMapper;
 import io.github.javaasasecondlanguage.homework01.ops.reducers.CountReducer;
 import io.github.javaasasecondlanguage.homework01.ops.reducers.FirstNReducer;
+import io.github.javaasasecondlanguage.homework01.ops.reducers.SumReducer;
 import io.github.javaasasecondlanguage.homework01.ops.reducers.TermFrequencyReducer;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.Utils.convertToRows;
-import static io.github.javaasasecondlanguage.homework01.Utils.pushAllThenTerminal;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
 import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
 import static java.util.Arrays.asList;
 
@@ -25,9 +26,9 @@ public class TfIdfCase implements TestCase {
 
     @Override
     public void launch() {
+        List<Row> inputRows = createInputs().get(0);
         CompNode startNode = createGraph().get(0);
-
-        pushAllThenTerminal(startNode, inputRows);
+        pushAllRowsThenTerminal(startNode, inputRows);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class TfIdfCase implements TestCase {
         GraphBuilder wordGraph = inputGraph
                 .branch()
                 .then(new LambdaMapper<String>("Text", String::toLowerCase))
-                .then(new WordSplitMapper("Text", "Word"));
+                .then(new TokenizerMapper("Text", "Word"));
 
         GraphBuilder uniqueDocWordGraph = wordGraph
                 .branch()
@@ -57,13 +58,21 @@ public class TfIdfCase implements TestCase {
                 .join(uniqueDocWordGraph, new InnerJoin("Word"))
                 .sortBy(ASCENDING, "Id", "Word");
 
-        GraphBuilder finalGraph = wordGraph
+        GraphBuilder rawTfIdfGraph = wordGraph
                 .branch()
                 .sortBy(ASCENDING, "Id")
                 .then(new TermFrequencyReducer("Word", "Tf", "Id"))
                 .join(countIdfGraph, new InnerJoin("Id", "Word"))
                 .join(docCountGraph, new InnerJoin())
-                .then(new AddColumnMapper("TfIdf", TfIdfCase::calculateTfIdf))
+                .then(new AddColumnMapper("RawTfIdf", TfIdfCase::calculateTfIdf));
+
+        GraphBuilder tfIdsSumGraph = rawTfIdfGraph
+                .branch()
+                .then(new SumReducer("RawTfIdf", "TfIdfSum", "Id"));
+
+        GraphBuilder normalizedTfIdfGraph = rawTfIdfGraph
+                .join(tfIdsSumGraph, new InnerJoin("Id"))
+                .then(new AddColumnMapper("TfIdf", row -> row.getDouble("RawTfIdf") / row.getDouble("TfIdfSum")))
                 .then(new RetainColumnsMapper("Id", "Word", "TfIdf"))
                 .then(new Printer("^^^ final: "));
 
@@ -80,15 +89,19 @@ public class TfIdfCase implements TestCase {
         return tf * Math.log(docsCount / docsWithWordCount);
     }
 
-    private static final List<Row> inputRows = convertToRows(
-            new String[]{"Id", "Text"},
-            new Object[][]{
-                    {1, "hello, little world"},
-                    {2, "little"},
-                    {3, "little little little"},
-                    {4, "little? hello little world"},
-                    {5, "HELLO HELLO! WORLD..."},
-                    {6, "world? world... world!!! WORLD!!! HELLO!!!"}
-            }
-    );
+    @Override
+    public List<List<Row>> createInputs() {
+        List<Row> inputRows = convertToRows(
+                new String[]{"Id", "Text"},
+                new Object[][]{
+                        {1, "hello, little world"},
+                        {2, "little"},
+                        {3, "little little little"},
+                        {4, "little? hello little world"},
+                        {5, "HELLO HELLO! WORLD..."},
+                        {6, "world? world... world!!! WORLD!!! HELLO!!!"}
+                }
+        );
+        return List.of(inputRows);
+    }
 }
