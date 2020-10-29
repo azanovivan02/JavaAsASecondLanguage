@@ -12,6 +12,7 @@ import io.github.javaasasecondlanguage.homework01.ops.reducers.FirstNReducer;
 
 import java.util.List;
 
+import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
 import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.DESCENDING;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
@@ -36,14 +37,14 @@ public class BaseCase implements TestCase {
         var commonOutputNode = inputPart
                 .branch()
                 .sortBy(of("WordCount"), DESCENDING)
-                .then(new FirstNReducer(5))
+                .reduceBy(of(), new FirstNReducer(5))
                 .then(new Printer("+++ Top 5 common words"))
                 .getEndNode();
 
         var rareOutputNode = inputPart
                 .branch()
-                .sortBy(of("WordCount"))
-                .then(new FirstNReducer(10))
+                .sortBy(of("WordCount"), ASCENDING)
+                .reduceBy(of(), new FirstNReducer(10))
                 .then(new Printer("--- Top 10 rare words"))
                 .getEndNode();
 

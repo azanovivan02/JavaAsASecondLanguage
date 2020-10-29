@@ -10,6 +10,10 @@ public class OpUtils {
             return false;
         }
 
+        if (keyColumns == null) {
+            throw new IllegalArgumentException("Key columns are null");
+        }
+
         for (var column : keyColumns) {
             var leftValue = left.get(column);
             var rightValue = right.get(column);
