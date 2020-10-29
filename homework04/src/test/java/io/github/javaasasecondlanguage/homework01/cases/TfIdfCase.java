@@ -16,7 +16,6 @@ import io.github.javaasasecondlanguage.homework01.ops.reducers.TermFrequencyRedu
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
 import static java.util.Arrays.asList;
@@ -38,8 +37,7 @@ public class TfIdfCase implements TestCase {
 
         GraphBuilder docCountGraph = inputGraph
                 .branch()
-                .sortBy(ASCENDING, of())
-                .reduce(new CountReducer("DocsCount"), of());
+                .sortThenReduceBy(of(), new CountReducer("DocsCount"));
 
         GraphBuilder wordGraph = inputGraph
                 .branch()
@@ -48,30 +46,28 @@ public class TfIdfCase implements TestCase {
 
         GraphBuilder uniqueDocWordGraph = wordGraph
                 .branch()
-                .sortBy(ASCENDING, of("Id", "Word"))
-                .reduce(new FirstNReducer(1), of("Id", "Word"))
-                .sortBy(ASCENDING, of("Word"));
+                .sortThenReduceBy(of("Id", "Word"), new FirstNReducer(1))
+                .sortBy(of("Word"));
 
         GraphBuilder countIdfGraph = uniqueDocWordGraph
                 .branch()
-                .reduce(new CountReducer("DocsWithWordCount"), of("Word"))
-                .join(uniqueDocWordGraph, new InnerJoin(), of("Word"))
-                .sortBy(ASCENDING, of("Id", "Word"));
+                .reduceBy(of("Word"), new CountReducer("DocsWithWordCount"))
+                .join(uniqueDocWordGraph, of("Word"), new InnerJoin())
+                .sortBy(of("Id", "Word"));
 
         GraphBuilder rawTfIdfGraph = wordGraph
                 .branch()
-                .sortBy(ASCENDING, of("Id"))
-                .reduce(new TermFrequencyReducer("Word", "Tf"),of("Id"))
-                .join(countIdfGraph, new InnerJoin(), of("Id", "Word"))
-                .join(docCountGraph, new InnerJoin(), of())
+                .sortThenReduceBy(of("Id"), new TermFrequencyReducer("Word", "Tf"))
+                .join(countIdfGraph, of("Id", "Word"), new InnerJoin())
+                .join(docCountGraph, of(), new InnerJoin())
                 .then(new AddColumnMapper("RawTfIdf", TfIdfCase::calculateTfIdf));
 
         GraphBuilder tfIdsSumGraph = rawTfIdfGraph
                 .branch()
-                .reduce(new SumReducer("RawTfIdf", "TfIdfSum"), of("Id"));
+                .reduceBy(of("Id"), new SumReducer("RawTfIdf", "TfIdfSum"));
 
         GraphBuilder normalizedTfIdfGraph = rawTfIdfGraph
-                .join(tfIdsSumGraph, new InnerJoin(), of("Id"))
+                .join(tfIdsSumGraph, of("Id"), new InnerJoin())
                 .then(new AddColumnMapper("TfIdf", row -> row.getDouble("RawTfIdf") / row.getDouble("TfIdfSum")))
                 .then(new RetainColumnsMapper(of("Id", "Word", "TfIdf")))
                 .then(new Printer("^^^ final: "));

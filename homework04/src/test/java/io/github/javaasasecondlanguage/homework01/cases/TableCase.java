@@ -9,7 +9,6 @@ import io.github.javaasasecondlanguage.homework01.ops.reducers.CountReducer;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
 import static java.util.Collections.singletonList;
@@ -28,8 +27,7 @@ public class TableCase implements TestCase {
     public List<CompNode> createGraph() {
         CompNode startNode = GraphBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
-                .sortBy(ASCENDING, of("Author", "Word"))
-                .reduce(new CountReducer("Count"), of("Author", "Word"))
+                .sortThenReduceBy(of("Author", "Word"), new CountReducer("Count"))
                 .then(new Printer("+++ "))
                 .getStartNode();
 

@@ -11,7 +11,6 @@ import io.github.javaasasecondlanguage.homework01.ops.reducers.FirstNReducer;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
 import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.DESCENDING;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
@@ -32,18 +31,17 @@ public class BaseCase implements TestCase {
         GraphBuilder graphBuilder = GraphBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
                 .then(new AddColumnMapper("Word", row -> row.getString("Word").toLowerCase()))
-                .sortBy(ASCENDING, of("Word"))
-                .reduce(new CountReducer("WordCount"), of("Word"));
+                .sortThenReduceBy(of("Word"), new CountReducer("WordCount"));
 
         graphBuilder
                 .branch()
-                .sortBy(DESCENDING, of("WordCount"))
+                .sortBy(of("WordCount"), DESCENDING)
                 .then(new FirstNReducer(5))
                 .then(new Printer("+++ Top 5 common words"));
 
         graphBuilder
                 .branch()
-                .sortBy(ASCENDING, of("WordCount"))
+                .sortBy(of("WordCount"))
                 .then(new FirstNReducer(10))
                 .then(new Printer("--- Top 10 rare words"));
 

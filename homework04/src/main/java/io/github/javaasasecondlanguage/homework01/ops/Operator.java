@@ -14,12 +14,12 @@ public interface Operator {
     interface Reducer extends Operator {
         List<String> getKeyColumns();
         void setKeyColumns(List<String> keyColumns);
+
         void apply(Row inputRow, OutputCollector collector);
     }
 
     interface Joiner extends Operator {
         List<String> getKeyColumns();
-
         void setKeyColumns(List<String> keyColumns);
 
         void applyLeft(Row inputRow, OutputCollector collector);

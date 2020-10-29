@@ -9,6 +9,8 @@ import io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order;
 
 import java.util.List;
 
+import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
+
 public class GraphBuilder {
 
     public static GraphBuilder startWith(CompNode node) {
@@ -48,21 +50,27 @@ public class GraphBuilder {
         return this;
     }
 
-    public GraphBuilder sortBy(Order order, List<String> keyColumns) {
-        Sorter sorter = new Sorter(order, keyColumns);
+    public GraphBuilder sortBy(List<String> keyColumns, Order order) {
+        Sorter sorter = new Sorter(order);
+        sorter.setKeyColumns(keyColumns);
         return then(sorter);
     }
 
-    public GraphBuilder reduce(Reducer reducer, List<String> keyColumns) {
+    public GraphBuilder sortBy(List<String> keyColumns) {
+        return sortBy(keyColumns, ASCENDING);
+    }
+
+    public GraphBuilder reduceBy(List<String> keyColumns, Reducer reducer) {
         reducer.setKeyColumns(keyColumns);
         return then(reducer);
     }
 
-    public GraphBuilder branch() {
-        return new GraphBuilder(startNode, endNode);
+    public GraphBuilder sortThenReduceBy(List<String> keyColumns, Reducer reducer) {
+        return sortBy(keyColumns)
+                .reduceBy(keyColumns, reducer);
     }
 
-    public GraphBuilder join(GraphBuilder rightGraphBuilder, Joiner joiner, List<String> keyColumns) {
+    public GraphBuilder join(GraphBuilder rightGraphBuilder, List<String> keyColumns, Joiner joiner) {
         joiner.setKeyColumns(keyColumns);
 
         CompNode joinNode = new CompNode(joiner);
@@ -74,5 +82,9 @@ public class GraphBuilder {
         this.endNode = joinNode;
 
         return this;
+    }
+
+    public GraphBuilder branch() {
+        return new GraphBuilder(startNode, endNode);
     }
 }

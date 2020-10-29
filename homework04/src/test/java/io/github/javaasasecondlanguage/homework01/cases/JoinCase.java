@@ -37,7 +37,7 @@ public class JoinCase implements TestCase {
 
         GraphBuilder leftGraphBuilder = GraphBuilder
                 .startWith(new Printer("+++ left: "))
-                .join(rightGraphBuilder, new InnerJoin(), of("AuthorId"))
+                .join(rightGraphBuilder, of("AuthorId"), new InnerJoin())
                 .then(new Printer("*** output: "));
 
         return asList(
