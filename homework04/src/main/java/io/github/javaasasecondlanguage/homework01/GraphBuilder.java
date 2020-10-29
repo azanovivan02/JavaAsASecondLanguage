@@ -2,8 +2,12 @@ package io.github.javaasasecondlanguage.homework01;
 
 import io.github.javaasasecondlanguage.homework01.nodes.CompNode;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
+import io.github.javaasasecondlanguage.homework01.ops.Operator.Joiner;
+import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
 import io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter;
 import io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order;
+
+import java.util.List;
 
 public class GraphBuilder {
 
@@ -44,17 +48,24 @@ public class GraphBuilder {
         return this;
     }
 
-    public GraphBuilder sortBy(Order order, String... keyColumns) {
+    public GraphBuilder sortBy(Order order, List<String> keyColumns) {
         Sorter sorter = new Sorter(order, keyColumns);
         return then(sorter);
+    }
+
+    public GraphBuilder reduce(Reducer reducer, List<String> keyColumns) {
+        reducer.setKeyColumns(keyColumns);
+        return then(reducer);
     }
 
     public GraphBuilder branch() {
         return new GraphBuilder(startNode, endNode);
     }
 
-    public GraphBuilder join(GraphBuilder rightGraphBuilder, Operator joinOperator) {
-        CompNode joinNode = new CompNode(joinOperator);
+    public GraphBuilder join(GraphBuilder rightGraphBuilder, Joiner joiner, List<String> keyColumns) {
+        joiner.setKeyColumns(keyColumns);
+
+        CompNode joinNode = new CompNode(joiner);
         CompNode leftInputNode = this.endNode;
         CompNode rightInputNode = rightGraphBuilder.endNode;
 

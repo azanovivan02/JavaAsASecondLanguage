@@ -9,10 +9,11 @@ import io.github.javaasasecondlanguage.homework01.ops.reducers.CountReducer;
 
 import java.util.List;
 
+import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
-import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
 import static java.util.Collections.singletonList;
+import static java.util.List.of;
 
 public class TableCase implements TestCase {
 
@@ -27,8 +28,8 @@ public class TableCase implements TestCase {
     public List<CompNode> createGraph() {
         CompNode startNode = GraphBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
-                .sortBy(ASCENDING, "Author", "Word")
-                .then(new CountReducer("Count", "Author", "Word"))
+                .sortBy(ASCENDING, of("Author", "Word"))
+                .reduce(new CountReducer("Count"), of("Author", "Word"))
                 .then(new Printer("+++ "))
                 .getStartNode();
 
@@ -47,6 +48,6 @@ public class TableCase implements TestCase {
                         {5, "The fallen shall be forever remembered as the Emperor's finest.", "Apothecary"}
                 }
         );
-        return List.of(inputRows);
+        return of(inputRows);
     }
 }

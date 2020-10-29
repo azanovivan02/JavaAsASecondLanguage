@@ -4,6 +4,7 @@ import io.github.javaasasecondlanguage.homework01.Row;
 import io.github.javaasasecondlanguage.homework01.nodes.OutputCollector;
 
 import java.util.LinkedList;
+import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework01.ops.OpUtils.compareRows;
 
@@ -12,9 +13,15 @@ public class InnerJoin implements Operator.Joiner {
     LinkedList<Row> leftRows = new LinkedList<>();
     LinkedList<Row> rightRows = new LinkedList<>();
 
-    private final String[] keyColumns;
+    private List<String> keyColumns;
 
-    public InnerJoin(String... keyColumns) {
+    @Override
+    public List<String> getKeyColumns() {
+        return keyColumns;
+    }
+
+    @Override
+    public void setKeyColumns(List<String> keyColumns) {
         this.keyColumns = keyColumns;
     }
 

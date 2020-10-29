@@ -3,7 +3,7 @@ package io.github.javaasasecondlanguage.homework01.cases;
 import io.github.javaasasecondlanguage.homework01.GraphBuilder;
 import io.github.javaasasecondlanguage.homework01.Row;
 import io.github.javaasasecondlanguage.homework01.nodes.CompNode;
-import io.github.javaasasecondlanguage.homework01.ops.mappers.LambdaMapper;
+import io.github.javaasasecondlanguage.homework01.ops.mappers.AddColumnMapper;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.Printer;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.TokenizerMapper;
 import io.github.javaasasecondlanguage.homework01.ops.reducers.CountReducer;
@@ -11,12 +11,12 @@ import io.github.javaasasecondlanguage.homework01.ops.reducers.FirstNReducer;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
 import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
 import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.DESCENDING;
-import static java.util.Arrays.asList;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
 import static java.util.Collections.singletonList;
+import static java.util.List.of;
 
 public class BaseCase implements TestCase {
 
@@ -31,19 +31,19 @@ public class BaseCase implements TestCase {
     public List<CompNode> createGraph() {
         GraphBuilder graphBuilder = GraphBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
-                .then(new LambdaMapper<String>("Word", String::toLowerCase))
-                .sortBy(ASCENDING, "Word")
-                .then(new CountReducer("WordCount", "Word"));
+                .then(new AddColumnMapper("Word", row -> row.getString("Word").toLowerCase()))
+                .sortBy(ASCENDING, of("Word"))
+                .reduce(new CountReducer("WordCount"), of("Word"));
 
         graphBuilder
                 .branch()
-                .sortBy(DESCENDING, "WordCount")
+                .sortBy(DESCENDING, of("WordCount"))
                 .then(new FirstNReducer(5))
                 .then(new Printer("+++ Top 5 common words"));
 
         graphBuilder
                 .branch()
-                .sortBy(ASCENDING, "WordCount")
+                .sortBy(ASCENDING, of("WordCount"))
                 .then(new FirstNReducer(10))
                 .then(new Printer("--- Top 10 rare words"));
 
@@ -92,7 +92,7 @@ public class BaseCase implements TestCase {
                         {"Take them, and quickly!"}
                 }
         );
-        return List.of(rows);
+        return of(rows);
     }
 
 }

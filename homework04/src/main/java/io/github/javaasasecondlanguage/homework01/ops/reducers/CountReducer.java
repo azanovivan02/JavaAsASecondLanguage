@@ -5,17 +5,28 @@ import io.github.javaasasecondlanguage.homework01.nodes.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.ops.OpUtils;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
+import java.util.List;
+
 public class CountReducer implements Operator.Reducer {
 
     private String outputCountColumn;
-    private final String[] groupByColumns;
+    private List<String> keyColumns;
 
     Row currentRow = null;
     int currentCount = 0;
 
-    public CountReducer(String outputCountColumn, String... groupByColumns) {
+    public CountReducer(String outputCountColumn) {
         this.outputCountColumn = outputCountColumn;
-        this.groupByColumns = groupByColumns;
+    }
+
+    @Override
+    public List<String> getKeyColumns() {
+        return keyColumns;
+    }
+
+    @Override
+    public void setKeyColumns(List<String> keyColumns) {
+        this.keyColumns = keyColumns;
     }
 
     @Override
@@ -30,7 +41,7 @@ public class CountReducer implements Operator.Reducer {
             return;
         }
 
-        if (currentRow == null || !OpUtils.equalByColumns(inputRow, currentRow, groupByColumns)) {
+        if (currentRow == null || !OpUtils.equalByColumns(inputRow, currentRow, keyColumns)) {
             if (currentRow != null) {
                 outputCountRow(collector);
             }
@@ -42,7 +53,7 @@ public class CountReducer implements Operator.Reducer {
     }
 
     private void outputCountRow(OutputCollector collector) {
-        Row newRow = currentRow.copyColumns(groupByColumns);
+        Row newRow = currentRow.copyColumns(keyColumns);
         newRow.set(outputCountColumn, currentCount);
         collector.collect(newRow);
     }

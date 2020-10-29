@@ -9,6 +9,7 @@ import java.util.List;
 import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRowsEqual;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.applyToAllRows;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
+import static java.util.List.of;
 
 public class RetainColumnsMapperTest {
 
@@ -32,7 +33,7 @@ public class RetainColumnsMapperTest {
 
     @Test
     void general() {
-        RetainColumnsMapper mapper = new RetainColumnsMapper("Id", "Name");
+        RetainColumnsMapper mapper = new RetainColumnsMapper(of("Id", "Name"));
 
         List<Row> actualRows = applyToAllRows(mapper, inputRows);
         assertRowsEqual(expectedRows, actualRows);

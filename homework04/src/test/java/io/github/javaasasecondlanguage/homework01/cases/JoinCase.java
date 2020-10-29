@@ -11,6 +11,7 @@ import java.util.List;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
 import static java.util.Arrays.asList;
+import static java.util.List.of;
 
 public class JoinCase implements TestCase {
 
@@ -36,7 +37,7 @@ public class JoinCase implements TestCase {
 
         GraphBuilder leftGraphBuilder = GraphBuilder
                 .startWith(new Printer("+++ left: "))
-                .join(rightGraphBuilder, new InnerJoin("AuthorId"))
+                .join(rightGraphBuilder, new InnerJoin(), of("AuthorId"))
                 .then(new Printer("*** output: "));
 
         return asList(
@@ -66,7 +67,7 @@ public class JoinCase implements TestCase {
                 }
         );
 
-        return List.of(leftRows, rightRows);
+        return of(leftRows, rightRows);
     }
 
 }

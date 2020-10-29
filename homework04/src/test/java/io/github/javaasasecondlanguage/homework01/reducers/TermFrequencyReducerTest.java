@@ -9,6 +9,7 @@ import java.util.List;
 import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRowsEqual;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.applyToAllRowsThenTerminal;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
+import static java.util.List.of;
 
 class TermFrequencyReducerTest {
 
@@ -67,7 +68,9 @@ class TermFrequencyReducerTest {
 
     @Test
     void general() {
-        TermFrequencyReducer reducer = new TermFrequencyReducer("Word", "Tf", "DocId");
+        TermFrequencyReducer reducer = new TermFrequencyReducer("Word", "Tf");
+        reducer.setKeyColumns(of("DocId"));
+
         List<Row> actualRows = applyToAllRowsThenTerminal(reducer, inputRows);
         assertRowsEqual(expectedRows, actualRows);
     }

@@ -1,14 +1,8 @@
 package io.github.javaasasecondlanguage.homework01;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializer;
-
-import java.math.RoundingMode;
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -59,7 +53,7 @@ public class Row {
         );
     }
 
-    public Row copyColumns(String... columns) {
+    public Row copyColumns(List<String> columns) {
         LinkedHashMap<String, Object> newValues = new LinkedHashMap<>();
         for (String column : columns) {
             newValues.put(

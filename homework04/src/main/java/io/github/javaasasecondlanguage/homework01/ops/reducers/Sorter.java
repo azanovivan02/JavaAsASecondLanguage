@@ -16,10 +16,10 @@ public class Sorter implements Operator.Reducer {
     private final List<Row> accumulatedRows = new ArrayList<>();
 
     private final Order order;
-    private final String[] keyColumns;
+    private List<String> keyColumns;
     private final Comparator<Row> rowComparator;
 
-    public Sorter(Order order, String... keyColumns) {
+    public Sorter(Order order, List<String> keyColumns) {
         this.order = order;
         this.keyColumns = keyColumns;
 
@@ -30,6 +30,16 @@ public class Sorter implements Operator.Reducer {
         } else {
             this.rowComparator = comparator;
         }
+    }
+
+    @Override
+    public List<String> getKeyColumns() {
+        return keyColumns;
+    }
+
+    @Override
+    public void setKeyColumns(List<String> keyColumns) {
+        this.keyColumns = keyColumns;
     }
 
     @Override

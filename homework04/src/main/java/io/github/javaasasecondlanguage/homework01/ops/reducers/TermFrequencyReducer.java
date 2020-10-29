@@ -6,6 +6,7 @@ import io.github.javaasasecondlanguage.homework01.ops.OpUtils;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
@@ -14,15 +15,24 @@ public class TermFrequencyReducer implements Operator.Reducer {
 
     private String termColumn;
     private String outputColumn;
-    private final String[] groupByColumns;
+    private List<String> keyColumns;
 
     private Row currentRow = null;
     private Map<String, Integer> wordCounts = new HashMap<>();
 
-    public TermFrequencyReducer(String termColumn, String outputColumn, String... groupByColumns) {
+    public TermFrequencyReducer(String termColumn, String outputColumn) {
         this.termColumn = termColumn;
         this.outputColumn = outputColumn;
-        this.groupByColumns = groupByColumns;
+    }
+
+    @Override
+    public List<String> getKeyColumns() {
+        return keyColumns;
+    }
+
+    @Override
+    public void setKeyColumns(List<String> keyColumns) {
+        this.keyColumns = keyColumns;
     }
 
     @Override
@@ -35,7 +45,7 @@ public class TermFrequencyReducer implements Operator.Reducer {
             return;
         }
 
-        if (!OpUtils.equalByColumns(inputRow, currentRow, groupByColumns)) {
+        if (!OpUtils.equalByColumns(inputRow, currentRow, keyColumns)) {
             outputTfRows(collector);
             wordCounts.clear();
             currentRow = inputRow;
@@ -59,7 +69,7 @@ public class TermFrequencyReducer implements Operator.Reducer {
             Integer termCount = entry.getValue();
             float frequency = ((float) termCount) / totalCount;
             Row newRow = currentRow
-                    .copyColumns(groupByColumns)
+                    .copyColumns(keyColumns)
                     .set(termColumn, term)
                     .set(outputColumn, frequency);
             collector.collect(newRow);

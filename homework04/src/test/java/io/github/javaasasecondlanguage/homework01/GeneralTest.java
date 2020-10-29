@@ -2,13 +2,10 @@ package io.github.javaasasecondlanguage.homework01;
 
 import io.github.javaasasecondlanguage.homework01.cases.TestCase;
 import io.github.javaasasecondlanguage.homework01.cases.TfIdfCase;
-import io.github.javaasasecondlanguage.homework01.nodes.CompNode;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
-
-import static io.github.javaasasecondlanguage.homework01.ui.GraphVisualizer.visualizeGraph;
 
 public class GeneralTest {
 

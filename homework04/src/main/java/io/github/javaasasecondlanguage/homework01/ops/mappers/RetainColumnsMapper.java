@@ -4,11 +4,13 @@ import io.github.javaasasecondlanguage.homework01.Row;
 import io.github.javaasasecondlanguage.homework01.nodes.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
 
+import java.util.List;
+
 public class RetainColumnsMapper implements Mapper {
 
-    private final String[] retainedColumns;
+    private final List<String> retainedColumns;
 
-    public RetainColumnsMapper(String...retainedColumns) {
+    public RetainColumnsMapper(List<String> retainedColumns) {
         this.retainedColumns = retainedColumns;
     }
 

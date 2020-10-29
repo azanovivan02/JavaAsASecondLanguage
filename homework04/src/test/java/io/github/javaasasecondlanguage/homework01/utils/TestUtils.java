@@ -2,7 +2,6 @@ package io.github.javaasasecondlanguage.homework01.utils;
 
 import io.github.javaasasecondlanguage.homework01.Row;
 import io.github.javaasasecondlanguage.homework01.nodes.CompNode;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
 
