@@ -1,0 +1,43 @@
+/*
+This css is not used by program
+*/
+graph {
+    padding: 100px, 100px;
+}
+
+node {
+    text-size: 30;
+    text-alignment: at-right;
+    text-offset: 30, 30;
+    text-background-mode: plain;
+
+    size: 15px;
+    fill-color: #fefeff;
+    stroke-color: #3c3c3b;
+    stroke-mode: plain;
+    stroke-width: 3;
+}
+
+
+node.input {
+    text-style: bold;
+    fill-color: #d1e651;
+}
+
+node.output {
+    text-style: bold;
+    fill-color: #fd2a38;
+}
+
+node.reducer {
+    fill-color: #27ace4;
+}
+
+node.joiner {
+    fill-color: #ffc453;
+}
+
+edge {
+    arrow-shape: arrow;
+    arrow-size: 10px, 4px;
+}

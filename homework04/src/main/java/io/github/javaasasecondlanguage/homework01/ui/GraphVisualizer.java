@@ -26,7 +26,7 @@ public class GraphVisualizer {
         System.setProperty("org.graphstream.ui", "swing");
 
         Graph visualGraph = new SingleGraph("Main");
-//        visualGraph.setAttribute("ui.stylesheet", "url('/Users/ivan.azanov/Documents/Spark/spark-proto/src/main/resources/style.css')");
+//        visualGraph.setAttribute("ui.stylesheet", "url('/Users/ivan.azanov/Documents/Spark/JavaAsASecondLanguage/homework04/src/main/resources/style.css')");
         visualGraph.setAttribute("ui.stylesheet", STYLESHEET);
 
 //        visualGraph.setAttribute("layout.force", 3);
@@ -118,41 +118,46 @@ public class GraphVisualizer {
         return new HierarchicalLayout();
     }
 
-    public static final String STYLESHEET = "graph {\n" +
+    public static final String STYLESHEET = "/*\n" +
+            "*/\n" +
+            "graph {\n" +
             "    padding: 100px, 100px;\n" +
             "}\n" +
             "\n" +
             "node {\n" +
-            "    size: 15px;\n" +
+            "    text-size: 30;\n" +
             "    text-alignment: at-right;\n" +
             "    text-offset: 30, 30;\n" +
-            "    text-size: 30;\n" +
             "    text-background-mode: plain;\n" +
-            "    fill-color: #DEE;\n" +
+            "\n" +
             "    size: 15px;\n" +
+            "    fill-color: #fefeff;\n" +
+            "    stroke-color: #3c3c3b;\n" +
             "    stroke-mode: plain;\n" +
-            "    stroke-color: #555;\n" +
+            "    stroke-width: 3;\n" +
             "}\n" +
             "\n" +
             "\n" +
             "node.input {\n" +
-            "    fill-color: green;\n" +
+            "    text-style: bold;\n" +
+            "    fill-color: #d1e651;\n" +
             "}\n" +
             "\n" +
             "node.output {\n" +
-            "    fill-color: red;\n" +
+            "    text-style: bold;\n" +
+            "    fill-color: #fd2a38;\n" +
             "}\n" +
             "\n" +
             "node.reducer {\n" +
-            "    fill-color: blue;\n" +
+            "    fill-color: #27ace4;\n" +
             "}\n" +
             "\n" +
             "node.joiner {\n" +
-            "    fill-color: orange;\n" +
+            "    fill-color: #ffc453;\n" +
             "}\n" +
             "\n" +
             "edge {\n" +
             "    arrow-shape: arrow;\n" +
-            "    arrow-size: 20px, 4px;\n" +
+            "    arrow-size: 10px, 4px;\n" +
             "}";
 }
