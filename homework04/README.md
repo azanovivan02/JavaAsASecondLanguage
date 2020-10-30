@@ -5,9 +5,23 @@
 ## Main concepts
 
 ### Row
+![Row](pics/row.png)
+#### Terminal rows
+![Terminal Row](pics/terminal_row.png)
+
 ### Operator
+
+#### Map
+![Mapper](pics/mapper.png)
+#### Reduce
+![Reducer](pics/reducer.png)
+#### Join
+
 ### Node
+![Node](pics/node.png)
+
 ### Graph
+![Graph](pics/graph.png)
 
 ## Our project
 
