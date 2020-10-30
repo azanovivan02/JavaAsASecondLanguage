@@ -1,6 +1,8 @@
 package io.github.javaasasecondlanguage.homework01;
 
 import io.github.javaasasecondlanguage.homework01.cases.BaseCase;
+import io.github.javaasasecondlanguage.homework01.cases.JoinCase;
+import io.github.javaasasecondlanguage.homework01.cases.TableCase;
 import io.github.javaasasecondlanguage.homework01.graphs.TfIdf;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -15,9 +17,12 @@ public class VisualizationTest {
     @Disabled
     @Test
     void launch() throws InterruptedException {
-//        BaseCase baseCase = new BaseCase();
-//        var compGraph = baseCase.createGraph();
+//        var compGraph = (new BaseCase()).createGraph();
+//        var compGraph = (new JoinCase()).createGraph();
+//        var compGraph = (new TableCase()).createGraph();
+
         var compGraph = TfIdf.createGraph();
+
         visualizeGraph(compGraph);
         Thread.sleep(Long.MAX_VALUE);
     }

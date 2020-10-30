@@ -9,6 +9,7 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.layout.HierarchicalLayout;
+import org.graphstream.ui.layout.springbox.implementations.SpringBox;
 import org.graphstream.ui.swing.SwingGraphRenderer;
 import org.graphstream.ui.swing_viewer.SwingViewer;
 import org.graphstream.ui.view.GraphRenderer;
@@ -29,8 +30,8 @@ public class GraphVisualizer {
 //        visualGraph.setAttribute("ui.stylesheet", "url('/Users/ivan.azanov/Documents/Spark/JavaAsASecondLanguage/homework04/src/main/resources/style.css')");
         visualGraph.setAttribute("ui.stylesheet", STYLESHEET);
 
-//        visualGraph.setAttribute("layout.force", 3);
-//        visualGraph.setAttribute("layout.quality", 4);
+        visualGraph.setAttribute("layout.force", 0.99);
+        visualGraph.setAttribute("layout.quality", 4);
 
         Map<CompNode, Node> compVisualNodeMapping = new LinkedHashMap<>();
         for (CompNode compNode : compGraph.getInputNodes()) {
@@ -83,10 +84,13 @@ public class GraphVisualizer {
     private static void addCssClasses(CompNode currentCompNode, Node previousVisualNode, Node currentVisualNode) {
         if (previousVisualNode == null) {
             currentVisualNode.setAttribute("ui.class", "input");
-//            currentVisualNode.setAttribute("layout.weight", 5);
+            currentVisualNode.setAttribute("y", 1000);
             return;
         }
         if (currentCompNode.getConnections().isEmpty()) {
+//            currentVisualNode.setAttribute("x", 0);
+//            currentVisualNode.setAttribute("x", -1000);
+//            currentVisualNode.setAttribute("y", -1000);
             currentVisualNode.setAttribute("ui.class", "output");
             return;
         }
