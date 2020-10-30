@@ -16,6 +16,7 @@
 #### Reduce
 ![Reducer](pics/reducer.png)
 #### Join
+![Joiner](pics/joiner.png)
 
 ### Node
 ![Node](pics/node.png)
