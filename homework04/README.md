@@ -21,7 +21,9 @@
 ![Node](pics/node.png)
 
 ### Graph
+<!---
 ![Graph](pics/graph.png)
+-->
 
 ## Our project
 
