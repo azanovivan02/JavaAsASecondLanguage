@@ -15,7 +15,10 @@ public interface Operator {
         List<String> getKeyColumns();
         void setKeyColumns(List<String> keyColumns);
 
+        // TODO: must accept groupBy keys AND values
         void apply(Record inputRecord, OutputCollector collector);
+
+        // TODO: must accept groupBy keys AND values
         default void signalGroupFinished() {
         }
     }
