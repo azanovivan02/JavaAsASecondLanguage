@@ -48,7 +48,7 @@ Reducer operator accepts records from two sorted streams and joins them on certa
 
 ### Node
 
-Each operator is contained inside a [Node](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/ProcNode.java) object. Node handles all communication with the outside world: 
+Each operator is contained inside a [ProcNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/ProcNode.java) object. Node handles all communication with the outside world: 
 * It accepts records from the previous nodes.
 * Gives them to operator
 * Collects its outputs
@@ -56,11 +56,14 @@ Each operator is contained inside a [Node](src/main/java/io/github/javaasasecond
 
 Each node has several input **gates**, which allows it to accept different streams of records (this is used in join operations, for example).  
    
+Each type of operator has its own implementation of Node (see [MapperNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/MapperNode.java), [ReduceNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/ReduceNode.java), [JoinNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/JoinNode.java)).
+   
+  
 ![Node](pics/node.png)
 
 ### Graph
 
-[Graph](src/main/java/io/github/javaasasecondlanguage/homework01/ProcGraph.java) object represents the actual processing graph - a group of interconnected nodes. It exposes its input nodes and output nodes.  
+[ProcGraph](src/main/java/io/github/javaasasecondlanguage/homework01/ProcGraph.java) object represents the actual processing graph - a group of interconnected nodes. It exposes its input nodes and output nodes.  
  
 ![Graph](pics/graph.png)
 
