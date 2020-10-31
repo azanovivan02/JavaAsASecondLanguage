@@ -5,7 +5,6 @@ import io.github.javaasasecondlanguage.homework01.ops.Operator;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
 import static io.github.javaasasecondlanguage.homework01.Utils.smartEquals;
@@ -49,31 +48,4 @@ public class ReducerNode extends ProcNode {
         reducer.apply(inputRecord, this::collect, currentGroupByEntries);
     }
 
-    private static Map<String, Object> getGroupByValues(Record record, Collection<String> groupByKeys) {
-        var currentGroupByValues = new HashMap<String, Object>();
-        for (var key : groupByKeys) {
-            var value = record.get(key);
-            currentGroupByValues.put(key, value);
-        }
-        return currentGroupByValues;
-    }
-
-    public static boolean equalByColumns(Record left, Record right, Collection<String> keyColumns) {
-        if (left == null || right == null) {
-            return false;
-        }
-
-        if (keyColumns == null) {
-            throw new IllegalArgumentException("Key columns are null");
-        }
-
-        for (var column : keyColumns) {
-            var leftValue = left.get(column);
-            var rightValue = right.get(column);
-            if (!leftValue.equals(rightValue)) {
-                return false;
-            }
-        }
-        return true;
-    }
 }

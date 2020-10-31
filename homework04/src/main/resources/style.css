@@ -33,6 +33,10 @@ node.reducer {
     fill-color: #27ace4;
 }
 
+node.sorter {
+    fill-color: #FF3D7F;
+}
+
 node.joiner {
     fill-color: #ffc453;
 }

@@ -1,9 +1,10 @@
 package io.github.javaasasecondlanguage.homework01.ui;
 
 import io.github.javaasasecondlanguage.homework01.ProcGraph;
+import io.github.javaasasecondlanguage.homework01.nodes.JoinerNode;
 import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
-import io.github.javaasasecondlanguage.homework01.Connection;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
+import io.github.javaasasecondlanguage.homework01.nodes.ReducerNode;
+import io.github.javaasasecondlanguage.homework01.nodes.SorterNode;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
@@ -13,7 +14,6 @@ import org.graphstream.ui.view.GraphRenderer;
 import org.graphstream.ui.view.Viewer.ThreadingModel;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -42,22 +42,28 @@ public class GraphVisualizer {
         viewer.addView(SwingViewer.DEFAULT_VIEW_ID, renderer);
     }
 
-    private static void visit(ProcNode currentProcNode, Graph visualGraph, Node previousVisualNode, Map<ProcNode, Node> procVisualNodeMapping) {
+    private static void visit(ProcNode currentProcNode,
+                              Graph visualGraph,
+                              Node previousVisualNode,
+                              Map<ProcNode, Node> procVisualNodeMapping) {
         if (procVisualNodeMapping.containsKey(currentProcNode)) {
             Node currentVisualNode = procVisualNodeMapping.get(currentProcNode);
-            addEdgeToPreviousNodeIfNeeded(visualGraph, previousVisualNode, currentVisualNode);
+            createEdge(visualGraph, previousVisualNode, currentVisualNode);
             return;
         }
 
         Node currentVisualNode = createVisualNode(currentProcNode, visualGraph);
         procVisualNodeMapping.put(currentProcNode, currentVisualNode);
 
-        addEdgeToPreviousNodeIfNeeded(visualGraph, previousVisualNode, currentVisualNode);
-        addCssClasses(currentProcNode, previousVisualNode, currentVisualNode);
+        createMockInputNode(visualGraph, previousVisualNode, currentVisualNode);
 
-        List<Connection> connections = currentProcNode.getConnections();
-        for (Connection info : connections) {
-            visit(info.getNode(), visualGraph, currentVisualNode, procVisualNodeMapping);
+        createMockOutputNode(visualGraph, currentProcNode, currentVisualNode);
+
+        createEdge(visualGraph, previousVisualNode, currentVisualNode);
+
+
+        for (var connection : currentProcNode.getConnections()) {
+            visit(connection.getNode(), visualGraph, currentVisualNode, procVisualNodeMapping);
         }
     }
 
@@ -66,56 +72,56 @@ public class GraphVisualizer {
         if (operator == null) {
             throw new IllegalStateException("No operator");
         }
+
         String nodeLabel = operator.getClass().getSimpleName();
         UUID nodeId = UUID.randomUUID();
         Node currentVisualNode = visualGraph.addNode(nodeLabel + nodeId);
+        addCssClasses(currentProcNode, currentVisualNode);
         currentVisualNode.setAttribute("ui.label", nodeLabel);
+
         return currentVisualNode;
     }
 
-    private static void addEdgeToPreviousNodeIfNeeded(Graph visualGraph, Node previousVisualNode, Node currentVisualNode) {
+    private static void addCssClasses(ProcNode currentProcNode, Node currentVisualNode) {
+        if (currentProcNode instanceof ReducerNode) {
+            currentVisualNode.setAttribute("ui.class", "reducer");
+        } else if (currentProcNode instanceof SorterNode){
+            currentVisualNode.setAttribute("ui.class", "sorter");
+        } else if (currentProcNode instanceof JoinerNode) {
+            currentVisualNode.setAttribute("ui.class", "joiner");
+        }
+    }
+
+    private static void createMockInputNode(Graph visualGraph, Node previousVisualNode, Node currentVisualNode) {
         if (previousVisualNode != null) {
-            String edgeId = UUID.randomUUID().toString();
-            visualGraph.addEdge(edgeId, previousVisualNode, currentVisualNode, true);
-        }
-    }
-
-    private static void addCssClasses(ProcNode currentProcNode, Node previousVisualNode, Node currentVisualNode) {
-        if (previousVisualNode == null) {
-            currentVisualNode.setAttribute("ui.class", "input");
-            currentVisualNode.setAttribute("y", 1000);
-            return;
-        }
-        if (currentProcNode.getConnections().isEmpty()) {
-//            currentVisualNode.setAttribute("x", 0);
-//            currentVisualNode.setAttribute("x", -1000);
-//            currentVisualNode.setAttribute("y", -1000);
-            currentVisualNode.setAttribute("ui.class", "output");
             return;
         }
 
-        Operator operator = currentProcNode.getOperator();
-        OpType opType = calculateOpType(operator);
-        switch (opType) {
-            case REDUCER: {
-                currentVisualNode.setAttribute("ui.class", "reducer");
-                break;
-            }
-            case JOINER: {
-                currentVisualNode.setAttribute("ui.class", "joiner");
-                break;
-            }
-        }
+        var inputNode = visualGraph.addNode("input" + UUID.randomUUID());
+        inputNode.setAttribute("ui.label", "Input");
+        inputNode.setAttribute("ui.class", "input");
+        inputNode.setAttribute("y", 1000);
+        createEdge(visualGraph, inputNode, currentVisualNode);
     }
 
-    private static OpType calculateOpType(Operator operator) {
-        if (operator instanceof Operator.Mapper) {
-            return OpType.MAPPER;
-        } else if (operator instanceof Operator.Reducer) {
-            return OpType.REDUCER;
-        } else {
-            return OpType.JOINER;
+    private static void createMockOutputNode(Graph visualGraph, ProcNode currentProcNode, Node currentVisualNode) {
+        if (!currentProcNode.getConnections().isEmpty()) {
+            return;
         }
+
+        var outputNode = visualGraph.addNode("input" + UUID.randomUUID());
+        outputNode.setAttribute("ui.label", "Output");
+        outputNode.setAttribute("ui.class", "output");
+        createEdge(visualGraph, currentVisualNode, outputNode);
+    }
+
+    private static void createEdge(Graph visualGraph, Node fromVisualNode, Node toVisualNode) {
+        if (fromVisualNode == null) {
+            return;
+        }
+
+        var edgeId = UUID.randomUUID().toString();
+        visualGraph.addEdge(edgeId, fromVisualNode, toVisualNode, true);
     }
 
     public static final String STYLESHEET = "/*\n" +
@@ -127,7 +133,7 @@ public class GraphVisualizer {
             "node {\n" +
             "    text-size: 30;\n" +
             "    text-alignment: at-right;\n" +
-            "    text-offset: 30, 30;\n" +
+            "    text-offset: 20, 20;\n" +
             "    text-background-mode: plain;\n" +
             "\n" +
             "    size: 15px;\n" +
@@ -152,6 +158,10 @@ public class GraphVisualizer {
             "    fill-color: #27ace4;\n" +
             "}\n" +
             "\n" +
+            "node.sorter {\n" +
+            "    fill-color: #FF3D7F;\n" +
+            "}\n" +
+            "\n" +
             "node.joiner {\n" +
             "    fill-color: #ffc453;\n" +
             "}\n" +
@@ -161,9 +171,4 @@ public class GraphVisualizer {
             "    arrow-size: 10px, 4px;\n" +
             "}";
 
-    private enum OpType {
-        MAPPER,
-        REDUCER,
-        JOINER
-    }
 }
