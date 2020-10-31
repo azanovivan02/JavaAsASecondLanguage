@@ -4,11 +4,11 @@ import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Joiner;
 
-public class JoinNode extends ProcNode {
+public class JoinerNode extends ProcNode {
 
     private Joiner joiner;
 
-    public JoinNode(Joiner joiner) {
+    public JoinerNode(Joiner joiner) {
         super();
         this.joiner = joiner;
     }

@@ -1,9 +1,9 @@
 package io.github.javaasasecondlanguage.homework01;
 
-import io.github.javaasasecondlanguage.homework01.nodes.JoinNode;
+import io.github.javaasasecondlanguage.homework01.nodes.JoinerNode;
 import io.github.javaasasecondlanguage.homework01.nodes.MapperNode;
 import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
-import io.github.javaasasecondlanguage.homework01.nodes.ReduceNode;
+import io.github.javaasasecondlanguage.homework01.nodes.ReducerNode;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Joiner;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
@@ -13,9 +13,6 @@ import io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.JOINER;
-import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.MAPPER;
-import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.REDUCER;
 import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
 
 public class GraphPartBuilder {
@@ -33,10 +30,10 @@ public class GraphPartBuilder {
             return startFrom(new MapperNode(mapper));
         } else if (operator instanceof Reducer) {
             var reducer = (Reducer) operator;
-            return startFrom(new ReduceNode(reducer));
+            return startFrom(new ReducerNode(reducer));
         } else {
             var joiner = (Joiner) operator;
-            return startFrom(new JoinNode(joiner));
+            return startFrom(new JoinerNode(joiner));
         }
     }
 
@@ -68,7 +65,7 @@ public class GraphPartBuilder {
 
     public GraphPartBuilder reduceBy(List<String> keyColumns, Reducer reducer) {
         reducer.setKeyColumns(keyColumns);
-        var newNode = new ReduceNode(reducer);
+        var newNode = new ReducerNode(reducer);
         endNode.addConnection(newNode, 0);
         endNode = newNode;
         return this;
@@ -92,7 +89,7 @@ public class GraphPartBuilder {
     public GraphPartBuilder join(GraphPartBuilder rightGraphBuilder, List<String> keyColumns, Joiner joiner) {
         joiner.setKeyColumns(keyColumns);
 
-        var joinNode = new JoinNode(joiner);
+        var joinNode = new JoinerNode(joiner);
         var leftInputNode = this.endNode;
         var rightInputNode = rightGraphBuilder.endNode;
 

@@ -4,11 +4,11 @@ import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
 
-public class ReduceNode extends ProcNode {
+public class ReducerNode extends ProcNode {
 
     private final Reducer reducer;
 
-    public ReduceNode(Reducer reducer) {
+    public ReducerNode(Reducer reducer) {
         super();
         this.reducer = reducer;
     }
