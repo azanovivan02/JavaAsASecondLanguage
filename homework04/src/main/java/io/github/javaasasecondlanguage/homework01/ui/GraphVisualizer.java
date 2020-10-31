@@ -4,12 +4,9 @@ import io.github.javaasasecondlanguage.homework01.ProcGraph;
 import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
 import io.github.javaasasecondlanguage.homework01.Connection;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
-import io.github.javaasasecondlanguage.homework01.ops.Operator.OpType;
-import org.graphstream.graph.Element;
 import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
-import org.graphstream.ui.layout.HierarchicalLayout;
 import org.graphstream.ui.swing.SwingGraphRenderer;
 import org.graphstream.ui.swing_viewer.SwingViewer;
 import org.graphstream.ui.view.GraphRenderer;
@@ -20,9 +17,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.JOINER;
-import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.MAPPER;
-import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.REDUCER;
 
 public class GraphVisualizer {
 
@@ -114,13 +108,13 @@ public class GraphVisualizer {
         }
     }
 
-    private static Operator.OpType calculateOpType(Operator operator) {
+    private static OpType calculateOpType(Operator operator) {
         if (operator instanceof Operator.Mapper) {
-            return MAPPER;
+            return OpType.MAPPER;
         } else if (operator instanceof Operator.Reducer) {
-            return REDUCER;
+            return OpType.REDUCER;
         } else {
-            return JOINER;
+            return OpType.JOINER;
         }
     }
 
@@ -166,4 +160,10 @@ public class GraphVisualizer {
             "    arrow-shape: arrow;\n" +
             "    arrow-size: 10px, 4px;\n" +
             "}";
+
+    private enum OpType {
+        MAPPER,
+        REDUCER,
+        JOINER
+    }
 }

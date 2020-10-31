@@ -26,9 +26,4 @@ public interface Operator {
         void applyRight(Record inputRecord, OutputCollector collector);
     }
 
-    enum OpType {
-        MAPPER,
-        REDUCER,
-        JOINER
-    }
 }
