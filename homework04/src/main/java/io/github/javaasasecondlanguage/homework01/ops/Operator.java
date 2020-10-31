@@ -16,6 +16,8 @@ public interface Operator {
         void setKeyColumns(List<String> keyColumns);
 
         void apply(Record inputRecord, OutputCollector collector);
+        default void signalGroupFinished() {
+        }
     }
 
     interface Joiner extends Operator {
