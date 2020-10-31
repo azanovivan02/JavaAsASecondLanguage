@@ -18,13 +18,13 @@ public class SumReducer implements Operator.Reducer {
     }
 
     @Override
-    public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByValues) {
+    public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByEntries) {
         currentSum += inputRecord.getDoubleOrNull(inputColumn);
     }
 
     @Override
-    public void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByValues) {
-        Record outputRecord = new Record(groupByValues);
+    public void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByEntries) {
+        Record outputRecord = new Record(groupByEntries);
         outputRecord.set(outputColumn, currentSum);
         collector.collect(outputRecord);
 

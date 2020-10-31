@@ -1,35 +1,69 @@
 package io.github.javaasasecondlanguage.homework01;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 public class Utils {
 
-    public static boolean recordsEqual(Record leftRecord, Record rightRecord, double precisionForDouble) {
-        Map<String, Object> leftValues = leftRecord.getData();
-        Map<String, Object> rightValues = rightRecord.getData();
-
-        if (!leftValues.keySet().equals(rightValues.keySet())) {
+    public static boolean smartEquals(Map<String, Object> left, Map<String, Object> right) {
+        if (left == null || right == null) {
             return false;
         }
 
-        for (String key : leftValues.keySet()) {
-            Object leftValue = leftValues.get(key);
-            Object rightValue = rightValues.get(key);
+        if (!left.keySet().equals(right.keySet())) {
+            return false;
+        }
 
-            if (leftValue instanceof Number && rightValue instanceof Number) {
-                double leftDouble = ((Number) leftValue).doubleValue();
-                double rightDouble = ((Number) rightValue).doubleValue();
-                if (Math.abs(leftDouble - rightDouble) > precisionForDouble) {
-                    return false;
-                }
-            } else if (!leftValue.equals(rightValue)) {
+        for (String key : left.keySet()) {
+            Object leftValue = left.get(key);
+            Object rightValue = right.get(key);
+
+            if (!smartEquals(leftValue, rightValue)) {
                 return false;
             }
         }
 
         return true;
+    }
+
+    public static boolean smartEquals(Object left, Object right) {
+        if (left == null || right == null) {
+            return false;
+        }
+
+        if (!(left instanceof Number) || !(right instanceof Number)) {
+            return left.equals(right);
+        }
+
+        double leftDouble = ((Number) left).doubleValue();
+        double rightDouble = ((Number) right).doubleValue();
+        double precisionForDouble = 0.001;
+        return Math.abs(leftDouble - rightDouble) < precisionForDouble;
+    }
+
+    public static int compareRecords(Record leftRecord, Record rightRecord, List<String> keyColumns) {
+        for (var column : keyColumns) {
+            var leftValue = getComparable(leftRecord, column);
+            var rightValue = getComparable(rightRecord, column);
+            int comparisonResult = leftValue.compareTo(rightValue);
+            if (comparisonResult != 0) {
+                return comparisonResult;
+            }
+        }
+
+        return 0;
+    }
+
+    public static Comparable getComparable(Record record, String column) {
+        Double doubleValue = record.getDoubleOrNull(column);
+        if (doubleValue != null) {
+            return doubleValue;
+        } else {
+            var stringValue = record.getString(column);
+            return stringValue;
+        }
     }
 
     public static String recordsToString(Collection<Record> records) {

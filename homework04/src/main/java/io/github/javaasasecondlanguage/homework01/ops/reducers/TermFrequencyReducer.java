@@ -5,7 +5,6 @@ import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -21,21 +20,21 @@ public class TermFrequencyReducer implements Operator.Reducer {
     }
 
     @Override
-    public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByValues) {
+    public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByEntries) {
         var currentWord = inputRecord.getString(termColumn);
         var currentCount = wordCounts.getOrDefault(currentWord, 0);
         wordCounts.put(currentWord, currentCount + 1);
     }
 
     @Override
-    public void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByValues) {
+    public void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByEntries) {
         var totalCount = getTotalCount();
         var sortedWordCounts = new TreeMap<>(wordCounts);
         for (var entry : sortedWordCounts.entrySet()) {
             String term = entry.getKey();
             Integer termCount = entry.getValue();
             float frequency = ((float) termCount) / totalCount;
-            Record outputRecord = new Record(groupByValues);
+            Record outputRecord = new Record(groupByEntries);
             outputRecord = outputRecord
                     .set(termColumn, term)
                     .set(outputColumn, frequency);

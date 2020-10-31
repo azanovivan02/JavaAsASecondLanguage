@@ -1,7 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.nodes;
 
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.OpUtils;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
 
@@ -9,13 +8,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import static io.github.javaasasecondlanguage.homework01.Utils.smartEquals;
+
 public class ReducerNode extends ProcNode {
 
     private final Reducer reducer;
     private final Collection<String> groupByKeys;
 
-    private Record currentRecord = null;
-    private Map<String, Object> currentGroupByValues = null;
+    private Map<String, Object> currentGroupByEntries = null;
 
     public ReducerNode(Reducer reducer, Collection<String> groupByKeys) {
         this.reducer = reducer;
@@ -30,23 +30,23 @@ public class ReducerNode extends ProcNode {
     @Override
     public void push(Record inputRecord, int gateNumber) {
         if (inputRecord.isTerminal()) {
-            if (currentRecord != null) {
-                reducer.signalGroupWasFinished(this::collect, currentGroupByValues);
+            if (currentGroupByEntries != null) {
+                reducer.signalGroupWasFinished(this::collect, currentGroupByEntries);
             }
 
             collect(Record.terminalRecord());
             return;
         }
 
-        if (!OpUtils.equalByColumns(inputRecord, currentRecord, groupByKeys)) {
-            if (currentRecord != null) {
-                reducer.signalGroupWasFinished(this::collect, currentGroupByValues);
+        var inputGroupByEntries = inputRecord.getAll(groupByKeys);
+        if (!smartEquals(inputGroupByEntries, currentGroupByEntries)) {
+            if (currentGroupByEntries != null) {
+                reducer.signalGroupWasFinished(this::collect, currentGroupByEntries);
             }
-            currentRecord = inputRecord;
-            currentGroupByValues = getGroupByValues(inputRecord, groupByKeys);
+            currentGroupByEntries = inputGroupByEntries;
         }
 
-        reducer.apply(inputRecord, this::collect, currentGroupByValues);
+        reducer.apply(inputRecord, this::collect, currentGroupByEntries);
     }
 
     private static Map<String, Object> getGroupByValues(Record record, Collection<String> groupByKeys) {
@@ -56,5 +56,24 @@ public class ReducerNode extends ProcNode {
             currentGroupByValues.put(key, value);
         }
         return currentGroupByValues;
+    }
+
+    public static boolean equalByColumns(Record left, Record right, Collection<String> keyColumns) {
+        if (left == null || right == null) {
+            return false;
+        }
+
+        if (keyColumns == null) {
+            throw new IllegalArgumentException("Key columns are null");
+        }
+
+        for (var column : keyColumns) {
+            var leftValue = left.get(column);
+            var rightValue = right.get(column);
+            if (!leftValue.equals(rightValue)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

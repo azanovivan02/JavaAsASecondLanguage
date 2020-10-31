@@ -16,13 +16,13 @@ public class CountReducer implements Operator.Reducer {
     }
 
     @Override
-    public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByValues) {
+    public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByEntries) {
         currentCount++;
     }
 
     @Override
-    public void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByValues) {
-        Record outputRecord = new Record(groupByValues);
+    public void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByEntries) {
+        Record outputRecord = new Record(groupByEntries);
         outputRecord.set(outputColumn, currentCount);
         collector.collect(outputRecord);
 

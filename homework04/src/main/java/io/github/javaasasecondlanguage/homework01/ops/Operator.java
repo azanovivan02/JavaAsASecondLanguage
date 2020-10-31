@@ -13,8 +13,8 @@ public interface Operator {
     }
 
     interface Reducer extends Operator {
-        void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByValues);
-        void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByValues);
+        void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByEntries);
+        void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByEntries);
     }
 
     interface Joiner extends Operator {

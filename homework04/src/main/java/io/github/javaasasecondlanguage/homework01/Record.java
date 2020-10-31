@@ -1,12 +1,11 @@
 package io.github.javaasasecondlanguage.homework01;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import static io.github.javaasasecondlanguage.homework01.Utils.smartEquals;
 import static java.lang.String.format;
 
 /**
@@ -17,11 +16,13 @@ import static java.lang.String.format;
  */
 public class Record {
 
-    private Map<String, Object> data;
+    private final Map<String, Object> data;
 
     public Record(Map<String, Object> data) {
         if (data != null) {
             this.data = new LinkedHashMap<>(data);
+        } else {
+            this.data = null;
         }
     }
 
@@ -29,16 +30,16 @@ public class Record {
         return data;
     }
 
-    public Object get(String columnName) {
-        return data.get(columnName);
+    public Object get(String column) {
+        return data.get(column);
     }
 
-    public String getString(String columnName) {
-        return data.get(columnName).toString();
+    public String getString(String column) {
+        return data.get(column).toString();
     }
 
-    public Double getDoubleOrNull(String columnName) {
-        String stringValue = this.get(columnName).toString();
+    public Double getDoubleOrNull(String column) {
+        String stringValue = this.get(column).toString();
         try {
             return Double.parseDouble(stringValue);
         } catch (NumberFormatException e) {
@@ -46,8 +47,16 @@ public class Record {
         }
     }
 
-    public Record set(String columnName, Object value) {
-        this.data.put(columnName, value);
+    public Map<String, Object> getAll(Collection<String> columns) {
+        var partOfData = new LinkedHashMap<>(data);
+        partOfData
+                .keySet()
+                .retainAll(columns);
+        return partOfData;
+    }
+
+    public Record set(String column, Object value) {
+        this.data.put(column, value);
         return this;
     }
 
@@ -112,7 +121,10 @@ public class Record {
         Record leftRecord = this;
         Record rightRecord = (Record) o;
 
-        return Utils.recordsEqual(leftRecord, rightRecord, 0.001);
+        Map<String, Object> leftValues = leftRecord.getData();
+        Map<String, Object> rightValues = rightRecord.getData();
+
+        return smartEquals(leftValues, rightValues);
     }
 
     private static String getFormattedValue(Map.Entry<String, Object> e) {

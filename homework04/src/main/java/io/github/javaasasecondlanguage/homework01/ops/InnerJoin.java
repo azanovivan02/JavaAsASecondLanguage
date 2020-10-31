@@ -6,7 +6,7 @@ import io.github.javaasasecondlanguage.homework01.Record;
 import java.util.LinkedList;
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.ops.OpUtils.compareRecords;
+import static io.github.javaasasecondlanguage.homework01.Utils.compareRecords;
 
 public class InnerJoin implements Operator.Joiner {
 

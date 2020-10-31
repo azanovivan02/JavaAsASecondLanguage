@@ -4,7 +4,6 @@ import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
-import java.util.List;
 import java.util.Map;
 
 public class FirstNReducer implements Operator.Reducer {
@@ -17,7 +16,7 @@ public class FirstNReducer implements Operator.Reducer {
     }
 
     @Override
-    public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByValues) {
+    public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByEntries) {
         if (currentCount < maxAmount) {
             currentCount++;
             collector.collect(inputRecord);
@@ -25,7 +24,7 @@ public class FirstNReducer implements Operator.Reducer {
     }
 
     @Override
-    public void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByValues) {
+    public void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByEntries) {
         currentCount = 0;
     }
 }

@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.nodes;
 
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.OpUtils;
+import io.github.javaasasecondlanguage.homework01.Utils;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class SorterNode extends ProcNode {
         this.order = order;
         this.keyColumns = keyColumns;
 
-        Comparator<Record> comparator = (o1, o2) -> OpUtils.compareRecords(o1, o2, keyColumns);
+        Comparator<Record> comparator = (o1, o2) -> Utils.compareRecords(o1, o2, keyColumns);
         if (order == Order.DESCENDING) {
             this.recordComparator = comparator.reversed();
         } else {
