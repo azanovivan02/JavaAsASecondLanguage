@@ -1,6 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.cases;
 
-import io.github.javaasasecondlanguage.homework01.CompGraph;
+import io.github.javaasasecondlanguage.homework01.ProcGraph;
 import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.AddColumnMapper;
@@ -27,7 +27,7 @@ public class BaseCase implements TestCase {
     }
 
     @Override
-    public CompGraph createGraph() {
+    public ProcGraph createGraph() {
         var inputPart = GraphPartBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
                 .then(new AddColumnMapper("Word", record -> record.getString("Word").toLowerCase()))
@@ -47,7 +47,7 @@ public class BaseCase implements TestCase {
                 .then(new Printer("--- Top 10 rare words"))
                 .getEndNode();
 
-        return new CompGraph(
+        return new ProcGraph(
                 List.of(inputPart.getStartNode()),
                 List.of(commonOutputNode, rareOutputNode)
         );

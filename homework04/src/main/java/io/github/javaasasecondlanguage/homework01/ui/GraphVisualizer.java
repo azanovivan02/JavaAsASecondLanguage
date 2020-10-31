@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.ui;
 
-import io.github.javaasasecondlanguage.homework01.CompGraph;
-import io.github.javaasasecondlanguage.homework01.CompNode;
+import io.github.javaasasecondlanguage.homework01.ProcGraph;
+import io.github.javaasasecondlanguage.homework01.ProcNode;
 import io.github.javaasasecondlanguage.homework01.Connection;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.OpType;
 import org.graphstream.graph.Element;
@@ -9,7 +9,6 @@ import org.graphstream.graph.Graph;
 import org.graphstream.graph.Node;
 import org.graphstream.graph.implementations.SingleGraph;
 import org.graphstream.ui.layout.HierarchicalLayout;
-import org.graphstream.ui.layout.springbox.implementations.SpringBox;
 import org.graphstream.ui.swing.SwingGraphRenderer;
 import org.graphstream.ui.swing_viewer.SwingViewer;
 import org.graphstream.ui.view.GraphRenderer;
@@ -22,7 +21,7 @@ import java.util.UUID;
 
 public class GraphVisualizer {
 
-    public static void visualizeGraph(CompGraph compGraph) {
+    public static void visualizeGraph(ProcGraph procGraph) {
         System.setProperty("gs.ui.renderer", "org.graphstream.ui.j2dviewer.J2DGraphRenderer");
         System.setProperty("org.graphstream.ui", "swing");
 
@@ -33,9 +32,9 @@ public class GraphVisualizer {
         visualGraph.setAttribute("layout.force", 0.99);
         visualGraph.setAttribute("layout.quality", 4);
 
-        Map<CompNode, Node> compVisualNodeMapping = new LinkedHashMap<>();
-        for (CompNode compNode : compGraph.getInputNodes()) {
-            visit(compNode, visualGraph, null, compVisualNodeMapping);
+        Map<ProcNode, Node> procVisualNodeMapping = new LinkedHashMap<>();
+        for (ProcNode procNode : procGraph.getInputNodes()) {
+            visit(procNode, visualGraph, null, procVisualNodeMapping);
         }
 
         SwingViewer viewer = new SwingViewer(visualGraph, ThreadingModel.GRAPH_IN_ANOTHER_THREAD);
@@ -44,26 +43,26 @@ public class GraphVisualizer {
         viewer.addView(SwingViewer.DEFAULT_VIEW_ID, renderer);
     }
 
-    private static void visit(CompNode currentCompNode, Graph visualGraph, Node previousVisualNode, Map<CompNode, Node> compVisualNodeMapping) {
-        if (compVisualNodeMapping.containsKey(currentCompNode)) {
-            Node currentVisualNode = compVisualNodeMapping.get(currentCompNode);
+    private static void visit(ProcNode currentProcNode, Graph visualGraph, Node previousVisualNode, Map<ProcNode, Node> procVisualNodeMapping) {
+        if (procVisualNodeMapping.containsKey(currentProcNode)) {
+            Node currentVisualNode = procVisualNodeMapping.get(currentProcNode);
             addEdgeToPreviousNodeIfNeeded(visualGraph, previousVisualNode, currentVisualNode);
             return;
         }
 
-        Node currentVisualNode = createVisualNode(currentCompNode, visualGraph);
-        compVisualNodeMapping.put(currentCompNode, currentVisualNode);
+        Node currentVisualNode = createVisualNode(currentProcNode, visualGraph);
+        procVisualNodeMapping.put(currentProcNode, currentVisualNode);
 
         addEdgeToPreviousNodeIfNeeded(visualGraph, previousVisualNode, currentVisualNode);
-        addCssClasses(currentCompNode, previousVisualNode, currentVisualNode);
+        addCssClasses(currentProcNode, previousVisualNode, currentVisualNode);
 
-        for (Connection info : currentCompNode.getConnections()) {
-            visit(info.getNode(), visualGraph, currentVisualNode, compVisualNodeMapping);
+        for (Connection info : currentProcNode.getConnections()) {
+            visit(info.getNode(), visualGraph, currentVisualNode, procVisualNodeMapping);
         }
     }
 
-    private static Node createVisualNode(CompNode currentCompNode, Graph visualGraph) {
-        Object operator = currentCompNode.getOperator();
+    private static Node createVisualNode(ProcNode currentProcNode, Graph visualGraph) {
+        Object operator = currentProcNode.getOperator();
         if (operator == null) {
             throw new IllegalStateException("No operator");
         }
@@ -81,20 +80,20 @@ public class GraphVisualizer {
         }
     }
 
-    private static void addCssClasses(CompNode currentCompNode, Node previousVisualNode, Node currentVisualNode) {
+    private static void addCssClasses(ProcNode currentProcNode, Node previousVisualNode, Node currentVisualNode) {
         if (previousVisualNode == null) {
             currentVisualNode.setAttribute("ui.class", "input");
             currentVisualNode.setAttribute("y", 1000);
             return;
         }
-        if (currentCompNode.getConnections().isEmpty()) {
+        if (currentProcNode.getConnections().isEmpty()) {
 //            currentVisualNode.setAttribute("x", 0);
 //            currentVisualNode.setAttribute("x", -1000);
 //            currentVisualNode.setAttribute("y", -1000);
             currentVisualNode.setAttribute("ui.class", "output");
             return;
         }
-        OpType opType = currentCompNode.getOpType();
+        OpType opType = currentProcNode.getOpType();
         switch (opType) {
             case REDUCER: {
                 currentVisualNode.setAttribute("ui.class", "reducer");
@@ -107,10 +106,10 @@ public class GraphVisualizer {
         }
     }
 
-    private static HierarchicalLayout createLayout(List<CompNode> startCompNodes, Map<CompNode, Node> compVisualNodeMapping) {
+    private static HierarchicalLayout createLayout(List<ProcNode> startProcNodes, Map<ProcNode, Node> compVisualNodeMapping) {
 //        HierarchicalLayout layout = new HierarchicalLayout();
         String[] rootIds =
-                startCompNodes
+                startProcNodes
                         .stream()
                         .map(compVisualNodeMapping::get)
                         .map(Element::getId).toArray(String[]::new);

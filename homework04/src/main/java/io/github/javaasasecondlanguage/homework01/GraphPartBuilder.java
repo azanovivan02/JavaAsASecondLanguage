@@ -12,7 +12,7 @@ import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Ord
 
 public class GraphPartBuilder {
 
-    public static GraphPartBuilder startFrom(CompNode node) {
+    public static GraphPartBuilder startFrom(ProcNode node) {
         GraphPartBuilder graphBuilder = new GraphPartBuilder();
         graphBuilder.startNode = node;
         graphBuilder.endNode = node;
@@ -20,30 +20,30 @@ public class GraphPartBuilder {
     }
 
     public static GraphPartBuilder startWith(Operator operator) {
-        return startFrom(new CompNode(operator));
+        return startFrom(new ProcNode(operator));
     }
 
-    private CompNode startNode;
-    private CompNode endNode;
+    private ProcNode startNode;
+    private ProcNode endNode;
 
     private GraphPartBuilder() {
     }
 
-    private GraphPartBuilder(CompNode startNode, CompNode endNode) {
+    private GraphPartBuilder(ProcNode startNode, ProcNode endNode) {
         this.startNode = startNode;
         this.endNode = endNode;
     }
 
-    public CompNode getStartNode() {
+    public ProcNode getStartNode() {
         return startNode;
     }
 
-    public CompNode getEndNode() {
+    public ProcNode getEndNode() {
         return endNode;
     }
 
     public GraphPartBuilder then(Operator operator) {
-        var newNode = new CompNode(operator);
+        var newNode = new ProcNode(operator);
         endNode.addConnection(newNode, 0);
         endNode = newNode;
         return this;
@@ -72,7 +72,7 @@ public class GraphPartBuilder {
     public GraphPartBuilder join(GraphPartBuilder rightGraphBuilder, List<String> keyColumns, Joiner joiner) {
         joiner.setKeyColumns(keyColumns);
 
-        var joinNode = new CompNode(joiner);
+        var joinNode = new ProcNode(joiner);
         var leftInputNode = this.endNode;
         var rightInputNode = rightGraphBuilder.endNode;
 

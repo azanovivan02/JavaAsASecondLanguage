@@ -14,16 +14,16 @@ import static io.github.javaasasecondlanguage.homework01.ui.GraphVisualizer.visu
  */
 public class VisualizationTest {
 
-    @Disabled
+//    @Disabled
     @Test
     void launch() throws InterruptedException {
 //        var compGraph = (new BaseCase()).createGraph();
 //        var compGraph = (new JoinCase()).createGraph();
 //        var compGraph = (new TableCase()).createGraph();
 
-        var compGraph = TfIdf.createGraph();
+        var graph = TfIdf.createGraph();
 
-        visualizeGraph(compGraph);
+        visualizeGraph(graph);
         Thread.sleep(Long.MAX_VALUE);
     }
 }

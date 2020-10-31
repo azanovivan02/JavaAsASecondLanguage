@@ -1,6 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.cases;
 
-import io.github.javaasasecondlanguage.homework01.CompGraph;
+import io.github.javaasasecondlanguage.homework01.ProcGraph;
 import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.Printer;
@@ -23,13 +23,13 @@ public class TableCase implements TestCase {
     }
 
     @Override
-    public CompGraph createGraph() {
+    public ProcGraph createGraph() {
         var mainPart = GraphPartBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
                 .sortThenReduceBy(of("Author", "Word"), new CountReducer("Count"))
                 .then(new Printer("+++ "));
 
-        return new CompGraph(
+        return new ProcGraph(
                 List.of(mainPart.getStartNode()),
                 List.of(mainPart.getEndNode())
         );

@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.utils;
 
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.CompNode;
+import io.github.javaasasecondlanguage.homework01.ProcNode;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
 
@@ -37,7 +37,7 @@ public class TestUtils {
         return outputRecords;
     }
 
-    public static void pushAllRecordsThenTerminal(CompNode node, List<Record> records) {
+    public static void pushAllRecordsThenTerminal(ProcNode node, List<Record> records) {
         for (var record : records) {
             node.pushIntoZero(record);
         }

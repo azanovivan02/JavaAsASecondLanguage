@@ -1,9 +1,9 @@
 package io.github.javaasasecondlanguage.homework01.cases;
 
-import io.github.javaasasecondlanguage.homework01.CompGraph;
+import io.github.javaasasecondlanguage.homework01.ProcGraph;
 import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.CompNode;
+import io.github.javaasasecondlanguage.homework01.ProcNode;
 import io.github.javaasasecondlanguage.homework01.ops.InnerJoin;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.Printer;
 
@@ -17,21 +17,21 @@ public class JoinCase implements TestCase {
 
     @Override
     public void launch() {
-        List<CompNode> startNodes = createGraph().getInputNodes();
+        List<ProcNode> startNodes = createGraph().getInputNodes();
 
         List<List<Record>> inputs = createInputs();
         List<Record> leftRecords = inputs.get(0);
         List<Record> rightRecords = inputs.get(1);
 
-        CompNode leftStartNode = startNodes.get(0);
-        CompNode rightStartNode = startNodes.get(1);
+        ProcNode leftStartNode = startNodes.get(0);
+        ProcNode rightStartNode = startNodes.get(1);
 
         pushAllRecordsThenTerminal(leftStartNode, leftRecords);
         pushAllRecordsThenTerminal(rightStartNode, rightRecords);
     }
 
     @Override
-    public CompGraph createGraph() {
+    public ProcGraph createGraph() {
         var rightPart = GraphPartBuilder
                 .startWith(new Printer("--- right: "));
 
@@ -40,7 +40,7 @@ public class JoinCase implements TestCase {
                 .join(rightPart, of("AuthorId"), new InnerJoin())
                 .then(new Printer("*** output: "));
 
-        return new CompGraph(
+        return new ProcGraph(
                 List.of(leftPart.getStartNode(), rightPart.getStartNode()),
                 List.of(leftPart.getEndNode())
         );

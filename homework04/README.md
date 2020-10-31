@@ -48,7 +48,7 @@ Reducer operator accepts records from two sorted streams and joins them on certa
 
 ### Node
 
-Each operator is contained inside a [Node](src/main/java/io/github/javaasasecondlanguage/homework01/CompNode.java) object. Node handles all communication with the outside world: 
+Each operator is contained inside a [Node](src/main/java/io/github/javaasasecondlanguage/homework01/ProcNode.java) object. Node handles all communication with the outside world: 
 * It accepts records from the previous nodes.
 * Gives them to operator
 * Collects its outputs
@@ -60,7 +60,7 @@ Each node has several input **gates**, which allows it to accept different strea
 
 ### Graph
 
-**Graph** object represents the actual processing graph - a group of interconnected nodes. It exposes input nodes and output nodes. 
+[Graph](src/main/java/io/github/javaasasecondlanguage/homework01/ProcGraph.java) object represents the actual processing graph - a group of interconnected nodes. It exposes its input nodes and output nodes.  
  
 ![Graph](pics/graph.png)
 

@@ -12,13 +12,13 @@ import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.JOI
 import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.MAPPER;
 import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.REDUCER;
 
-public class CompNode {
+public class ProcNode {
 
     private final Operator operator;
     private final Operator.OpType opType;
     private final List<Connection> connections;
 
-    public CompNode(Operator operator) {
+    public ProcNode(Operator operator) {
         this.operator = operator;
         this.connections = new ArrayList<>();
         this.opType = calculateOpType(operator);
@@ -36,7 +36,7 @@ public class CompNode {
         return opType;
     }
 
-    public void addConnection(CompNode node, int gate) {
+    public void addConnection(ProcNode node, int gate) {
         Connection connection = new Connection(node, gate);
         connections.add(connection);
     }

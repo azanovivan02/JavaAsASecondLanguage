@@ -1,6 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.graphs;
 
-import io.github.javaasasecondlanguage.homework01.CompGraph;
+import io.github.javaasasecondlanguage.homework01.ProcGraph;
 import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.InnerJoin;
@@ -19,7 +19,7 @@ import static java.util.List.of;
 
 public class TfIdf {
 
-    public static CompGraph createGraph() {
+    public static ProcGraph createGraph() {
         var inputGraph = GraphPartBuilder
                 .startWith(new IdentityMapper());
 
@@ -59,7 +59,7 @@ public class TfIdf {
                 .then(new AddColumnMapper("TfIdf", record -> record.getDouble("RawTfIdf") / record.getDouble("TfIdfSum")))
                 .then(new RetainColumnsMapper(of("Id", "Word", "TfIdf")));
 
-        return new CompGraph(
+        return new ProcGraph(
                 List.of(inputGraph.getStartNode()),
                 List.of(normalizedTfIdfGraph.getEndNode())
         );

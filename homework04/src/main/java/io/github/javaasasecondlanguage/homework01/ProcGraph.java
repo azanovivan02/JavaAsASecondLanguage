@@ -3,11 +3,11 @@ package io.github.javaasasecondlanguage.homework01;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CompGraph {
-    private final List<CompNode> inputNodes;
-    private final List<CompNode> outputNodes;
+public class ProcGraph {
+    private final List<ProcNode> inputNodes;
+    private final List<ProcNode> outputNodes;
 
-    public CompGraph(List<CompNode> inputNodes, List<CompNode> outputNodes) {
+    public ProcGraph(List<ProcNode> inputNodes, List<ProcNode> outputNodes) {
         if (inputNodes == null) {
             inputNodes = List.of();
         }
@@ -19,11 +19,11 @@ public class CompGraph {
         this.outputNodes = new ArrayList<>(outputNodes);
     }
 
-    public List<CompNode> getInputNodes() {
+    public List<ProcNode> getInputNodes() {
         return inputNodes;
     }
 
-    public List<CompNode> getOutputNodes() {
+    public List<ProcNode> getOutputNodes() {
         return outputNodes;
     }
 }
