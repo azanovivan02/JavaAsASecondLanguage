@@ -60,7 +60,7 @@ Each node has several input **gates**, which allows it to accept different strea
 
 ### Graph
 
-**Graph** object represents the actual processing graph - a group of interconnected Nodes. It exposes input nodes and output nodes.
+**Graph** object represents the actual processing graph - a group of interconnected nodes. It exposes input nodes and output nodes. 
  
 ![Graph](pics/graph.png)
 
