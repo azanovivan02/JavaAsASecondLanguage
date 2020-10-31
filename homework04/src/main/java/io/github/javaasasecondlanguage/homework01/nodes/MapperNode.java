@@ -9,7 +9,7 @@ public class MapperNode extends ProcNode {
     private final Mapper mapper;
 
     public MapperNode(Mapper mapper) {
-        super();
+
         this.mapper = mapper;
     }
 

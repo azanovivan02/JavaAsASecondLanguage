@@ -4,16 +4,15 @@ import io.github.javaasasecondlanguage.homework01.nodes.JoinerNode;
 import io.github.javaasasecondlanguage.homework01.nodes.MapperNode;
 import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
 import io.github.javaasasecondlanguage.homework01.nodes.ReducerNode;
+import io.github.javaasasecondlanguage.homework01.nodes.SorterNode;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Joiner;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
-import io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter;
-import io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
+import static io.github.javaasasecondlanguage.homework01.nodes.SorterNode.Order.ASCENDING;
 
 public class GraphPartBuilder {
 
@@ -29,8 +28,7 @@ public class GraphPartBuilder {
             var mapper = (Mapper) operator;
             return startFrom(new MapperNode(mapper));
         } else if (operator instanceof Reducer) {
-            var reducer = (Reducer) operator;
-            return startFrom(new ReducerNode(reducer));
+            throw new IllegalArgumentException("Reducers are not supported as first node");
         } else {
             var joiner = (Joiner) operator;
             return startFrom(new JoinerNode(joiner));
@@ -64,21 +62,21 @@ public class GraphPartBuilder {
     }
 
     public GraphPartBuilder reduceBy(List<String> keyColumns, Reducer reducer) {
-        reducer.setKeyColumns(keyColumns);
-        var newNode = new ReducerNode(reducer);
+        var newNode = new ReducerNode(reducer, keyColumns);
         endNode.addConnection(newNode, 0);
         endNode = newNode;
         return this;
     }
 
-    public GraphPartBuilder sortBy(List<String> keyColumns, Order order) {
-        var sorter = new Sorter(order);
-        return reduceBy(keyColumns, sorter);
+    public GraphPartBuilder sortBy(List<String> keyColumns, SorterNode.Order order) {
+        SorterNode newNode = new SorterNode(keyColumns, order);
+        endNode.addConnection(newNode, 0);
+        endNode = newNode;
+        return this;
     }
 
     public GraphPartBuilder sortBy(List<String> keyColumns) {
-        var sorter = new Sorter(ASCENDING);
-        return reduceBy(keyColumns, sorter);
+        return sortBy(keyColumns, ASCENDING);
     }
 
     public GraphPartBuilder sortThenReduceBy(List<String> keyColumns, Reducer reducer) {

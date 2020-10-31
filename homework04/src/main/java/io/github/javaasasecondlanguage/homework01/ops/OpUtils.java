@@ -2,10 +2,11 @@ package io.github.javaasasecondlanguage.homework01.ops;
 
 import io.github.javaasasecondlanguage.homework01.Record;
 
+import java.util.Collection;
 import java.util.List;
 
 public class OpUtils {
-    public static boolean equalByColumns(Record left, Record right, List<String> keyColumns) {
+    public static boolean equalByColumns(Record left, Record right, Collection<String> keyColumns) {
         if (left == null || right == null) {
             return false;
         }
@@ -42,7 +43,7 @@ public class OpUtils {
         if (doubleValue != null) {
             return doubleValue;
         } else {
-            String stringValue = record.get(column);
+            var stringValue = record.getString(column);
             return stringValue;
         }
     }

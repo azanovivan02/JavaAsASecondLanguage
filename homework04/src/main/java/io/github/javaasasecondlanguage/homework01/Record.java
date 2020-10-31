@@ -1,6 +1,7 @@
 package io.github.javaasasecondlanguage.homework01;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,7 +11,7 @@ import static java.lang.String.format;
 
 /**
  * A group of key-value pairs. Represents a single unit of data
- *
+ * <p>
  * Keys (also known as columns) can be represented only as String objects.
  * Values should be only Strings and Numbers.
  */
@@ -19,19 +20,25 @@ public class Record {
     private Map<String, Object> data;
 
     public Record(Map<String, Object> data) {
-        this.data = data;
+        if (data != null) {
+            this.data = new LinkedHashMap<>(data);
+        }
     }
 
     public Map<String, Object> getData() {
         return data;
     }
 
-    public String get(String columnName) {
+    public Object get(String columnName) {
+        return data.get(columnName);
+    }
+
+    public String getString(String columnName) {
         return data.get(columnName).toString();
     }
 
     public Double getDoubleOrNull(String columnName) {
-        String stringValue = this.get(columnName);
+        String stringValue = this.get(columnName).toString();
         try {
             return Double.parseDouble(stringValue);
         } catch (NumberFormatException e) {
@@ -55,7 +62,7 @@ public class Record {
         );
     }
 
-    public Record copyColumns(List<String> columns) {
+    public Record copyColumns(Collection<String> columns) {
         var newValues = new LinkedHashMap<String, Object>();
         for (String column : columns) {
             newValues.put(
@@ -66,11 +73,11 @@ public class Record {
         return new Record(newValues);
     }
 
-    public Record copyColumnsExcept(String... excludedColumns) {
+    public Record copyColumnsExcept(Collection<String> excludedColumns) {
         var newValues = new LinkedHashMap<>(data);
         newValues
                 .keySet()
-                .removeAll(Arrays.asList(excludedColumns));
+                .removeAll(excludedColumns);
         return new Record(newValues);
     }
 

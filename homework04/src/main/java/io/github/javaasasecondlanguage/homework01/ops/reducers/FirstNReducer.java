@@ -5,15 +5,11 @@ import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.List;
-
-import static io.github.javaasasecondlanguage.homework01.ops.OpUtils.equalByColumns;
+import java.util.Map;
 
 public class FirstNReducer implements Operator.Reducer {
 
     private final int maxAmount;
-    private List<String> keyColumns;
-
-    Record currentRecord = null;
     private int currentCount = 0;
 
     public FirstNReducer(int maxAmount) {
@@ -21,31 +17,15 @@ public class FirstNReducer implements Operator.Reducer {
     }
 
     @Override
-    public List<String> getKeyColumns() {
-        return keyColumns;
-    }
-
-    @Override
-    public void setKeyColumns(List<String> keyColumns) {
-        this.keyColumns = keyColumns;
-    }
-
-    @Override
-    public void apply(Record inputRecord, OutputCollector collector) {
-        if (inputRecord.isTerminal()) {
-            collector.collect(inputRecord);
-            return;
-        }
-
-        if (currentRecord == null || !equalByColumns(inputRecord, currentRecord, keyColumns)) {
-            currentCount = 1;
-            currentRecord = inputRecord;
-        } else {
+    public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByValues) {
+        if (currentCount < maxAmount) {
             currentCount++;
-        }
-
-        if (currentCount <= maxAmount) {
             collector.collect(inputRecord);
         }
+    }
+
+    @Override
+    public void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByValues) {
+        currentCount = 0;
     }
 }

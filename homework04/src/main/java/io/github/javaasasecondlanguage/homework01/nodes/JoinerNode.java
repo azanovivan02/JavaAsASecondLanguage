@@ -9,7 +9,7 @@ public class JoinerNode extends ProcNode {
     private Joiner joiner;
 
     public JoinerNode(Joiner joiner) {
-        super();
+
         this.joiner = joiner;
     }
 

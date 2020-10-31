@@ -4,10 +4,12 @@ import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
+import static java.util.List.of;
+
 public class TokenizerMapper implements Operator.Mapper {
 
-    private String inputColumn;
-    private String outputColumn;
+    private final String inputColumn;
+    private final String outputColumn;
 
     public TokenizerMapper(String inputColumn, String outputColumn) {
         this.inputColumn = inputColumn;
@@ -16,11 +18,11 @@ public class TokenizerMapper implements Operator.Mapper {
 
     @Override
     public void apply(Record inputRecord, OutputCollector collector) {
-        var inputValue = inputRecord.get(inputColumn);
+        var inputValue = inputRecord.getString(inputColumn);
         var words = inputValue.split("[\\s,\\.\\!\\;\\?\\'\\:\"]+");
         for (String word : words) {
             var newRecord = inputRecord
-                    .copyColumnsExcept(inputColumn)
+                    .copyColumnsExcept(of(inputColumn))
                     .set(outputColumn, word);
             collector.collect(newRecord);
         }

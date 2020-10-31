@@ -2,48 +2,98 @@ package io.github.javaasasecondlanguage.homework01.reducers;
 
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.reducers.TermFrequencyReducer;
+import io.github.javaasasecondlanguage.homework01.utils.RecordGroup;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
+import java.util.Map;
 
 import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRecordsEqual;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.applyToAllRecordsThenTerminal;
+import static io.github.javaasasecondlanguage.homework01.utils.RecordGroup.group;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.applyReducerToAllGroups;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRecords;
-import static java.util.List.of;
 
 class TermFrequencyReducerTest {
 
-    private static final List<Record> INPUT_RECORDS = convertToRecords(
-            new String[]{"DocId", "Word"},
-            new Object[][]{
-                    {1, "hello"},
-                    {1, "little"},
-                    {1, "world"},
+    @Test
+    void general() {
+        var reducer = new TermFrequencyReducer("Word", "Tf");
 
-                    {2, "little"},
+        List<Record> actualRecords = applyReducerToAllGroups(reducer, inputGroups);
+        assertRecordsEqual(expectedRecords, actualRecords);
+    }
 
-                    {3, "little"},
-                    {3, "little"},
-                    {3, "little"},
-
-                    {4, "little"},
-                    {4, "hello"},
-                    {4, "little"},
-                    {4, "world"},
-
-                    {5, "hello"},
-                    {5, "hello"},
-                    {5, "world"},
-
-                    {6, "world"},
-                    {6, "world"},
-                    {6, "world"},
-                    {6, "world"},
-                    {6, "hello"}
-            }
+    private static final List<RecordGroup> inputGroups = List.of(
+            group(
+                    Map.of("DocId", 1),
+                    convertToRecords(
+                            new String[]{"DocId", "Word"},
+                            new Object[][]{
+                                    {1, "hello"},
+                                    {1, "little"},
+                                    {1, "world"},
+                            }
+                    )
+            ),
+            group(
+                    Map.of("DocId", 2),
+                    convertToRecords(
+                            new String[]{"DocId", "Word"},
+                            new Object[][]{
+                    {2, "little"}
+                            }
+                    )
+            ),
+            group(
+                    Map.of("DocId", 3),
+                    convertToRecords(
+                            new String[]{"DocId", "Word"},
+                            new Object[][]{
+                                    {3, "little"},
+                                    {3, "little"},
+                                    {3, "little"}
+                            }
+                    )
+            ),
+            group(
+                    Map.of("DocId", 4),
+                    convertToRecords(
+                            new String[]{"DocId", "Word"},
+                            new Object[][]{
+                                    {4, "little"},
+                                    {4, "hello"},
+                                    {4, "little"},
+                                    {4, "world"},
+                            }
+                    )
+            ),
+            group(
+                    Map.of("DocId", 5),
+                    convertToRecords(
+                            new String[]{"DocId", "Word"},
+                            new Object[][]{
+                                    {5, "hello"},
+                                    {5, "hello"},
+                                    {5, "world"},
+                            }
+                    )
+            ),
+            group(
+                    Map.of("DocId", 6),
+                    convertToRecords(
+                            new String[]{"DocId", "Word"},
+                            new Object[][]{
+                                    {6, "world"},
+                                    {6, "world"},
+                                    {6, "world"},
+                                    {6, "world"},
+                                    {6, "hello"}
+                            }
+                    )
+            )
     );
 
-    private static final List<Record> EXPECTED_RECORDS = convertToRecords(
+    private static final List<Record> expectedRecords = convertToRecords(
             new String[]{"DocId", "Word", "Tf"},
             new Object[][]{
                     {1, "hello", 0.3333},
@@ -65,13 +115,4 @@ class TermFrequencyReducerTest {
                     {6, "world", 0.8}
             }
     );
-
-    @Test
-    void general() {
-        var reducer = new TermFrequencyReducer("Word", "Tf");
-        reducer.setKeyColumns(of("DocId"));
-
-        var actualRecords = applyToAllRecordsThenTerminal(reducer, INPUT_RECORDS);
-        assertRecordsEqual(EXPECTED_RECORDS, actualRecords);
-    }
 }

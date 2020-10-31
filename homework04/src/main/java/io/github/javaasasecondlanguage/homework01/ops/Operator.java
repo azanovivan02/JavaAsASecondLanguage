@@ -4,6 +4,7 @@ import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
 
 import java.util.List;
+import java.util.Map;
 
 public interface Operator {
 
@@ -12,15 +13,8 @@ public interface Operator {
     }
 
     interface Reducer extends Operator {
-        List<String> getKeyColumns();
-        void setKeyColumns(List<String> keyColumns);
-
-        // TODO: must accept groupBy keys AND values
-        void apply(Record inputRecord, OutputCollector collector);
-
-        // TODO: must accept groupBy keys AND values
-        default void signalGroupFinished() {
-        }
+        void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByValues);
+        void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByValues);
     }
 
     interface Joiner extends Operator {

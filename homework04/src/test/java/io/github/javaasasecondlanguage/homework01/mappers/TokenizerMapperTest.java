@@ -12,7 +12,15 @@ import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convert
 
 class TokenizerMapperTest {
 
-    private static final List<Record> INPUT_RECORDS = convertToRecords(
+    @Test
+    void general() {
+        var mapper = new TokenizerMapper("Text", "Word");
+
+        var actualrecords = applyToAllRecords(mapper, inputRecords);
+        assertRecordsEqual(expectedRecords, actualrecords);
+    }
+
+    private static final List<Record> inputRecords = convertToRecords(
             new String[]{"DocId", "Text"},
             new Object[][]{
                     {1, "Elegant weapon for a more civilized age;"},
@@ -21,7 +29,7 @@ class TokenizerMapperTest {
             }
     );
 
-    private static final List<Record> EXPECTED_RECORDS = convertToRecords(
+    private static final List<Record> expectedRecords = convertToRecords(
             new String[]{"DocId", "Word"},
             new Object[][]{
                     {1, "Elegant"},
@@ -46,12 +54,4 @@ class TokenizerMapperTest {
                     {3, "you"}
             }
     );
-
-    @Test
-    void general() {
-        var mapper = new TokenizerMapper("Text", "Word");
-
-        var actualrecords = applyToAllRecords(mapper, INPUT_RECORDS);
-        assertRecordsEqual(EXPECTED_RECORDS, actualrecords);
-    }
 }

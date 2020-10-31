@@ -11,8 +11,8 @@ import io.github.javaasasecondlanguage.homework01.ops.reducers.FirstNReducer;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
-import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.DESCENDING;
+import static io.github.javaasasecondlanguage.homework01.nodes.SorterNode.Order.ASCENDING;
+import static io.github.javaasasecondlanguage.homework01.nodes.SorterNode.Order.DESCENDING;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRecords;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRecordsThenTerminal;
 import static java.util.List.of;
@@ -30,7 +30,7 @@ public class BaseCase implements TestCase {
     public ProcGraph createGraph() {
         var inputPart = GraphPartBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
-                .map(new AddColumnMapper("Word", record -> record.get("Word").toLowerCase()))
+                .map(new AddColumnMapper("Word", record -> record.getString("Word").toLowerCase()))
                 .sortThenReduceBy(of("Word"), new CountReducer("WordCount"));
 
         var commonOutputNode = inputPart

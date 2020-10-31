@@ -4,6 +4,7 @@ import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
+import io.github.javaasasecondlanguage.homework01.ops.reducers.SumReducer;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,6 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 
 public class TestUtils {
@@ -25,6 +27,10 @@ public class TestUtils {
     public static List<Record> convertToRecords(String[] schema, Object[]... inputTuples) {
         var outputRecords = new ArrayList<Record>();
         for (var tuple : inputTuples) {
+            if (schema.length != tuple.length) {
+                throw new IllegalArgumentException("Different number of column names and actual columns");
+            }
+
             var record = new Record(new HashMap<>());
             for (int columnIndex = 0; columnIndex < schema.length; columnIndex++) {
                 String columnName = schema[columnIndex];
@@ -45,14 +51,15 @@ public class TestUtils {
     }
 
     public static List<Record> applyToAllRecordsThenTerminal(Reducer operator, List<Record> records) {
-        var collector = new ListOutputCollector();
-
-        for (var record : records) {
-            operator.apply(record, collector);
-        }
-        operator.apply(Record.terminalRecord(), collector);
-
-        return collector.getCollectedRecords();
+//        var collector = new ListOutputCollector();
+//
+//        for (var record : records) {
+//            operator.apply(record, collector);
+//        }
+//        operator.apply(Record.terminalRecord(), collector);
+//
+//        return collector.getCollectedRecords();
+        return emptyList();
     }
 
     public static List<Record> applyToAllRecords(Mapper operator, List<Record> records) {
@@ -62,6 +69,17 @@ public class TestUtils {
             operator.apply(record, collector);
         }
 
+        return collector.getCollectedRecords();
+    }
+
+    public static List<Record> applyReducerToAllGroups(Reducer reducer, List<RecordGroup> inputGroups) {
+        var collector = new ListOutputCollector();
+        for (RecordGroup group : inputGroups) {
+            for (Record record : group.getRecords()) {
+                reducer.apply(record, collector, group.getGroupByKeys());
+            }
+            reducer.signalGroupWasFinished(collector, group.getGroupByKeys());
+        }
         return collector.getCollectedRecords();
     }
 }

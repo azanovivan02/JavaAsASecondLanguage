@@ -29,7 +29,7 @@ public class TfIdf {
 
         var wordGraph = inputGraph
                 .branch()
-                .map(new AddColumnMapper("Text", record -> record.get("Text").toLowerCase()))
+                .map(new AddColumnMapper("Text", record -> record.getString("Text").toLowerCase()))
                 .map(new TokenizerMapper("Text", "Word"));
 
         var uniqueDocWordGraph = wordGraph
