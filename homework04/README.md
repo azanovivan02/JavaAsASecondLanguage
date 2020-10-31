@@ -64,6 +64,10 @@ Each node has several input **gates**, which allows it to accept different strea
  
 ![Graph](pics/graph.png)
 
+### Graph part builder
+
+![GraphBuilder](pics/builder.png)
+
 ## Our project
 
 ### Visualization
