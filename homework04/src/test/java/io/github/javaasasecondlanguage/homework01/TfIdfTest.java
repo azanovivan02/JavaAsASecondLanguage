@@ -22,7 +22,7 @@ public class TfIdfTest {
         ListDumper listDumper = new ListDumper();
         GraphPartBuilder
                 .startFrom(outputNode)
-                .then(listDumper);
+                .map(listDumper);
 
         pushAllRecordsThenTerminal(inputNode, INPUT_RECORDS);
 

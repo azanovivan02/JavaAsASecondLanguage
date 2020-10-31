@@ -1,8 +1,9 @@
 package io.github.javaasasecondlanguage.homework01.ui;
 
 import io.github.javaasasecondlanguage.homework01.ProcGraph;
-import io.github.javaasasecondlanguage.homework01.ProcNode;
+import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
 import io.github.javaasasecondlanguage.homework01.Connection;
+import io.github.javaasasecondlanguage.homework01.ops.Operator;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.OpType;
 import org.graphstream.graph.Element;
 import org.graphstream.graph.Graph;
@@ -18,6 +19,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
+import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.JOINER;
+import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.MAPPER;
+import static io.github.javaasasecondlanguage.homework01.ops.Operator.OpType.REDUCER;
 
 public class GraphVisualizer {
 
@@ -56,7 +61,8 @@ public class GraphVisualizer {
         addEdgeToPreviousNodeIfNeeded(visualGraph, previousVisualNode, currentVisualNode);
         addCssClasses(currentProcNode, previousVisualNode, currentVisualNode);
 
-        for (Connection info : currentProcNode.getConnections()) {
+        List<Connection> connections = currentProcNode.getConnections();
+        for (Connection info : connections) {
             visit(info.getNode(), visualGraph, currentVisualNode, procVisualNodeMapping);
         }
     }
@@ -93,7 +99,9 @@ public class GraphVisualizer {
             currentVisualNode.setAttribute("ui.class", "output");
             return;
         }
-        OpType opType = currentProcNode.getOpType();
+
+        Operator operator = currentProcNode.getOperator();
+        OpType opType = calculateOpType(operator);
         switch (opType) {
             case REDUCER: {
                 currentVisualNode.setAttribute("ui.class", "reducer");
@@ -106,19 +114,14 @@ public class GraphVisualizer {
         }
     }
 
-    private static HierarchicalLayout createLayout(List<ProcNode> startProcNodes, Map<ProcNode, Node> compVisualNodeMapping) {
-//        HierarchicalLayout layout = new HierarchicalLayout();
-        String[] rootIds =
-                startProcNodes
-                        .stream()
-                        .map(compVisualNodeMapping::get)
-                        .map(Element::getId).toArray(String[]::new);
-//        layout.setRoots(rootIds);
-//        layout.setQuality(4);
-//        layout.setForce(10);
-//        return layout;
-
-        return new HierarchicalLayout();
+    private static Operator.OpType calculateOpType(Operator operator) {
+        if (operator instanceof Operator.Mapper) {
+            return MAPPER;
+        } else if (operator instanceof Operator.Reducer) {
+            return REDUCER;
+        } else {
+            return JOINER;
+        }
     }
 
     public static final String STYLESHEET = "/*\n" +

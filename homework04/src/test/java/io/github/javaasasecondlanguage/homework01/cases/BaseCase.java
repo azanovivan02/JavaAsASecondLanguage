@@ -30,21 +30,21 @@ public class BaseCase implements TestCase {
     public ProcGraph createGraph() {
         var inputPart = GraphPartBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
-                .then(new AddColumnMapper("Word", record -> record.get("Word").toLowerCase()))
+                .map(new AddColumnMapper("Word", record -> record.get("Word").toLowerCase()))
                 .sortThenReduceBy(of("Word"), new CountReducer("WordCount"));
 
         var commonOutputNode = inputPart
                 .branch()
                 .sortBy(of("WordCount"), DESCENDING)
                 .reduceBy(of(), new FirstNReducer(5))
-                .then(new Printer("+++ Top 5 common words"))
+                .map(new Printer("+++ Top 5 common words"))
                 .getEndNode();
 
         var rareOutputNode = inputPart
                 .branch()
                 .sortBy(of("WordCount"), ASCENDING)
                 .reduceBy(of(), new FirstNReducer(10))
-                .then(new Printer("--- Top 10 rare words"))
+                .map(new Printer("--- Top 10 rare words"))
                 .getEndNode();
 
         return new ProcGraph(

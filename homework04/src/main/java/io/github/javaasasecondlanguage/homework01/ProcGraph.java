@@ -1,5 +1,7 @@
 package io.github.javaasasecondlanguage.homework01;
 
+import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
+
 import java.util.ArrayList;
 import java.util.List;
 

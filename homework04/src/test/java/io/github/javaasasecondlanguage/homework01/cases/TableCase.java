@@ -27,7 +27,7 @@ public class TableCase implements TestCase {
         var mainPart = GraphPartBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
                 .sortThenReduceBy(of("Author", "Word"), new CountReducer("Count"))
-                .then(new Printer("+++ "));
+                .map(new Printer("+++ "));
 
         return new ProcGraph(
                 List.of(mainPart.getStartNode()),

@@ -3,7 +3,7 @@ package io.github.javaasasecondlanguage.homework01.cases;
 import io.github.javaasasecondlanguage.homework01.ProcGraph;
 import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ProcNode;
+import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
 import io.github.javaasasecondlanguage.homework01.ops.InnerJoin;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.Printer;
 
@@ -38,7 +38,7 @@ public class JoinCase implements TestCase {
         var leftPart = GraphPartBuilder
                 .startWith(new Printer("+++ left: "))
                 .join(rightPart, of("AuthorId"), new InnerJoin())
-                .then(new Printer("*** output: "));
+                .map(new Printer("*** output: "));
 
         return new ProcGraph(
                 List.of(leftPart.getStartNode(), rightPart.getStartNode()),

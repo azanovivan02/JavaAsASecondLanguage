@@ -29,8 +29,8 @@ public class TfIdf {
 
         var wordGraph = inputGraph
                 .branch()
-                .then(new AddColumnMapper("Text", record -> record.get("Text").toLowerCase()))
-                .then(new TokenizerMapper("Text", "Word"));
+                .map(new AddColumnMapper("Text", record -> record.get("Text").toLowerCase()))
+                .map(new TokenizerMapper("Text", "Word"));
 
         var uniqueDocWordGraph = wordGraph
                 .branch()
@@ -48,7 +48,7 @@ public class TfIdf {
                 .sortThenReduceBy(of("Id"), new TermFrequencyReducer("Word", "Tf"))
                 .join(countIdfGraph, of("Id", "Word"), new InnerJoin())
                 .join(docCountGraph, of(), new InnerJoin())
-                .then(new AddColumnMapper("RawTfIdf", TfIdf::calculateTfIdf));
+                .map(new AddColumnMapper("RawTfIdf", TfIdf::calculateTfIdf));
 
         var tfIdsSumGraph = rawTfIdfGraph
                 .branch()
@@ -56,8 +56,8 @@ public class TfIdf {
 
         var normalizedTfIdfGraph = rawTfIdfGraph
                 .join(tfIdsSumGraph, of("Id"), new InnerJoin())
-                .then(new AddColumnMapper("TfIdf", record -> record.getDoubleOrNull("RawTfIdf") / record.getDoubleOrNull("TfIdfSum")))
-                .then(new RetainColumnsMapper(of("Id", "Word", "TfIdf")));
+                .map(new AddColumnMapper("TfIdf", record -> record.getDoubleOrNull("RawTfIdf") / record.getDoubleOrNull("TfIdfSum")))
+                .map(new RetainColumnsMapper(of("Id", "Word", "TfIdf")));
 
         return new ProcGraph(
                 List.of(inputGraph.getStartNode()),

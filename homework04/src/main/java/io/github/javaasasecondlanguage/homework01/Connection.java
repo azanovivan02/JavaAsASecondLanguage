@@ -1,5 +1,7 @@
 package io.github.javaasasecondlanguage.homework01;
 
+import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
+
 public class Connection {
     private final ProcNode node;
     private final int gate;

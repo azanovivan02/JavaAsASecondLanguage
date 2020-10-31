@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.utils;
 
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ProcNode;
+import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
 
@@ -39,9 +39,9 @@ public class TestUtils {
 
     public static void pushAllRecordsThenTerminal(ProcNode node, List<Record> records) {
         for (var record : records) {
-            node.pushIntoZero(record);
+            node.push(record, 0);
         }
-        node.pushIntoZero(Record.terminalRecord());
+        node.push(Record.terminalRecord(), 0);
     }
 
     public static List<Record> applyToAllRecordsThenTerminal(Reducer operator, List<Record> records) {
