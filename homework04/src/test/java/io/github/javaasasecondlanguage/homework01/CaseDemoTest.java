@@ -16,7 +16,7 @@ public class CaseDemoTest {
 
 
     @Test
-    void general() throws InterruptedException {
+    void general() {
         List<TestCase> testCases = Arrays.asList(
                 new BaseCase(),
                 new TableCase(),

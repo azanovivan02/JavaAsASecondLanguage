@@ -1,6 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.utils;
 
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
 
 import java.util.ArrayList;
@@ -8,14 +8,14 @@ import java.util.List;
 
 public class ListOutputCollector implements OutputCollector {
 
-    private final List<Row> collectedRows = new ArrayList<>();
+    private final List<Record> collectedRecords = new ArrayList<>();
 
-    public List<Row> getCollectedRows() {
-        return collectedRows;
+    public List<Record> getCollectedRecords() {
+        return collectedRecords;
     }
 
     @Override
-    public void collect(Row outputRow) {
-        collectedRows.add(outputRow);
+    public void collect(Record outputRecord) {
+        collectedRecords.add(outputRecord);
     }
 }

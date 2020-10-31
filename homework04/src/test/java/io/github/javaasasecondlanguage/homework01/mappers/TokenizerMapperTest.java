@@ -1,18 +1,18 @@
 package io.github.javaasasecondlanguage.homework01.mappers;
 
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.TokenizerMapper;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRowsEqual;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.applyToAllRows;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
+import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRecordsEqual;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.applyToAllRecords;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRecords;
 
 class TokenizerMapperTest {
 
-    private static final List<Row> inputRows = convertToRows(
+    private static final List<Record> INPUT_RECORDS = convertToRecords(
             new String[]{"DocId", "Text"},
             new Object[][]{
                     {1, "Elegant weapon for a more civilized age;"},
@@ -21,7 +21,7 @@ class TokenizerMapperTest {
             }
     );
 
-    private static final List<Row> expectedRows = convertToRows(
+    private static final List<Record> EXPECTED_RECORDS = convertToRecords(
             new String[]{"DocId", "Word"},
             new Object[][]{
                     {1, "Elegant"},
@@ -51,7 +51,7 @@ class TokenizerMapperTest {
     void general() {
         var mapper = new TokenizerMapper("Text", "Word");
 
-        var actualRows = applyToAllRows(mapper, inputRows);
-        assertRowsEqual(expectedRows, actualRows);
+        var actualrecords = applyToAllRecords(mapper, INPUT_RECORDS);
+        assertRecordsEqual(EXPECTED_RECORDS, actualrecords);
     }
 }

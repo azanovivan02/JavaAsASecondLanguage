@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.ops.reducers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class FirstNReducer implements Operator.Reducer {
     private final int maxAmount;
     private List<String> keyColumns;
 
-    Row currentRow = null;
+    Record currentRecord = null;
     private int currentCount = 0;
 
     public FirstNReducer(int maxAmount) {
@@ -31,21 +31,21 @@ public class FirstNReducer implements Operator.Reducer {
     }
 
     @Override
-    public void apply(Row inputRow, OutputCollector collector) {
-        if (inputRow.isTerminal()) {
-            collector.collect(inputRow);
+    public void apply(Record inputRecord, OutputCollector collector) {
+        if (inputRecord.isTerminal()) {
+            collector.collect(inputRecord);
             return;
         }
 
-        if (currentRow == null || !equalByColumns(inputRow, currentRow, keyColumns)) {
+        if (currentRecord == null || !equalByColumns(inputRecord, currentRecord, keyColumns)) {
             currentCount = 1;
-            currentRow = inputRow;
+            currentRecord = inputRecord;
         } else {
             currentCount++;
         }
 
         if (currentCount <= maxAmount) {
-            collector.collect(inputRow);
+            collector.collect(inputRecord);
         }
     }
 }

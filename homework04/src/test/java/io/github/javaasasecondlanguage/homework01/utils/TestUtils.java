@@ -1,6 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.utils;
 
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.CompNode;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
@@ -15,53 +15,53 @@ import static java.util.Collections.singletonMap;
 
 public class TestUtils {
 
-    public static List<Row> convertToRows(String columnName, Collection<?> inputValues) {
+    public static List<Record> convertToRecords(String columnName, Collection<?> inputValues) {
         return inputValues
                 .stream()
-                .map(value -> new Row(singletonMap(columnName, value)))
+                .map(value -> new Record(singletonMap(columnName, value)))
                 .collect(Collectors.toList());
     }
 
-    public static List<Row> convertToRows(String[] schema, Object[]... inputTuples) {
-        var outputRows = new ArrayList<Row>();
+    public static List<Record> convertToRecords(String[] schema, Object[]... inputTuples) {
+        var outputRecords = new ArrayList<Record>();
         for (var tuple : inputTuples) {
-            var row = new Row(new HashMap<>());
+            var record = new Record(new HashMap<>());
             for (int columnIndex = 0; columnIndex < schema.length; columnIndex++) {
                 String columnName = schema[columnIndex];
                 Object columnValue = tuple[columnIndex];
-                row.set(columnName, columnValue);
+                record.set(columnName, columnValue);
             }
-            outputRows.add(row);
+            outputRecords.add(record);
         }
 
-        return outputRows;
+        return outputRecords;
     }
 
-    public static void pushAllRowsThenTerminal(CompNode node, List<Row> rows) {
-        for (var row : rows) {
-            node.pushIntoZero(row);
+    public static void pushAllRecordsThenTerminal(CompNode node, List<Record> records) {
+        for (var record : records) {
+            node.pushIntoZero(record);
         }
-        node.pushIntoZero(Row.terminalRow());
+        node.pushIntoZero(Record.terminalRecord());
     }
 
-    public static List<Row> applyToAllRowsThenTerminal(Reducer operator, List<Row> rows) {
+    public static List<Record> applyToAllRecordsThenTerminal(Reducer operator, List<Record> records) {
         var collector = new ListOutputCollector();
 
-        for (var row : rows) {
-            operator.apply(row, collector);
+        for (var record : records) {
+            operator.apply(record, collector);
         }
-        operator.apply(Row.terminalRow(), collector);
+        operator.apply(Record.terminalRecord(), collector);
 
-        return collector.getCollectedRows();
+        return collector.getCollectedRecords();
     }
 
-    public static List<Row> applyToAllRows(Mapper operator, List<Row> rows) {
+    public static List<Record> applyToAllRecords(Mapper operator, List<Record> records) {
         var collector = new ListOutputCollector();
 
-        for (var row : rows) {
-            operator.apply(row, collector);
+        for (var record : records) {
+            operator.apply(record, collector);
         }
 
-        return collector.getCollectedRows();
+        return collector.getCollectedRecords();
     }
 }

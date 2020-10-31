@@ -1,19 +1,19 @@
 package io.github.javaasasecondlanguage.homework01.reducers;
 
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.reducers.TermFrequencyReducer;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRowsEqual;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.applyToAllRowsThenTerminal;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
+import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRecordsEqual;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.applyToAllRecordsThenTerminal;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRecords;
 import static java.util.List.of;
 
 class TermFrequencyReducerTest {
 
-    private static final List<Row> inputRows = convertToRows(
+    private static final List<Record> INPUT_RECORDS = convertToRecords(
             new String[]{"DocId", "Word"},
             new Object[][]{
                     {1, "hello"},
@@ -43,7 +43,7 @@ class TermFrequencyReducerTest {
             }
     );
 
-    private static final List<Row> expectedRows = convertToRows(
+    private static final List<Record> EXPECTED_RECORDS = convertToRecords(
             new String[]{"DocId", "Word", "Tf"},
             new Object[][]{
                     {1, "hello", 0.3333},
@@ -71,7 +71,7 @@ class TermFrequencyReducerTest {
         var reducer = new TermFrequencyReducer("Word", "Tf");
         reducer.setKeyColumns(of("DocId"));
 
-        var actualRows = applyToAllRowsThenTerminal(reducer, inputRows);
-        assertRowsEqual(expectedRows, actualRows);
+        var actualRecords = applyToAllRecordsThenTerminal(reducer, INPUT_RECORDS);
+        assertRecordsEqual(EXPECTED_RECORDS, actualRecords);
     }
 }

@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.ops.reducers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.OpUtils;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
@@ -13,7 +13,7 @@ public class SumReducer implements Operator.Reducer {
     private final String outputSumColumn;
     private List<String> keyColumns;
 
-    Row currentRow = null;
+    Record currentRecord = null;
     double currentSum = 0;
 
     public SumReducer(String inputColumn, String outputSumColumn) {
@@ -32,33 +32,33 @@ public class SumReducer implements Operator.Reducer {
     }
 
     @Override
-    public void apply(Row inputRow, OutputCollector collector) {
-        if (inputRow.isTerminal()) {
-            if (currentRow != null) {
-                outputCountRow(collector);
+    public void apply(Record inputRecord, OutputCollector collector) {
+        if (inputRecord.isTerminal()) {
+            if (currentRecord != null) {
+                outputCountrecord(collector);
             }
 
-            currentRow = null;
+            currentRecord = null;
             currentSum = 0;
-            collector.collect(inputRow);
+            collector.collect(inputRecord);
             return;
         }
 
-        if (currentRow == null || !OpUtils.equalByColumns(inputRow, currentRow, keyColumns)) {
-            if (currentRow != null) {
-                outputCountRow(collector);
+        if (currentRecord == null || !OpUtils.equalByColumns(inputRecord, currentRecord, keyColumns)) {
+            if (currentRecord != null) {
+                outputCountrecord(collector);
             }
-            currentRow = inputRow;
+            currentRecord = inputRecord;
             currentSum = 0;
         }
 
-        currentSum += inputRow.getDouble(inputColumn);
+        currentSum += inputRecord.getDouble(inputColumn);
     }
 
-    private void outputCountRow(OutputCollector collector) {
-        Row newRow = currentRow.copyColumns(keyColumns);
-        newRow.set(outputSumColumn, currentSum);
-        collector.collect(newRow);
+    private void outputCountrecord(OutputCollector collector) {
+        Record newRecord = currentRecord.copyColumns(keyColumns);
+        newRecord.set(outputSumColumn, currentSum);
+        collector.collect(newRecord);
     }
 
 }

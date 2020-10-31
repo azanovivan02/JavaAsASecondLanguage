@@ -2,25 +2,24 @@ package io.github.javaasasecondlanguage.homework01.cases;
 
 import io.github.javaasasecondlanguage.homework01.CompGraph;
 import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
-import io.github.javaasasecondlanguage.homework01.Row;
-import io.github.javaasasecondlanguage.homework01.CompNode;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.Printer;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.TokenizerMapper;
 import io.github.javaasasecondlanguage.homework01.ops.reducers.CountReducer;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRecords;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRecordsThenTerminal;
 import static java.util.List.of;
 
 public class TableCase implements TestCase {
 
     @Override
     public void launch() {
-        var inputRows = createInputs().get(0);
+        var inputRecords = createInputs().get(0);
         var graph = createGraph().getInputNodes().get(0);
-        pushAllRowsThenTerminal(graph, inputRows);
+        pushAllRecordsThenTerminal(graph, inputRecords);
     }
 
     @Override
@@ -37,8 +36,8 @@ public class TableCase implements TestCase {
     }
 
     @Override
-    public List<List<Row>> createInputs() {
-        List<Row> inputRows = convertToRows(
+    public List<List<Record>> createInputs() {
+        List<Record> inputRecords = convertToRecords(
                 new String[]{"Id", "Text", "Author"},
                 new Object[][]{
                         {1, "The Grey Knights have come on behalf of the Holy Inquisition.", "Grey Knights"},
@@ -48,6 +47,6 @@ public class TableCase implements TestCase {
                         {5, "The fallen shall be forever remembered as the Emperor's finest.", "Apothecary"}
                 }
         );
-        return of(inputRows);
+        return of(inputRecords);
     }
 }

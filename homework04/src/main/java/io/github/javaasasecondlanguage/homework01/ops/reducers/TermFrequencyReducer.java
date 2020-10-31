@@ -1,14 +1,13 @@
 package io.github.javaasasecondlanguage.homework01.ops.reducers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.OpUtils;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public class TermFrequencyReducer implements Operator.Reducer {
@@ -17,7 +16,7 @@ public class TermFrequencyReducer implements Operator.Reducer {
     private String outputColumn;
     private List<String> keyColumns;
 
-    private Row currentRow = null;
+    private Record currentRecord = null;
     private Map<String, Integer> wordCounts = new HashMap<>();
 
     public TermFrequencyReducer(String termColumn, String outputColumn) {
@@ -36,28 +35,28 @@ public class TermFrequencyReducer implements Operator.Reducer {
     }
 
     @Override
-    public void apply(Row inputRow, OutputCollector collector) {
-        if (inputRow.isTerminal()) {
-            outputTfRows(collector);
-            currentRow = null;
+    public void apply(Record inputRecord, OutputCollector collector) {
+        if (inputRecord.isTerminal()) {
+            outputTfRecords(collector);
+            currentRecord = null;
             wordCounts.clear();
-            collector.collect(inputRow);
+            collector.collect(inputRecord);
             return;
         }
 
-        if (!OpUtils.equalByColumns(inputRow, currentRow, keyColumns)) {
-            outputTfRows(collector);
+        if (!OpUtils.equalByColumns(inputRecord, currentRecord, keyColumns)) {
+            outputTfRecords(collector);
             wordCounts.clear();
-            currentRow = inputRow;
+            currentRecord = inputRecord;
         }
 
-        var currentWord = inputRow.getString(termColumn);
+        var currentWord = inputRecord.getString(termColumn);
         var currentCount = wordCounts.getOrDefault(currentWord, 0);
         wordCounts.put(currentWord, currentCount + 1);
     }
 
-    private void outputTfRows(OutputCollector collector) {
-        if (currentRow == null) {
+    private void outputTfRecords(OutputCollector collector) {
+        if (currentRecord == null) {
             return;
         }
 
@@ -68,11 +67,11 @@ public class TermFrequencyReducer implements Operator.Reducer {
             String term = entry.getKey();
             Integer termCount = entry.getValue();
             float frequency = ((float) termCount) / totalCount;
-            Row newRow = currentRow
+            Record newRecord = currentRecord
                     .copyColumns(keyColumns)
                     .set(termColumn, term)
                     .set(outputColumn, frequency);
-            collector.collect(newRow);
+            collector.collect(newRecord);
         }
 
     }

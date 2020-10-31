@@ -1,6 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.utils;
 
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 
 import java.util.List;
 
@@ -10,11 +10,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class AssertionUtils {
 
 
-    public static void assertRowsEqual(List<Row> expectedRows, List<Row> actualRows) {
-        for (var rowIndex = 0; rowIndex < expectedRows.size(); rowIndex++) {
-            var actualRow = actualRows.get(rowIndex);
-            var expectedRow = expectedRows.get(rowIndex);
-            assertEquals(expectedRow, actualRow, format("Row index: %d", rowIndex));
+    public static void assertRecordsEqual(List<Record> expectedRecords, List<Record> actualRecords) {
+        for (var recordIndex = 0; recordIndex < expectedRecords.size(); recordIndex++) {
+            var actualRecord = actualRecords.get(recordIndex);
+            var expectedRecord = expectedRecords.get(recordIndex);
+            assertEquals(expectedRecord, actualRecord, format("Record index: %d", recordIndex));
         }
     }
 }

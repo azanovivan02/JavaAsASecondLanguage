@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.Utils.rowsToString;
-import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRowsEqual;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
+import static io.github.javaasasecondlanguage.homework01.Utils.recordsToString;
+import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRecordsEqual;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRecords;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRecordsThenTerminal;
 
 public class TfIdfTest {
 
@@ -24,15 +24,15 @@ public class TfIdfTest {
                 .startFrom(outputNode)
                 .then(listDumper);
 
-        pushAllRowsThenTerminal(inputNode, inputRows);
+        pushAllRecordsThenTerminal(inputNode, INPUT_RECORDS);
 
-        List<Row> actualRows = listDumper.getRows();
-        System.out.println(rowsToString(actualRows));
+        List<Record> actualRecords = listDumper.getRecords();
+        System.out.println(recordsToString(actualRecords));
 
-        assertRowsEqual(expectedRows, actualRows);
+        assertRecordsEqual(EXPECTED_RECORDS, actualRecords);
     }
 
-    public static final List<Row> inputRows = convertToRows(
+    public static final List<Record> INPUT_RECORDS = convertToRecords(
             new String[]{"Id", "Text"},
             new Object[][]{
                     {1, "hello, little world"},
@@ -45,7 +45,7 @@ public class TfIdfTest {
     );
 
     // TODO replace test cases
-    public static final List<Row> expectedRows = convertToRows(
+    public static final List<Record> EXPECTED_RECORDS = convertToRecords(
             new String[]{"Id", "Word", "TfIdf"},
             new Object[][]{
                     {1, "hello", 0.333},

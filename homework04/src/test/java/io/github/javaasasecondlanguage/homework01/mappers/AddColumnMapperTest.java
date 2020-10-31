@@ -1,20 +1,20 @@
 package io.github.javaasasecondlanguage.homework01.mappers;
 
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.AddColumnMapper;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 import java.util.function.Function;
 
-import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRowsEqual;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.applyToAllRows;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
+import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRecordsEqual;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.applyToAllRecords;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRecords;
 import static java.lang.String.format;
 
 public class AddColumnMapperTest {
 
-    private static final List<Row> inputRows = convertToRows(
+    private static final List<Record> INPUT_RECORDS = convertToRecords(
             new String[]{"Id", "Name", "Surname"},
             new Object[][]{
                     {13, "Roboute", "Guilliman"},
@@ -23,7 +23,7 @@ public class AddColumnMapperTest {
             }
     );
 
-    private static final List<Row> expectedRows = convertToRows(
+    private static final List<Record> EXPECTED_RECORDS = convertToRecords(
             new String[]{"Id", "Name", "Surname", "Full name"},
             new Object[][]{
                     {13, "Roboute", "Guilliman", "Roboute Guilliman"},
@@ -34,10 +34,10 @@ public class AddColumnMapperTest {
 
     @Test
     void general() {
-        Function<Row, Object> lambda = row -> format("%s %s", row.get("Name"), row.get("Surname"));
+        Function<Record, Object> lambda = record -> format("%s %s", record.get("Name"), record.get("Surname"));
         AddColumnMapper mapper = new AddColumnMapper("Full name", lambda);
 
-        List<Row> actualRows = applyToAllRows(mapper, inputRows);
-        assertRowsEqual(expectedRows, actualRows);
+        List<Record> actualRecords = applyToAllRecords(mapper, INPUT_RECORDS);
+        assertRecordsEqual(EXPECTED_RECORDS, actualRecords);
     }
 }

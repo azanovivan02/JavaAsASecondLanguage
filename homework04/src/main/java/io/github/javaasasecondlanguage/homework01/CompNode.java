@@ -41,31 +41,31 @@ public class CompNode {
         connections.add(connection);
     }
 
-    public void push(Row inputRow, int gateNumber) {
+    public void push(Record inputRecord, int gateNumber) {
         switch (opType) {
             case MAPPER: {
                 Mapper mapper = (Mapper) operator;
-                if (!inputRow.isTerminal()) {
-                    mapper.apply(inputRow, this::collect);
+                if (!inputRecord.isTerminal()) {
+                    mapper.apply(inputRecord, this::collect);
                 } else {
-                    collect(inputRow);
+                    collect(inputRecord);
                 }
                 break;
             }
             case REDUCER: {
                 Reducer reducer = (Reducer) operator;
-                reducer.apply(inputRow, this::collect);
+                reducer.apply(inputRecord, this::collect);
                 break;
             }
             case JOINER: {
                 Joiner joiner = (Joiner) this.operator;
                 switch (gateNumber) {
                     case 0: {
-                        joiner.applyLeft(inputRow, this::collect);
+                        joiner.applyLeft(inputRecord, this::collect);
                         break;
                     }
                     case 1: {
-                        joiner.applyRight(inputRow, this::collect);
+                        joiner.applyRight(inputRecord, this::collect);
                         break;
                     }
                     default: {
@@ -76,15 +76,15 @@ public class CompNode {
         }
     }
 
-    public final void pushIntoZero(Row inputRow) {
-        push(inputRow, 0);
+    public final void pushIntoZero(Record inputRecord) {
+        push(inputRecord, 0);
     }
 
-    private void collect(Row row) {
+    private void collect(Record record) {
         for (Connection info : connections) {
             var node = info.getNode();
             var gateNumber = info.getGate();
-            node.push(row, gateNumber);
+            node.push(record, gateNumber);
         }
     }
 

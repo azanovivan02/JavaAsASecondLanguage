@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.ops.reducers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.OpUtils;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
@@ -12,7 +12,7 @@ public class CountReducer implements Operator.Reducer {
     private String outputCountColumn;
     private List<String> keyColumns;
 
-    Row currentRow = null;
+    Record currentRecord = null;
     int currentCount = 0;
 
     public CountReducer(String outputCountColumn) {
@@ -30,32 +30,32 @@ public class CountReducer implements Operator.Reducer {
     }
 
     @Override
-    public void apply(Row inputRow, OutputCollector collector) {
-        if (inputRow.isTerminal()) {
-            if (currentRow != null) {
-                outputCountRow(collector);
+    public void apply(Record inputRecord, OutputCollector collector) {
+        if (inputRecord.isTerminal()) {
+            if (currentRecord != null) {
+                outputCountRecord(collector);
             }
 
-            currentRow = null;
-            collector.collect(inputRow);
+            currentRecord = null;
+            collector.collect(inputRecord);
             return;
         }
 
-        if (currentRow == null || !OpUtils.equalByColumns(inputRow, currentRow, keyColumns)) {
-            if (currentRow != null) {
-                outputCountRow(collector);
+        if (currentRecord == null || !OpUtils.equalByColumns(inputRecord, currentRecord, keyColumns)) {
+            if (currentRecord != null) {
+                outputCountRecord(collector);
             }
             currentCount = 1;
-            currentRow = inputRow;
+            currentRecord = inputRecord;
         } else {
             currentCount++;
         }
     }
 
-    private void outputCountRow(OutputCollector collector) {
-        Row newRow = currentRow.copyColumns(keyColumns);
-        newRow.set(outputCountColumn, currentCount);
-        collector.collect(newRow);
+    private void outputCountRecord(OutputCollector collector) {
+        Record newRecord = currentRecord.copyColumns(keyColumns);
+        newRecord.set(outputCountColumn, currentCount);
+        collector.collect(newRecord);
     }
 
 }

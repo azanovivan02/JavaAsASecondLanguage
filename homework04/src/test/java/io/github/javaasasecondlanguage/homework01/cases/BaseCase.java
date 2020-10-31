@@ -2,8 +2,7 @@ package io.github.javaasasecondlanguage.homework01.cases;
 
 import io.github.javaasasecondlanguage.homework01.CompGraph;
 import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
-import io.github.javaasasecondlanguage.homework01.Row;
-import io.github.javaasasecondlanguage.homework01.CompNode;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.AddColumnMapper;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.Printer;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.TokenizerMapper;
@@ -14,8 +13,8 @@ import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.ASCENDING;
 import static io.github.javaasasecondlanguage.homework01.ops.reducers.Sorter.Order.DESCENDING;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRows;
-import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRowsThenTerminal;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRecords;
+import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRecordsThenTerminal;
 import static java.util.List.of;
 
 public class BaseCase implements TestCase {
@@ -23,15 +22,15 @@ public class BaseCase implements TestCase {
     @Override
     public void launch() {
         var inputNode = createGraph().getInputNodes().get(0);
-        var inputRows = createInputs().get(0);
-        pushAllRowsThenTerminal(inputNode, inputRows);
+        var inputRecords = createInputs().get(0);
+        pushAllRecordsThenTerminal(inputNode, inputRecords);
     }
 
     @Override
     public CompGraph createGraph() {
         var inputPart = GraphPartBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
-                .then(new AddColumnMapper("Word", row -> row.getString("Word").toLowerCase()))
+                .then(new AddColumnMapper("Word", record -> record.getString("Word").toLowerCase()))
                 .sortThenReduceBy(of("Word"), new CountReducer("WordCount"));
 
         var commonOutputNode = inputPart
@@ -55,8 +54,8 @@ public class BaseCase implements TestCase {
     }
 
     @Override
-    public List<List<Row>> createInputs() {
-        List<Row> rows = convertToRows(
+    public List<List<Record>> createInputs() {
+        List<Record> records = convertToRecords(
                 new String[]{"Text"},
                 new Object[][]{
                         {"I am the Emperor's will made manifest"},
@@ -94,7 +93,7 @@ public class BaseCase implements TestCase {
                         {"Take them, and quickly!"}
                 }
         );
-        return of(rows);
+        return of(records);
     }
 
 }

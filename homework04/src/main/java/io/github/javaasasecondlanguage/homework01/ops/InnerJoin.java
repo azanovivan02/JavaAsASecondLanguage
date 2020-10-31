@@ -1,17 +1,17 @@
 package io.github.javaasasecondlanguage.homework01.ops;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.ops.OpUtils.compareRows;
+import static io.github.javaasasecondlanguage.homework01.ops.OpUtils.compareRecords;
 
 public class InnerJoin implements Operator.Joiner {
 
-    LinkedList<Row> leftRows = new LinkedList<>();
-    LinkedList<Row> rightRows = new LinkedList<>();
+    LinkedList<Record> leftRecords = new LinkedList<>();
+    LinkedList<Record> rightRecords = new LinkedList<>();
 
     private List<String> keyColumns;
 
@@ -26,38 +26,38 @@ public class InnerJoin implements Operator.Joiner {
     }
 
     @Override
-    public void applyLeft(Row inputRow, OutputCollector collector) {
-        leftRows.add(inputRow);
-        outputJoinedRowsIfPossible(collector);
+    public void applyLeft(Record inputRecord, OutputCollector collector) {
+        leftRecords.add(inputRecord);
+        outputJoinedRecordsIfPossible(collector);
     }
 
     @Override
-    public void applyRight(Row inputRow, OutputCollector collector) {
-        rightRows.add(inputRow);
-        outputJoinedRowsIfPossible(collector);
+    public void applyRight(Record inputRecord, OutputCollector collector) {
+        rightRecords.add(inputRecord);
+        outputJoinedRecordsIfPossible(collector);
     }
 
-    private void outputJoinedRowsIfPossible(OutputCollector collector) {
-        if (leftRows.isEmpty() || !leftRows.getLast().isTerminal()) {
+    private void outputJoinedRecordsIfPossible(OutputCollector collector) {
+        if (leftRecords.isEmpty() || !leftRecords.getLast().isTerminal()) {
             return;
         }
-        if (rightRows.isEmpty() || !rightRows.getLast().isTerminal()) {
+        if (rightRecords.isEmpty() || !rightRecords.getLast().isTerminal()) {
             return;
         }
 
-        leftRows.removeLast();
-        rightRows.removeLast();
+        leftRecords.removeLast();
+        rightRecords.removeLast();
 
-        for (var rightRow : rightRows) {
-            for (var leftRow : leftRows) {
-                var comparisonResult = compareRows(leftRow, rightRow, keyColumns);
+        for (var rightRecord : rightRecords) {
+            for (var leftRecord : leftRecords) {
+                var comparisonResult = compareRecords(leftRecord, rightRecord, keyColumns);
                 if (comparisonResult == 0) {
-                    Row joinedRow = leftRow.copy().setAll(rightRow.getValues());
-                    collector.collect(joinedRow);
+                    Record joinedRecord = leftRecord.copy().setAll(rightRecord.getValues());
+                    collector.collect(joinedRecord);
                 }
             }
         }
-        collector.collect(Row.terminalRow());
+        collector.collect(Record.terminalRecord());
     }
 
 }

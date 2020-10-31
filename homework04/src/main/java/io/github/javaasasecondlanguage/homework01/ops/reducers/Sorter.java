@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.ops.reducers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.OpUtils;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
@@ -13,12 +13,12 @@ import static java.util.Collections.sort;
 
 public class Sorter implements Operator.Reducer {
 
-    private final List<Row> accumulatedRows = new ArrayList<>();
+    private final List<Record> accumulatedRecords = new ArrayList<>();
 
     private final Order order;
 
     private List<String> keyColumns;
-    private Comparator<Row> rowComparator;
+    private Comparator<Record> recordComparator;
 
     public Sorter(Order order) {
         this.order = order;
@@ -33,26 +33,26 @@ public class Sorter implements Operator.Reducer {
     public void setKeyColumns(List<String> keyColumns) {
         this.keyColumns = keyColumns;
 
-        Comparator<Row> comparator = (o1, o2) -> OpUtils.compareRows(o1, o2, keyColumns);
+        Comparator<Record> comparator = (o1, o2) -> OpUtils.compareRecords(o1, o2, keyColumns);
         if (order == Order.DESCENDING) {
-            this.rowComparator = comparator.reversed();
+            this.recordComparator = comparator.reversed();
         } else {
-            this.rowComparator = comparator;
+            this.recordComparator = comparator;
         }
     }
 
     @Override
-    public void apply(Row inputRow, OutputCollector collector) {
-        if (!inputRow.isTerminal()) {
-            accumulatedRows.add(inputRow);
+    public void apply(Record inputRecord, OutputCollector collector) {
+        if (!inputRecord.isTerminal()) {
+            accumulatedRecords.add(inputRecord);
             return;
         }
 
-        sort(accumulatedRows, rowComparator);
-        for (Row row : accumulatedRows) {
-            collector.collect(row);
+        sort(accumulatedRecords, recordComparator);
+        for (Record record : accumulatedRecords) {
+            collector.collect(record);
         }
-        collector.collect(Row.terminalRow());
+        collector.collect(Record.terminalRecord());
     }
 
     public enum Order {

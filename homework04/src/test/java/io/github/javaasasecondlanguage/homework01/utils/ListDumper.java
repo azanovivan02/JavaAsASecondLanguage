@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.utils;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.ArrayList;
@@ -9,15 +9,15 @@ import java.util.List;
 
 public class ListDumper implements Operator.Mapper {
 
-    private final List<Row> rows = new ArrayList<>();
+    private final List<Record> records = new ArrayList<>();
 
-    public List<Row> getRows() {
-        return rows;
+    public List<Record> getRecords() {
+        return records;
     }
 
     @Override
-    public void apply(Row inputRow, OutputCollector collector) {
-        rows.add(inputRow);
-        collector.collect(inputRow);
+    public void apply(Record inputRecord, OutputCollector collector) {
+        records.add(inputRecord);
+        collector.collect(inputRecord);
     }
 }

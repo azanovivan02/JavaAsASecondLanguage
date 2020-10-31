@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.ops.mappers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 public class TokenizerMapper implements Operator.Mapper {
@@ -15,14 +15,14 @@ public class TokenizerMapper implements Operator.Mapper {
     }
 
     @Override
-    public void apply(Row inputRow, OutputCollector collector) {
-        var inputValue = inputRow.getString(inputColumn);
+    public void apply(Record inputRecord, OutputCollector collector) {
+        var inputValue = inputRecord.getString(inputColumn);
         var words = inputValue.split("[\\s,\\.\\!\\;\\?\\'\\:\"]+");
         for (String word : words) {
-            var newRow = inputRow
+            var newRecord = inputRecord
                     .copyColumnsExcept(inputColumn)
                     .set(outputColumn, word);
-            collector.collect(newRow);
+            collector.collect(newRecord);
         }
     }
 }

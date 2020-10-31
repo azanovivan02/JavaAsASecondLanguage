@@ -2,7 +2,7 @@ package io.github.javaasasecondlanguage.homework01.graphs;
 
 import io.github.javaasasecondlanguage.homework01.CompGraph;
 import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
-import io.github.javaasasecondlanguage.homework01.Row;
+import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.InnerJoin;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.AddColumnMapper;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.IdentityMapper;
@@ -29,7 +29,7 @@ public class TfIdf {
 
         var wordGraph = inputGraph
                 .branch()
-                .then(new AddColumnMapper("Text", row -> row.getString("Text").toLowerCase()))
+                .then(new AddColumnMapper("Text", record -> record.getString("Text").toLowerCase()))
                 .then(new TokenizerMapper("Text", "Word"));
 
         var uniqueDocWordGraph = wordGraph
@@ -56,7 +56,7 @@ public class TfIdf {
 
         var normalizedTfIdfGraph = rawTfIdfGraph
                 .join(tfIdsSumGraph, of("Id"), new InnerJoin())
-                .then(new AddColumnMapper("TfIdf", row -> row.getDouble("RawTfIdf") / row.getDouble("TfIdfSum")))
+                .then(new AddColumnMapper("TfIdf", record -> record.getDouble("RawTfIdf") / record.getDouble("TfIdfSum")))
                 .then(new RetainColumnsMapper(of("Id", "Word", "TfIdf")));
 
         return new CompGraph(
@@ -65,10 +65,10 @@ public class TfIdf {
         );
     }
 
-    public static double calculateTfIdf(Row row) {
-        double tf = row.getDouble("Tf");
-        double docsCount = row.getDouble("DocsCount");
-        double docsWithWordCount = row.getDouble("DocsWithWordCount");
+    public static double calculateTfIdf(Record record) {
+        double tf = record.getDouble("Tf");
+        double docsCount = record.getDouble("DocsCount");
+        double docsWithWordCount = record.getDouble("DocsWithWordCount");
 
         return tf * Math.log(docsCount / docsWithWordCount);
     }

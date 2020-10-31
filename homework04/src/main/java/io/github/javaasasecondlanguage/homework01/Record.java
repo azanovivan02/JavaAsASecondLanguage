@@ -8,11 +8,11 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
-public class Row {
+public class Record {
 
     private Map<String, Object> values;
 
-    public Row(Map<String, Object> values) {
+    public Record(Map<String, Object> values) {
         this.values = values;
     }
 
@@ -37,23 +37,23 @@ public class Row {
         return (Comparable) get(columnName);
     }
 
-    public Row set(String columnName, Object value) {
+    public Record set(String columnName, Object value) {
         this.values.put(columnName, value);
         return this;
     }
 
-    public Row setAll(Map<String, Object> inputEntries) {
+    public Record setAll(Map<String, Object> inputEntries) {
         this.values.putAll(inputEntries);
         return this;
     }
 
-    public Row copy() {
-        return new Row(
+    public Record copy() {
+        return new Record(
                 new LinkedHashMap<>(values)
         );
     }
 
-    public Row copyColumns(List<String> columns) {
+    public Record copyColumns(List<String> columns) {
         var newValues = new LinkedHashMap<String, Object>();
         for (String column : columns) {
             newValues.put(
@@ -61,23 +61,23 @@ public class Row {
                     values.get(column)
             );
         }
-        return new Row(newValues);
+        return new Record(newValues);
     }
 
-    public Row copyColumnsExcept(String... excludedColumns) {
+    public Record copyColumnsExcept(String... excludedColumns) {
         var newValues = new LinkedHashMap<>(values);
         newValues
                 .keySet()
                 .removeAll(Arrays.asList(excludedColumns));
-        return new Row(newValues);
+        return new Record(newValues);
     }
 
     public boolean isTerminal() {
         return values == null;
     }
 
-    public static Row terminalRow() {
-        return new Row(null);
+    public static Record terminalRecord() {
+        return new Record(null);
     }
 
     @Override
@@ -87,7 +87,7 @@ public class Row {
                 .stream()
                 .map(e -> format("%s: %s", e.getKey(), getFormattedValue(e)))
                 .collect(Collectors.joining(", "));
-        return format("Row {%s}", valuesString);
+        return format("Record {%s}", valuesString);
     }
 
     @Override
@@ -100,10 +100,10 @@ public class Row {
             return false;
         }
 
-        Row leftRow = this;
-        Row rightRow = (Row) o;
+        Record leftRecord = this;
+        Record rightRecord = (Record) o;
 
-        return Utils.rowsEqual(leftRow, rightRow, 0.001);
+        return Utils.recordsEqual(leftRecord, rightRecord, 0.001);
     }
 
     private static String getFormattedValue(Map.Entry<String, Object> e) {

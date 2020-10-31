@@ -6,9 +6,9 @@ import java.util.stream.Collectors;
 
 public class Utils {
 
-    public static boolean rowsEqual(Row leftRow, Row rightRow, double precisionForDouble) {
-        Map<String, Object> leftValues = leftRow.getValues();
-        Map<String, Object> rightValues = rightRow.getValues();
+    public static boolean recordsEqual(Record leftRecord, Record rightRecord, double precisionForDouble) {
+        Map<String, Object> leftValues = leftRecord.getValues();
+        Map<String, Object> rightValues = rightRecord.getValues();
 
         if (!leftValues.keySet().equals(rightValues.keySet())) {
             return false;
@@ -32,10 +32,10 @@ public class Utils {
         return true;
     }
 
-    public static String rowsToString(Collection<Row> rows) {
-        return rows
+    public static String recordsToString(Collection<Record> records) {
+        return records
                 .stream()
-                .map(Row::toString)
+                .map(Record::toString)
                 .collect(Collectors.joining("\n"));
     }
 }
