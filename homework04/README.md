@@ -66,6 +66,13 @@ Each node has several input **gates**, which allows it to accept different strea
 
 ### Graph part builder
 
+Since graph is a non-linear data structure, it is difficult to create a convenient API for assembling a new graph. In this project we solve this problem by using a [GraphPartBuilder](/src/main/java/io/github/javaasasecondlanguage/homework01/GraphPartBuilder.java). Each builder instance tracks the first and the last node of some linear part of the graph. You can do three basic actions with a builder:
+
+* Append a new node to the current linear part (by using `sort`, `reduce` and so on).
+* Merge with another linear part, which is represented by another builder (by using `join`).
+* Split a new linear part, creating a new builder (by using `branch`).  
+  
+
 ![GraphBuilder](pics/builder.png)
 
 ## Our project
