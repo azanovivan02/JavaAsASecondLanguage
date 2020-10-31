@@ -26,8 +26,8 @@ public class OpUtils {
 
     public static int compareRecords(Record o1, Record o2, List<String> keyColumns) {
         for (var column : keyColumns) {
-            var leftValue = o1.getComparable(column);
-            var rightValue = o2.getComparable(column);
+            var leftValue = getComparable(o1, column);
+            var rightValue = getComparable(o2, column);
             int comparisonResult = leftValue.compareTo(rightValue);
             if (comparisonResult != 0) {
                 return comparisonResult;
@@ -35,5 +35,15 @@ public class OpUtils {
         }
 
         return 0;
+    }
+
+    public static Comparable getComparable(Record record, String column) {
+        Double doubleValue = record.getDoubleOrNull(column);
+        if (doubleValue != null) {
+            return doubleValue;
+        } else {
+            String stringValue = record.get(column);
+            return stringValue;
+        }
     }
 }

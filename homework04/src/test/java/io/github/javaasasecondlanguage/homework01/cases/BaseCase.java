@@ -30,7 +30,7 @@ public class BaseCase implements TestCase {
     public ProcGraph createGraph() {
         var inputPart = GraphPartBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
-                .then(new AddColumnMapper("Word", record -> record.getString("Word").toLowerCase()))
+                .then(new AddColumnMapper("Word", record -> record.get("Word").toLowerCase()))
                 .sortThenReduceBy(of("Word"), new CountReducer("WordCount"));
 
         var commonOutputNode = inputPart

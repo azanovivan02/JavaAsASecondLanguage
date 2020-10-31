@@ -52,7 +52,7 @@ public class InnerJoin implements Operator.Joiner {
             for (var leftRecord : leftRecords) {
                 var comparisonResult = compareRecords(leftRecord, rightRecord, keyColumns);
                 if (comparisonResult == 0) {
-                    Record joinedRecord = leftRecord.copy().setAll(rightRecord.getValues());
+                    Record joinedRecord = leftRecord.copy().setAll(rightRecord.getData());
                     collector.collect(joinedRecord);
                 }
             }

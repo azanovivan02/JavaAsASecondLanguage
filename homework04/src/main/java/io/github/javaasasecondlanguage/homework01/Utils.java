@@ -7,8 +7,8 @@ import java.util.stream.Collectors;
 public class Utils {
 
     public static boolean recordsEqual(Record leftRecord, Record rightRecord, double precisionForDouble) {
-        Map<String, Object> leftValues = leftRecord.getValues();
-        Map<String, Object> rightValues = rightRecord.getValues();
+        Map<String, Object> leftValues = leftRecord.getData();
+        Map<String, Object> rightValues = rightRecord.getData();
 
         if (!leftValues.keySet().equals(rightValues.keySet())) {
             return false;

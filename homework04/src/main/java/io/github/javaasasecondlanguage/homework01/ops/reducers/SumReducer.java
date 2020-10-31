@@ -52,7 +52,7 @@ public class SumReducer implements Operator.Reducer {
             currentSum = 0;
         }
 
-        currentSum += inputRecord.getDouble(inputColumn);
+        currentSum += inputRecord.getDoubleOrNull(inputColumn);
     }
 
     private void outputCountrecord(OutputCollector collector) {

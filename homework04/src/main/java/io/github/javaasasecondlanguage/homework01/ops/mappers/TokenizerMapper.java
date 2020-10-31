@@ -16,7 +16,7 @@ public class TokenizerMapper implements Operator.Mapper {
 
     @Override
     public void apply(Record inputRecord, OutputCollector collector) {
-        var inputValue = inputRecord.getString(inputColumn);
+        var inputValue = inputRecord.get(inputColumn);
         var words = inputValue.split("[\\s,\\.\\!\\;\\?\\'\\:\"]+");
         for (String word : words) {
             var newRecord = inputRecord

@@ -8,48 +8,50 @@ import java.util.stream.Collectors;
 
 import static java.lang.String.format;
 
+/**
+ * A group of key-value pairs. Represents a single unit of data
+ *
+ * Keys (also known as columns) can be represented only as String objects.
+ * Values should be only Strings and Numbers.
+ */
 public class Record {
 
-    private Map<String, Object> values;
+    private Map<String, Object> data;
 
-    public Record(Map<String, Object> values) {
-        this.values = values;
+    public Record(Map<String, Object> data) {
+        this.data = data;
     }
 
-    public Map<String, Object> getValues() {
-        return values;
+    public Map<String, Object> getData() {
+        return data;
     }
 
-    public Object get(String columnName) {
-        return values.get(columnName);
+    public String get(String columnName) {
+        return data.get(columnName).toString();
     }
 
-    public String getString(String columnName) {
-        return get(columnName).toString();
-    }
-
-    public double getDouble(String columnName) {
-        String stringValue = getString(columnName);
-        return Double.parseDouble(stringValue);
-    }
-
-    public Comparable getComparable(String columnName) {
-        return (Comparable) get(columnName);
+    public Double getDoubleOrNull(String columnName) {
+        String stringValue = this.get(columnName);
+        try {
+            return Double.parseDouble(stringValue);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 
     public Record set(String columnName, Object value) {
-        this.values.put(columnName, value);
+        this.data.put(columnName, value);
         return this;
     }
 
     public Record setAll(Map<String, Object> inputEntries) {
-        this.values.putAll(inputEntries);
+        this.data.putAll(inputEntries);
         return this;
     }
 
     public Record copy() {
         return new Record(
-                new LinkedHashMap<>(values)
+                new LinkedHashMap<>(data)
         );
     }
 
@@ -58,14 +60,14 @@ public class Record {
         for (String column : columns) {
             newValues.put(
                     column,
-                    values.get(column)
+                    data.get(column)
             );
         }
         return new Record(newValues);
     }
 
     public Record copyColumnsExcept(String... excludedColumns) {
-        var newValues = new LinkedHashMap<>(values);
+        var newValues = new LinkedHashMap<>(data);
         newValues
                 .keySet()
                 .removeAll(Arrays.asList(excludedColumns));
@@ -73,7 +75,7 @@ public class Record {
     }
 
     public boolean isTerminal() {
-        return values == null;
+        return data == null;
     }
 
     public static Record terminalRecord() {
@@ -82,7 +84,7 @@ public class Record {
 
     @Override
     public String toString() {
-        String valuesString = values
+        String valuesString = data
                 .entrySet()
                 .stream()
                 .map(e -> format("%s: %s", e.getKey(), getFormattedValue(e)))

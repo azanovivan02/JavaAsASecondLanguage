@@ -14,7 +14,7 @@ import static io.github.javaasasecondlanguage.homework01.ui.GraphVisualizer.visu
  */
 public class VisualizationTest {
 
-//    @Disabled
+    @Disabled
     @Test
     void launch() throws InterruptedException {
 //        var compGraph = (new BaseCase()).createGraph();

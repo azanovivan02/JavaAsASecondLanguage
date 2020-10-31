@@ -29,7 +29,7 @@ public class TfIdf {
 
         var wordGraph = inputGraph
                 .branch()
-                .then(new AddColumnMapper("Text", record -> record.getString("Text").toLowerCase()))
+                .then(new AddColumnMapper("Text", record -> record.get("Text").toLowerCase()))
                 .then(new TokenizerMapper("Text", "Word"));
 
         var uniqueDocWordGraph = wordGraph
@@ -56,7 +56,7 @@ public class TfIdf {
 
         var normalizedTfIdfGraph = rawTfIdfGraph
                 .join(tfIdsSumGraph, of("Id"), new InnerJoin())
-                .then(new AddColumnMapper("TfIdf", record -> record.getDouble("RawTfIdf") / record.getDouble("TfIdfSum")))
+                .then(new AddColumnMapper("TfIdf", record -> record.getDoubleOrNull("RawTfIdf") / record.getDoubleOrNull("TfIdfSum")))
                 .then(new RetainColumnsMapper(of("Id", "Word", "TfIdf")));
 
         return new ProcGraph(
@@ -66,9 +66,9 @@ public class TfIdf {
     }
 
     public static double calculateTfIdf(Record record) {
-        double tf = record.getDouble("Tf");
-        double docsCount = record.getDouble("DocsCount");
-        double docsWithWordCount = record.getDouble("DocsWithWordCount");
+        double tf = record.getDoubleOrNull("Tf");
+        double docsCount = record.getDoubleOrNull("DocsCount");
+        double docsWithWordCount = record.getDoubleOrNull("DocsWithWordCount");
 
         return tf * Math.log(docsCount / docsWithWordCount);
     }

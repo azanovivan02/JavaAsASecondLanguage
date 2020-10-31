@@ -50,7 +50,7 @@ public class TermFrequencyReducer implements Operator.Reducer {
             currentRecord = inputRecord;
         }
 
-        var currentWord = inputRecord.getString(termColumn);
+        var currentWord = inputRecord.get(termColumn);
         var currentCount = wordCounts.getOrDefault(currentWord, 0);
         wordCounts.put(currentWord, currentCount + 1);
     }
