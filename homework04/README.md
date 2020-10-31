@@ -1,24 +1,32 @@
-# Streaming processing graph
+# Stream processing graph
 
 ## What it is?
 
 ## Main concepts
 
-### record
+### Record, Stream and Dataset
 
-**record** is a group of key-value pairs. It represents a single unit of data.  
+**Record** is a group of key-value pairs. It represents a single unit of data - info about one person, one document, etc. In our project it is implemented by [Record](src/main/java/io/github/javaasasecondlanguage/homework01/Record.java) class. 
 
 ![record](pics/record.png)
 
-Our graph can accept records as input, transform them in different ways and then output them.  
+A sequence of records is called a **Stream**. Processing graph can accept stream of records as input, transform records one by one and then output them as a new stream.  
 
-Sometimes it is needed to mark the end of the dataset. (FINISH) 
+Streams can represent one of the two different concepts:
+* Infinite sequence of records, which are generated in a real time. For example, clicks on items in the online store. You can never hope to see "all" such records, because they continue to arrive again and again. 
+* Finite sequence of records. For example, contents of all documents currently present in a library. We will call such finite sequence a **Dataset**. 
+
+In order to mark the end of a dataset, we can insert a so called **terminal record**.     
 
 ![Terminal record](pics/terminal_record.png)
 
 ### Operator
 
-**Operators** represent basic actions, which transform records in some way. Operators can be roughly divided into three types: mappers, reducers and joiners.  
+**Operators** represent basic actions, which transform records in some way. They can be chained together in order to implement a graph with a desired logic. All operators must implement [Operator](src/main/java/io/github/javaasasecondlanguage/homework01/ops/Operator.java) interface.
+
+Operator accepts records one at a time. Each time it can output either zero, one or more records (by passing them to `collector` object). Operator can store any info about previously seen rows inside itself.      
+
+Operators can be roughly divided into three types: mappers, reducers and joiners. 
 
 #### Mapper
 
@@ -34,13 +42,17 @@ Reducer operator accepts a sorted sequence of records, groups them by certain ke
 
 #### Joiner
 
-Reducer operator accepts two sorted sequences of records and joins them on certain keys.
+Reducer operator accepts records from two sorted streams and joins them on certain keys.
 
 ![Joiner](pics/joiner.png)
 
 ### Node
 
-Each operator is contained inside a **Node** object. Node accepts records, transform them with its operator and then passes the result to the next nodes.
+Each operator is contained inside a [Node](src/main/java/io/github/javaasasecondlanguage/homework01/CompNode.java) object. Node handles all communication with the outside world: 
+* It accepts records from the previous nodes.
+* Gives them to operator
+* Collects its outputs
+* Passes thse outputs to the next nodes.
 
 Each node has several input **gates**, which allows it to accept different streams of records (this is used in join operations, for example).  
    
