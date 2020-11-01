@@ -44,20 +44,22 @@ Reducer operator accepts a sorted sequence of records, groups them by certain ke
 
 Each operator is contained inside a [ProcNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/ProcNode.java) object. Node handles all communication with the outside world: 
 * It accepts records from the previous nodes.
-* Gives them to operator
-* Collects its outputs
-* Passes thse outputs to the next nodes.
+* Preprocessed records if needed.
+* Gives them to operator.
+* Collects its outputs.
+* Passes these outputs to the next nodes.
 
 Each node has several input **gates**, which allows it to accept different streams of records (this is used in join operations, for example).  
    
-Nodes can be roughly divided into four types:
+![Node](pics/node.png)
+
+Nodes can be divided into four types:
 * [MapperNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/MapperNode.java) skips terminal records. When a terminal record arrives, it is simply redirected to the next node without any processing.
 * [ReducerNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/ReducerNode.java) does not skip terminal records.
 * [JoinerNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/JoinerNode.java) accepts inputs from two gates (0 and 1). 
 * [SorterNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/SorterNode.java)
    
   
-![Node](pics/node.png)
 
 ### Graph
 
