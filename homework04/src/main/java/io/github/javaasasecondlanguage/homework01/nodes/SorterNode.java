@@ -21,7 +21,7 @@ public class SorterNode extends ProcNode {
         this.order = order;
         this.keyColumns = keyColumns;
 
-        Comparator<Record> comparator = (o1, o2) -> Utils.compareRecords(o1, o2, keyColumns);
+        Comparator<Record> comparator = (o1, o2) -> Utils.compareRecordsByKeys(o1, o2, keyColumns);
         if (order == Order.DESCENDING) {
             this.recordComparator = comparator.reversed();
         } else {

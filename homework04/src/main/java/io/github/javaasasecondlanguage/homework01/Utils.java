@@ -43,10 +43,10 @@ public class Utils {
         return Math.abs(leftDouble - rightDouble) < precisionForDouble;
     }
 
-    public static int compareRecords(Record leftRecord, Record rightRecord, List<String> keyColumns) {
-        for (var column : keyColumns) {
-            var leftValue = getComparable(leftRecord, column);
-            var rightValue = getComparable(rightRecord, column);
+    public static int compareRecordsByKeys(Record leftRecord, Record rightRecord, List<String> keys) {
+        for (var key : keys) {
+            var leftValue = getComparable(leftRecord, key);
+            var rightValue = getComparable(rightRecord, key);
             int comparisonResult = leftValue.compareTo(rightValue);
             if (comparisonResult != 0) {
                 return comparisonResult;

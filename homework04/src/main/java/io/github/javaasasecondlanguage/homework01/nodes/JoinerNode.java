@@ -5,7 +5,7 @@ import io.github.javaasasecondlanguage.homework01.Record;
 import java.util.LinkedList;
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.Utils.compareRecords;
+import static io.github.javaasasecondlanguage.homework01.Utils.compareRecordsByKeys;
 
 public class JoinerNode extends ProcNode {
 
@@ -50,7 +50,7 @@ public class JoinerNode extends ProcNode {
 
         for (var rightRecord : rightRecords) {
             for (var leftRecord : leftRecords) {
-                var comparisonResult = compareRecords(leftRecord, rightRecord, keyColumns);
+                var comparisonResult = compareRecordsByKeys(leftRecord, rightRecord, keyColumns);
                 if (comparisonResult == 0) {
                     Record joinedRecord = leftRecord.copy().setAll(rightRecord.getData());
                     collect(joinedRecord);
