@@ -6,7 +6,6 @@ import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
 import io.github.javaasasecondlanguage.homework01.nodes.ReducerNode;
 import io.github.javaasasecondlanguage.homework01.nodes.SorterNode;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
-import io.github.javaasasecondlanguage.homework01.ops.Operator.Joiner;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
 
@@ -30,8 +29,7 @@ public class GraphPartBuilder {
         } else if (operator instanceof Reducer) {
             throw new IllegalArgumentException("Reducers are not supported as first node");
         } else {
-            var joiner = (Joiner) operator;
-            return startFrom(new JoinerNode(joiner));
+            throw new IllegalArgumentException("Joiners are not supported as first node");
         }
     }
 
@@ -84,10 +82,8 @@ public class GraphPartBuilder {
                 .reduceBy(keyColumns, reducer);
     }
 
-    public GraphPartBuilder join(GraphPartBuilder rightGraphBuilder, List<String> keyColumns, Joiner joiner) {
-        joiner.setKeyColumns(keyColumns);
-
-        var joinNode = new JoinerNode(joiner);
+    public GraphPartBuilder join(GraphPartBuilder rightGraphBuilder, List<String> keyColumns) {
+        var joinNode = new JoinerNode(keyColumns);
         var leftInputNode = this.endNode;
         var rightInputNode = rightGraphBuilder.endNode;
 

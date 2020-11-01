@@ -36,7 +36,6 @@ public class ReducerNode extends ProcNode {
             if (currentGroupByEntries != null) {
                 reducer.signalGroupWasFinished(this::collect, currentGroupByEntries);
             }
-
             collect(Record.terminalRecord());
             return;
         }

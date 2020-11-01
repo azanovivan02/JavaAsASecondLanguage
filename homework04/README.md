@@ -26,7 +26,7 @@ In order to mark the end of a dataset, we can insert a so called **terminal reco
 
 Operator accepts records one at a time. Each time it can output either zero, one or more records (by passing them to `collector` object). Operator can store any info about previously seen rows inside itself.      
 
-Operators can be roughly divided into three types: mappers, reducers and joiners. 
+Operators can be roughly divided into two types: mappers and reducers.
 
 #### Mapper
 
@@ -40,12 +40,6 @@ Reducer operator accepts a sorted sequence of records, groups them by certain ke
 
 ![Reducer](pics/reducer.png)
 
-#### Joiner
-
-Reducer operator accepts records from two sorted streams and joins them on certain keys.
-
-![Joiner](pics/joiner.png)
-
 ### Node
 
 Each operator is contained inside a [ProcNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/ProcNode.java) object. Node handles all communication with the outside world: 
@@ -56,10 +50,11 @@ Each operator is contained inside a [ProcNode](src/main/java/io/github/javaasase
 
 Each node has several input **gates**, which allows it to accept different streams of records (this is used in join operations, for example).  
    
-Each type of operator has its own implementation of Node:
+Nodes can be roughly divided into four types:
 * [MapperNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/MapperNode.java) skips terminal records. When a terminal record arrives, it is simply redirected to the next node without any processing.
 * [ReducerNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/ReducerNode.java) does not skip terminal records.
 * [JoinerNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/JoinerNode.java) accepts inputs from two gates (0 and 1). 
+* [SorterNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/SorterNode.java)
    
   
 ![Node](pics/node.png)

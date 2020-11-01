@@ -3,7 +3,6 @@ package io.github.javaasasecondlanguage.homework01.graphs;
 import io.github.javaasasecondlanguage.homework01.ProcGraph;
 import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.InnerJoin;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.AddColumnMapper;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.IdentityMapper;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.LowerCaseMapper;
@@ -41,14 +40,14 @@ public class TfIdf {
         var countIdfGraph = uniqueDocWordGraph
                 .branch()
                 .reduceBy(of("Word"), new CountReducer("DocsWithWordCount"))
-                .join(uniqueDocWordGraph, of("Word"), new InnerJoin())
+                .join(uniqueDocWordGraph, of("Word"))
                 .sortBy(of("Id", "Word"));
 
         var rawTfIdfGraph = wordGraph
                 .branch()
                 .sortThenReduceBy(of("Id"), new TermFrequencyReducer("Word", "Tf"))
-                .join(countIdfGraph, of("Id", "Word"), new InnerJoin())
-                .join(docCountGraph, of(), new InnerJoin())
+                .join(countIdfGraph, of("Id", "Word"))
+                .join(docCountGraph, of())
                 .map(new AddColumnMapper("RawTfIdf", TfIdf::calculateTfIdf));
 
         var tfIdsSumGraph = rawTfIdfGraph
@@ -56,7 +55,7 @@ public class TfIdf {
                 .reduceBy(of("Id"), new SumReducer("RawTfIdf", "TfIdfSum"));
 
         var normalizedTfIdfGraph = rawTfIdfGraph
-                .join(tfIdsSumGraph, of("Id"), new InnerJoin())
+                .join(tfIdsSumGraph, of("Id"))
                 .map(new AddColumnMapper("TfIdf", record -> record.getDouble("RawTfIdf") / record.getDouble("TfIdfSum")))
                 .map(new RetainColumnsMapper(of("Id", "Word", "TfIdf")));
 
