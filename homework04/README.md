@@ -44,7 +44,7 @@ Reducer operator accepts a sorted sequence of records, groups them by certain ke
 
 Each operator is contained inside a [ProcNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/ProcNode.java) object. Node handles all communication with the outside world: 
 * It accepts records from the previous nodes.
-* Preprocessed records if needed.
+* Preprocesses records if needed.
 * Gives them to operator.
 * Collects its outputs.
 * Passes these outputs to the next nodes.
