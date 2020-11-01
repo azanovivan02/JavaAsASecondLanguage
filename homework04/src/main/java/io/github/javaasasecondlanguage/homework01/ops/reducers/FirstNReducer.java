@@ -6,6 +6,9 @@ import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.Map;
 
+/**
+ * Returns at most maxAmount records per group.
+ */
 public class FirstNReducer implements Operator.Reducer {
 
     private final int maxAmount;

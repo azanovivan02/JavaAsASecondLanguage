@@ -6,6 +6,9 @@ import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.function.Function;
 
+/**
+ * Calculates a new value from record using specified lambda. Then saves it into the outputColumn.
+ */
 public class AddColumnMapper implements Operator.Mapper {
 
     private final Function<Record, ?> lambda;

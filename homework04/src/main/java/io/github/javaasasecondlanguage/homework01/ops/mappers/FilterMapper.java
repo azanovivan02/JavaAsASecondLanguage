@@ -6,6 +6,9 @@ import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.function.Function;
 
+/**
+ * Drops records if they return true on predicate.
+ */
 public class FilterMapper implements Operator.Mapper {
 
     private final Function<Record, Boolean> predicate;

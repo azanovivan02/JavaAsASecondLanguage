@@ -6,6 +6,9 @@ import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.Map;
 
+/**
+ * Counts sum of values in a specified column for each group and returns a single record with a sum.
+ */
 public class SumReducer implements Operator.Reducer {
 
     private final String inputColumn;

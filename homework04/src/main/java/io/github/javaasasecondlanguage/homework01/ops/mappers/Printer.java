@@ -4,6 +4,9 @@ import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
+/**
+ * Simply logs all passing records. Useful for debugging.
+ */
 public class Printer implements Operator.Mapper {
 
     private final String prefix;

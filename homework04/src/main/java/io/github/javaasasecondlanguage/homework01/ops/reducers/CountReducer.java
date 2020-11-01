@@ -6,6 +6,9 @@ import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.Map;
 
+/**
+ * Counts records in each group and returns a single record with a count.
+ */
 public class CountReducer implements Operator.Reducer {
 
     private final String outputColumn;

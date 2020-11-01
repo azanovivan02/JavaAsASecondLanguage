@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
+/**
+ * Calculate frequency of values in column for each group.
+ */
 public class TermFrequencyReducer implements Operator.Reducer {
 
     private final String termColumn;

@@ -6,6 +6,11 @@ import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import static java.util.List.of;
 
+/**
+ * Splits text in the specified column into words, then creates a new record with each word.
+ *
+ * Split should happen on the following symbols: " ", ".", ",", "!", ";", "?", "'", ":"
+ */
 public class TokenizerMapper implements Operator.Mapper {
 
     private static final String SPLIT_PATTERN = "[\\s,\\.\\!\\;\\?\\'\\:\"]+";

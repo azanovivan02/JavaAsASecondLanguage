@@ -4,6 +4,9 @@ import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
+/**
+ * Shifts selected column to lowercase.
+ */
 public class LowerCaseMapper implements Operator.Mapper {
 
     private final String column;

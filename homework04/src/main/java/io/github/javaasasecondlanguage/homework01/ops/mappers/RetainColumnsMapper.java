@@ -7,6 +7,9 @@ import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Keeps only specified columns.
+ */
 public class RetainColumnsMapper implements Mapper {
 
     private final Collection<String> retainedColumns;
