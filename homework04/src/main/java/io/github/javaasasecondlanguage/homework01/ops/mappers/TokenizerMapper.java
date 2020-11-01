@@ -8,6 +8,8 @@ import static java.util.List.of;
 
 public class TokenizerMapper implements Operator.Mapper {
 
+    private static final String SPLIT_PATTERN = "[\\s,\\.\\!\\;\\?\\'\\:\"]+";
+
     private final String inputColumn;
     private final String outputColumn;
 
@@ -19,7 +21,7 @@ public class TokenizerMapper implements Operator.Mapper {
     @Override
     public void apply(Record inputRecord, OutputCollector collector) {
         var inputValue = inputRecord.getString(inputColumn);
-        var words = inputValue.split("[\\s,\\.\\!\\;\\?\\'\\:\"]+");
+        var words = inputValue.split(SPLIT_PATTERN);
         for (String word : words) {
             var newRecord = inputRecord
                     .copyColumnsExcept(of(inputColumn))

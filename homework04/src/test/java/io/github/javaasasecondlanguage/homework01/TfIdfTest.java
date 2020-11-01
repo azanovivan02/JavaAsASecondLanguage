@@ -24,15 +24,15 @@ public class TfIdfTest {
                 .startFrom(outputNode)
                 .map(listDumper);
 
-        pushAllRecordsThenTerminal(inputNode, INPUT_RECORDS);
+        pushAllRecordsThenTerminal(inputNode, inputRecords);
 
         List<Record> actualRecords = listDumper.getRecords();
         System.out.println(recordsToString(actualRecords));
 
-        assertRecordsEqual(EXPECTED_RECORDS, actualRecords);
+        assertRecordsEqual(expectedRecords, actualRecords);
     }
 
-    public static final List<Record> INPUT_RECORDS = convertToRecords(
+    private static final List<Record> inputRecords = convertToRecords(
             new String[]{"Id", "Text"},
             new Object[][]{
                     {1, "hello, little world"},
@@ -45,7 +45,7 @@ public class TfIdfTest {
     );
 
     // TODO replace test cases
-    public static final List<Record> EXPECTED_RECORDS = convertToRecords(
+    private static final List<Record> expectedRecords = convertToRecords(
             new String[]{"Id", "Word", "TfIdf"},
             new Object[][]{
                     {1, "hello", 0.333},

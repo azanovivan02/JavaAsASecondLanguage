@@ -4,25 +4,22 @@ import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
-import java.util.function.Function;
+public class LowerCaseMapper implements Operator.Mapper {
 
-public class AddColumnMapper implements Operator.Mapper {
+    private final String column;
 
-    private final Function<Record, ?> lambda;
-    private final String outputColumn;
-
-    public AddColumnMapper(String outputColumn, Function<Record, ?> lambda) {
-        this.lambda = lambda;
-        this.outputColumn = outputColumn;
+    public LowerCaseMapper(String column) {
+        this.column = column;
     }
 
     @Override
     public void apply(Record inputRecord, OutputCollector collector) {
-        var outputValue = lambda.apply(inputRecord);
+        var inputValue = inputRecord.getString(column);
+        var lowerCaseValue = inputValue.toLowerCase();
 
         var outputRecord = inputRecord
                 .copy()
-                .set(outputColumn, outputValue);
+                .set(column, lowerCaseValue);
         collector.collect(outputRecord);
     }
 }

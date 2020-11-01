@@ -14,7 +14,16 @@ import static java.lang.String.format;
 
 public class AddColumnMapperTest {
 
-    private static final List<Record> INPUT_RECORDS = convertToRecords(
+    @Test
+    void general() {
+        Function<Record, Object> lambda = record -> format("%s %s", record.get("Name"), record.get("Surname"));
+        AddColumnMapper mapper = new AddColumnMapper("Full name", lambda);
+
+        List<Record> actualRecords = applyToAllRecords(mapper, inputRecords);
+        assertRecordsEqual(expectedRecords, actualRecords);
+    }
+
+    private static final List<Record> inputRecords = convertToRecords(
             new String[]{"Id", "Name", "Surname"},
             new Object[][]{
                     {13, "Roboute", "Guilliman"},
@@ -23,7 +32,7 @@ public class AddColumnMapperTest {
             }
     );
 
-    private static final List<Record> EXPECTED_RECORDS = convertToRecords(
+    private static final List<Record> expectedRecords = convertToRecords(
             new String[]{"Id", "Name", "Surname", "Full name"},
             new Object[][]{
                     {13, "Roboute", "Guilliman", "Roboute Guilliman"},
@@ -31,13 +40,4 @@ public class AddColumnMapperTest {
                     {6, "Leman", "Russ", "Leman Russ"},
             }
     );
-
-    @Test
-    void general() {
-        Function<Record, Object> lambda = record -> format("%s %s", record.get("Name"), record.get("Surname"));
-        AddColumnMapper mapper = new AddColumnMapper("Full name", lambda);
-
-        List<Record> actualRecords = applyToAllRecords(mapper, INPUT_RECORDS);
-        assertRecordsEqual(EXPECTED_RECORDS, actualRecords);
-    }
 }

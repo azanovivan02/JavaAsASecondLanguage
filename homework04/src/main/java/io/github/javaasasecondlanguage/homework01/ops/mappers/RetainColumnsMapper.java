@@ -4,13 +4,14 @@ import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
 
+import java.util.Collection;
 import java.util.List;
 
 public class RetainColumnsMapper implements Mapper {
 
-    private final List<String> retainedColumns;
+    private final Collection<String> retainedColumns;
 
-    public RetainColumnsMapper(List<String> retainedColumns) {
+    public RetainColumnsMapper(Collection<String> retainedColumns) {
         this.retainedColumns = retainedColumns;
     }
 

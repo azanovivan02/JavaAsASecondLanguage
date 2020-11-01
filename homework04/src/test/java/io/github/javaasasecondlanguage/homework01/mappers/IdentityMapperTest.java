@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.mappers;
 
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.mappers.RetainColumnsMapper;
+import io.github.javaasasecondlanguage.homework01.ops.mappers.IdentityMapper;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -9,33 +9,26 @@ import java.util.List;
 import static io.github.javaasasecondlanguage.homework01.utils.AssertionUtils.assertRecordsEqual;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.applyToAllRecords;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRecords;
-import static java.util.List.of;
 
-public class RetainColumnsMapperTest {
+public class IdentityMapperTest {
 
     @Test
     void general() {
-        var mapper = new RetainColumnsMapper(of("Id", "Name"));
+        var mapper = new IdentityMapper();
 
-        var actualrecords = applyToAllRecords(mapper, inputRecords);
-        assertRecordsEqual(expectedRecords, actualrecords);
+        List<Record> actualRecords = applyToAllRecords(mapper, inputRecords);
+        assertRecordsEqual(inputRecords, actualRecords);
     }
 
     private static final List<Record> inputRecords = convertToRecords(
             new String[]{"Id", "Name", "Surname"},
             new Object[][]{
-                    {13, "Roboute", "Guilliman"},
+                    {1, "Lion", "El'Johnson"},
+                    {5, "Jaghatai", "Khan"},
                     {3, "Fulgrim", "Phoenician"},
+                    {13, "Roboute", "Guilliman"},
+                    {4, "Perturabo", "The Breaker"},
                     {6, "Leman", "Russ"},
-            }
-    );
-
-    private static final List<Record> expectedRecords = convertToRecords(
-            new String[]{"Id", "Name"},
-            new Object[][]{
-                    {13, "Roboute"},
-                    {3, "Fulgrim"},
-                    {6, "Leman"},
             }
     );
 }
