@@ -28,6 +28,10 @@ public class ReducerNode extends ProcNode {
 
     @Override
     public void push(Record inputRecord, int gateNumber) {
+        if (gateNumber != 0) {
+            throw new IllegalArgumentException("Gate does not exist: "+gateNumber);
+        }
+
         if (inputRecord.isTerminal()) {
             if (currentGroupByEntries != null) {
                 reducer.signalGroupWasFinished(this::collect, currentGroupByEntries);

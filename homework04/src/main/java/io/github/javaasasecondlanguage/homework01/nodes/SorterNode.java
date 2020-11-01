@@ -37,6 +37,10 @@ public class SorterNode extends ProcNode {
 
     @Override
     public void push(Record inputRecord, int gateNumber) {
+        if (gateNumber != 0) {
+            throw new IllegalArgumentException("Gate does not exist: "+gateNumber);
+        }
+
         if (!inputRecord.isTerminal()) {
             accumulatedRecords.add(inputRecord);
             return;

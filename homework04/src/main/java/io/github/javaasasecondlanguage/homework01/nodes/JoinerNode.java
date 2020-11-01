@@ -30,7 +30,7 @@ public class JoinerNode extends ProcNode {
                 break;
             }
             default: {
-                throw new IllegalStateException("Unknown gate: "+gateNumber);
+                throw new IllegalArgumentException("Gate does not exist: " + gateNumber);
             }
         }
     }
