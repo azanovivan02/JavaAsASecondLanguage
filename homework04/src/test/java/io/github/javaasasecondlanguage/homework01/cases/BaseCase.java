@@ -11,8 +11,8 @@ import io.github.javaasasecondlanguage.homework01.ops.reducers.FirstNReducer;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.nodes.SorterNode.Order.ASCENDING;
-import static io.github.javaasasecondlanguage.homework01.nodes.SorterNode.Order.DESCENDING;
+import static io.github.javaasasecondlanguage.homework01.nodes.SortOrder.ASCENDING;
+import static io.github.javaasasecondlanguage.homework01.nodes.SortOrder.DESCENDING;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.convertToRecords;
 import static io.github.javaasasecondlanguage.homework01.utils.TestUtils.pushAllRecordsThenTerminal;
 import static java.util.List.of;

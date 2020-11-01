@@ -1,6 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.ops.reducers;
 
-import io.github.javaasasecondlanguage.homework01.OutputCollector;
+import io.github.javaasasecondlanguage.homework01.Collector;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Reducer;
 
@@ -19,12 +19,12 @@ public class CountReducer implements Reducer {
     }
 
     @Override
-    public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByEntries) {
+    public void apply(Record inputRecord, Collector collector, Map<String, Object> groupByEntries) {
         currentCount++;
     }
 
     @Override
-    public void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByEntries) {
+    public void signalGroupWasFinished(Collector collector, Map<String, Object> groupByEntries) {
         Record outputRecord = new Record(groupByEntries);
         outputRecord.set(outputColumn, currentCount);
         collector.collect(outputRecord);

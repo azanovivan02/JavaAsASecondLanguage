@@ -62,7 +62,7 @@ public class TestUtils {
     }
 
     public static List<Record> applyToAllRecords(Mapper operator, List<Record> records) {
-        var collector = new ListOutputCollector();
+        var collector = new ListCollector();
 
         for (var record : records) {
             operator.apply(record, collector);
@@ -72,7 +72,7 @@ public class TestUtils {
     }
 
     public static List<Record> applyReducerToAllGroups(Reducer reducer, List<RecordGroup> inputGroups) {
-        var collector = new ListOutputCollector();
+        var collector = new ListCollector();
         for (RecordGroup group : inputGroups) {
             for (Record record : group.getRecords()) {
                 reducer.apply(record, collector, group.getGroupByKeys());

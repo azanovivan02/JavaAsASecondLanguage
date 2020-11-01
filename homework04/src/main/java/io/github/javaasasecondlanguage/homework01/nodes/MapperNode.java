@@ -1,19 +1,25 @@
 package io.github.javaasasecondlanguage.homework01.nodes;
 
 import io.github.javaasasecondlanguage.homework01.Record;
+import io.github.javaasasecondlanguage.homework01.RoutingCollector;
 import io.github.javaasasecondlanguage.homework01.ops.Mapper;
 
-public class MapperNode extends ProcNode {
+public class MapperNode  implements ProcNode {
 
+    private final RoutingCollector collector = new RoutingCollector();
     private final Mapper mapper;
 
     public MapperNode(Mapper mapper) {
-
         this.mapper = mapper;
     }
 
     public Mapper getMapper() {
         return mapper;
+    }
+
+    @Override
+    public RoutingCollector getCollector() {
+        return collector;
     }
 
     @Override
@@ -23,9 +29,9 @@ public class MapperNode extends ProcNode {
         }
 
         if (!inputRecord.isTerminal()) {
-            mapper.apply(inputRecord, this::collect);
+            mapper.apply(inputRecord, collector);
         } else {
-            collect(inputRecord);
+            collector.collect(inputRecord);
         }
     }
 }

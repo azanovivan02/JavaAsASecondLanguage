@@ -1,6 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.ops.mappers;
 
-import io.github.javaasasecondlanguage.homework01.OutputCollector;
+import io.github.javaasasecondlanguage.homework01.Collector;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Mapper;
 
@@ -24,7 +24,7 @@ public class TokenizerMapper implements Mapper {
     }
 
     @Override
-    public void apply(Record inputRecord, OutputCollector collector) {
+    public void apply(Record inputRecord, Collector collector) {
         var inputValue = inputRecord.getString(inputColumn);
         var words = inputValue.split(SPLIT_PATTERN);
         for (String word : words) {

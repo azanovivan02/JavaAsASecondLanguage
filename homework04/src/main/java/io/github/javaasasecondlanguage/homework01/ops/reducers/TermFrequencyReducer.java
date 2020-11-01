@@ -1,6 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.ops.reducers;
 
-import io.github.javaasasecondlanguage.homework01.OutputCollector;
+import io.github.javaasasecondlanguage.homework01.Collector;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Reducer;
 
@@ -23,14 +23,14 @@ public class TermFrequencyReducer implements Reducer {
     }
 
     @Override
-    public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByEntries) {
+    public void apply(Record inputRecord, Collector collector, Map<String, Object> groupByEntries) {
         var currentWord = inputRecord.getString(termColumn);
         var currentCount = wordCounts.getOrDefault(currentWord, 0);
         wordCounts.put(currentWord, currentCount + 1);
     }
 
     @Override
-    public void signalGroupWasFinished(OutputCollector collector, Map<String, Object> groupByEntries) {
+    public void signalGroupWasFinished(Collector collector, Map<String, Object> groupByEntries) {
         var totalCount = getTotalCount();
         var sortedWordCounts = new TreeMap<>(wordCounts);
         for (var entry : sortedWordCounts.entrySet()) {

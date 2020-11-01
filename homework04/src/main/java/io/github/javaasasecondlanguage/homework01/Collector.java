@@ -1,5 +1,5 @@
 package io.github.javaasasecondlanguage.homework01;
 
-public interface OutputCollector {
+public interface Collector {
     void collect(Record outputRecord);
 }

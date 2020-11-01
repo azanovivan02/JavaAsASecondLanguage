@@ -4,13 +4,14 @@ import io.github.javaasasecondlanguage.homework01.nodes.JoinerNode;
 import io.github.javaasasecondlanguage.homework01.nodes.MapperNode;
 import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
 import io.github.javaasasecondlanguage.homework01.nodes.ReducerNode;
+import io.github.javaasasecondlanguage.homework01.nodes.SortOrder;
 import io.github.javaasasecondlanguage.homework01.nodes.SorterNode;
 import io.github.javaasasecondlanguage.homework01.ops.Mapper;
 import io.github.javaasasecondlanguage.homework01.ops.Reducer;
 
 import java.util.List;
 
-import static io.github.javaasasecondlanguage.homework01.nodes.SorterNode.Order.ASCENDING;
+import static io.github.javaasasecondlanguage.homework01.nodes.SortOrder.ASCENDING;
 
 public class GraphPartBuilder {
 
@@ -44,25 +45,25 @@ public class GraphPartBuilder {
         return endNode;
     }
 
-    public GraphPartBuilder map(Mapper mapper) {
-        var newNode = new MapperNode(mapper);
-        endNode.addConnection(newNode, 0);
-        endNode = newNode;
+    private GraphPartBuilder then(ProcNode node) {
+        endNode.getCollector().addConnection(node, 0);
+        endNode = node;
         return this;
+    }
+
+    public GraphPartBuilder map(Mapper mapper) {
+        var node = new MapperNode(mapper);
+        return then(node);
     }
 
     public GraphPartBuilder reduceBy(List<String> keyColumns, Reducer reducer) {
-        var newNode = new ReducerNode(reducer, keyColumns);
-        endNode.addConnection(newNode, 0);
-        endNode = newNode;
-        return this;
+        var node = new ReducerNode(reducer, keyColumns);
+        return then(node);
     }
 
-    public GraphPartBuilder sortBy(List<String> keyColumns, SorterNode.Order order) {
-        SorterNode newNode = new SorterNode(keyColumns, order);
-        endNode.addConnection(newNode, 0);
-        endNode = newNode;
-        return this;
+    public GraphPartBuilder sortBy(List<String> keyColumns, SortOrder order) {
+        var node = new SorterNode(keyColumns, order);
+        return then(node);
     }
 
     public GraphPartBuilder sortBy(List<String> keyColumns) {
@@ -79,8 +80,8 @@ public class GraphPartBuilder {
         var leftInputNode = this.endNode;
         var rightInputNode = rightGraphBuilder.endNode;
 
-        leftInputNode.addConnection(joinNode, 0);
-        rightInputNode.addConnection(joinNode, 1);
+        leftInputNode.getCollector().addConnection(joinNode, 0);
+        rightInputNode.getCollector().addConnection(joinNode, 1);
         this.endNode = joinNode;
 
         return this;

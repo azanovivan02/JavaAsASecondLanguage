@@ -1,6 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.utils;
 
-import io.github.javaasasecondlanguage.homework01.OutputCollector;
+import io.github.javaasasecondlanguage.homework01.Collector;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.Mapper;
 
@@ -16,7 +16,7 @@ public class ListDumper implements Mapper {
     }
 
     @Override
-    public void apply(Record inputRecord, OutputCollector collector) {
+    public void apply(Record inputRecord, Collector collector) {
         records.add(inputRecord);
         collector.collect(inputRecord);
     }

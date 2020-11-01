@@ -1,12 +1,12 @@
 package io.github.javaasasecondlanguage.homework01.utils;
 
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.OutputCollector;
+import io.github.javaasasecondlanguage.homework01.Collector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListOutputCollector implements OutputCollector {
+public class ListCollector implements Collector {
 
     private final List<Record> collectedRecords = new ArrayList<>();
 

@@ -1,21 +1,29 @@
 package io.github.javaasasecondlanguage.homework01.nodes;
 
 import io.github.javaasasecondlanguage.homework01.Record;
+import io.github.javaasasecondlanguage.homework01.RoutingCollector;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework01.Utils.compareRecordsByKeys;
 
-public class JoinerNode extends ProcNode {
+public class JoinerNode implements ProcNode {
 
-    public final List<String> keyColumns;
+    private final RoutingCollector collector = new RoutingCollector();
 
-    public final LinkedList<Record> leftRecords = new LinkedList<>();
-    public final LinkedList<Record> rightRecords = new LinkedList<>();
+    private final LinkedList<Record> leftRecords = new LinkedList<>();
+    private final LinkedList<Record> rightRecords = new LinkedList<>();
+
+    private final List<String> keyColumns;
 
     public JoinerNode(List<String> keyColumns) {
         this.keyColumns = keyColumns;
+    }
+
+    @Override
+    public RoutingCollector getCollector() {
+        return collector;
     }
 
     @Override
@@ -53,10 +61,10 @@ public class JoinerNode extends ProcNode {
                 var comparisonResult = compareRecordsByKeys(leftRecord, rightRecord, keyColumns);
                 if (comparisonResult == 0) {
                     Record joinedRecord = leftRecord.copy().setAll(rightRecord.getData());
-                    collect(joinedRecord);
+                    collector.collect(joinedRecord);
                 }
             }
         }
-        collect(Record.terminalRecord());
+        collector.collect(Record.terminalRecord());
     }
 }

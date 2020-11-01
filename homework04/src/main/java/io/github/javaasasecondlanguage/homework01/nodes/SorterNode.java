@@ -1,6 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.nodes;
 
 import io.github.javaasasecondlanguage.homework01.Record;
+import io.github.javaasasecondlanguage.homework01.RoutingCollector;
 import io.github.javaasasecondlanguage.homework01.Utils;
 
 import java.util.ArrayList;
@@ -9,24 +10,25 @@ import java.util.List;
 
 import static java.util.Collections.sort;
 
-public class SorterNode extends ProcNode {
+public class SorterNode  implements ProcNode {
 
+    private final RoutingCollector collector = new RoutingCollector();
     private final List<Record> accumulatedRecords = new ArrayList<>();
 
-    private final Order order;
-    private final List<String> keyColumns;
     private final Comparator<Record> recordComparator;
 
-    public SorterNode(List<String> keyColumns, Order order) {
-        this.order = order;
-        this.keyColumns = keyColumns;
-
+    public SorterNode(List<String> keyColumns, SortOrder order) {
         Comparator<Record> comparator = (o1, o2) -> Utils.compareRecordsByKeys(o1, o2, keyColumns);
-        if (order == Order.DESCENDING) {
+        if (order == SortOrder.DESCENDING) {
             this.recordComparator = comparator.reversed();
         } else {
             this.recordComparator = comparator;
         }
+    }
+
+    @Override
+    public RoutingCollector getCollector() {
+        return collector;
     }
 
     @Override
@@ -42,13 +44,8 @@ public class SorterNode extends ProcNode {
 
         sort(accumulatedRecords, recordComparator);
         for (Record record : accumulatedRecords) {
-            collect(record);
+            collector.collect(record);
         }
-        collect(Record.terminalRecord());
-    }
-
-    public enum Order {
-        ASCENDING,
-        DESCENDING
+        collector.collect(Record.terminalRecord());
     }
 }

@@ -63,7 +63,7 @@ public class GraphVisualizer {
         createEdge(visualGraph, previousVisualNode, currentVisualNode);
 
 
-        for (var connection : currentProcNode.getConnections()) {
+        for (var connection : currentProcNode.getCollector().getConnections()) {
             visit(connection.getNode(), visualGraph, currentVisualNode, procVisualNodeMapping);
         }
     }
@@ -115,7 +115,7 @@ public class GraphVisualizer {
     }
 
     private static void createMockOutputNode(Graph visualGraph, ProcNode currentProcNode, Node currentVisualNode) {
-        if (!currentProcNode.getConnections().isEmpty()) {
+        if (!currentProcNode.getCollector().getConnections().isEmpty()) {
             return;
         }
 
