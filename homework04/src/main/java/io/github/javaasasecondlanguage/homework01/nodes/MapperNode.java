@@ -1,8 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.nodes;
 
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
-import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
+import io.github.javaasasecondlanguage.homework01.ops.Mapper;
 
 public class MapperNode extends ProcNode {
 
@@ -13,8 +12,7 @@ public class MapperNode extends ProcNode {
         this.mapper = mapper;
     }
 
-    @Override
-    public Operator getOperator() {
+    public Mapper getMapper() {
         return mapper;
     }
 

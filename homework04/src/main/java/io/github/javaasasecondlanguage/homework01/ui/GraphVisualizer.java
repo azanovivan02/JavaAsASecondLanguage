@@ -2,6 +2,7 @@ package io.github.javaasasecondlanguage.homework01.ui;
 
 import io.github.javaasasecondlanguage.homework01.ProcGraph;
 import io.github.javaasasecondlanguage.homework01.nodes.JoinerNode;
+import io.github.javaasasecondlanguage.homework01.nodes.MapperNode;
 import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
 import io.github.javaasasecondlanguage.homework01.nodes.ReducerNode;
 import io.github.javaasasecondlanguage.homework01.nodes.SorterNode;
@@ -68,7 +69,7 @@ public class GraphVisualizer {
     }
 
     private static Node createVisualNode(ProcNode currentProcNode, Graph visualGraph) {
-        Object operator = currentProcNode.getOperator();
+        Object operator = getOperator(currentProcNode);
         if (operator == null) {
             throw new IllegalStateException("No operator");
         }
@@ -80,6 +81,15 @@ public class GraphVisualizer {
         currentVisualNode.setAttribute("ui.label", nodeLabel);
 
         return currentVisualNode;
+    }
+
+    private static Object getOperator(ProcNode procNode) {
+        if (procNode instanceof ReducerNode) {
+            return ((ReducerNode) procNode).getReducer();
+        } else if (procNode instanceof MapperNode){
+            return ((MapperNode) procNode).getMapper();
+        }
+        return null;
     }
 
     private static void addCssClasses(ProcNode currentProcNode, Node currentVisualNode) {

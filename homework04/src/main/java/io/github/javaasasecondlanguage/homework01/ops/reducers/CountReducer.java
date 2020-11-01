@@ -2,14 +2,14 @@ package io.github.javaasasecondlanguage.homework01.ops.reducers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
+import io.github.javaasasecondlanguage.homework01.ops.Reducer;
 
 import java.util.Map;
 
 /**
  * Counts records in each group and returns a single record with a count.
  */
-public class CountReducer implements Operator.Reducer {
+public class CountReducer implements Reducer {
 
     private final String outputColumn;
     int currentCount = 0;

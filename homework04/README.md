@@ -22,7 +22,7 @@ In order to mark the end of a dataset, we can insert a so called **terminal reco
 
 ### Operator
 
-**Operators** represent basic actions, which transform records in some way. They can be chained together in order to implement a graph with a desired logic. All operators must implement [Operator](src/main/java/io/github/javaasasecondlanguage/homework01/ops/Operator.java) interface.
+**Operators** represent basic actions, which transform records in some way. They can be chained together in order to implement a graph with a desired logic.
 
 Operator accepts records one at a time. Each time it can output either zero, one or more records (by passing them to `collector` object). Operator can store any info about previously seen rows inside itself.      
 
@@ -30,13 +30,13 @@ Operators can be roughly divided into two types: mappers and reducers.
 
 #### Mapper
 
-Mapper operator accepts a single record and outputs one or more new records. 
+Mapper operator accepts a single record and outputs one or more new records. All mappers must implement [Mapper](src/main/java/io/github/javaasasecondlanguage/homework01/ops/Mapper.java) interface.
 
 ![Mapper](pics/mapper.png)
 
 #### Reducer
 
-Reducer operator accepts a sorted sequence of records, groups them by certain keys and outputs one or more new records for each group.
+Reducer operator accepts a sorted sequence of records, groups them by certain keys and outputs one or more new records for each group. All reducers must implement [Reducer](src/main/java/io/github/javaasasecondlanguage/homework01/ops/Reducer.java) interface.
 
 ![Reducer](pics/reducer.png)
 

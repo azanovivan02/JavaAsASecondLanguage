@@ -2,10 +2,9 @@ package io.github.javaasasecondlanguage.homework01.ops.mappers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
+import io.github.javaasasecondlanguage.homework01.ops.Mapper;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
  * Keeps only specified columns.

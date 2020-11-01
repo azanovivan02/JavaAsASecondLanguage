@@ -2,12 +2,12 @@ package io.github.javaasasecondlanguage.homework01.ops.mappers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
+import io.github.javaasasecondlanguage.homework01.ops.Mapper;
 
 /**
  * Simply logs all passing records. Useful for debugging.
  */
-public class Printer implements Operator.Mapper {
+public class Printer implements Mapper {
 
     private final String prefix;
 

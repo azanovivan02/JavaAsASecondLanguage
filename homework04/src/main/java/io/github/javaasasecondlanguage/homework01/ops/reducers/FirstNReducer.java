@@ -2,14 +2,14 @@ package io.github.javaasasecondlanguage.homework01.ops.reducers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
+import io.github.javaasasecondlanguage.homework01.ops.Reducer;
 
 import java.util.Map;
 
 /**
  * Returns at most maxAmount records per group.
  */
-public class FirstNReducer implements Operator.Reducer {
+public class FirstNReducer implements Reducer {
 
     private final int maxAmount;
     private int currentCount = 0;

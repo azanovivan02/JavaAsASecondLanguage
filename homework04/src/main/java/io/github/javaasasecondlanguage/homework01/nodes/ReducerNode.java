@@ -1,8 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.nodes;
 
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
-import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
+import io.github.javaasasecondlanguage.homework01.ops.Reducer;
 
 import java.util.Collection;
 import java.util.Map;
@@ -21,8 +20,7 @@ public class ReducerNode extends ProcNode {
         this.groupByKeys = groupByKeys;
     }
 
-    @Override
-    public Operator getOperator() {
+    public final Reducer getReducer() {
         return reducer;
     }
 

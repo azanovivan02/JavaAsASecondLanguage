@@ -1,7 +1,6 @@
 package io.github.javaasasecondlanguage.homework01.nodes;
 
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -17,11 +16,6 @@ public class JoinerNode extends ProcNode {
 
     public JoinerNode(List<String> keyColumns) {
         this.keyColumns = keyColumns;
-    }
-
-    @Override
-    public Operator getOperator() {
-        return null;
     }
 
     @Override

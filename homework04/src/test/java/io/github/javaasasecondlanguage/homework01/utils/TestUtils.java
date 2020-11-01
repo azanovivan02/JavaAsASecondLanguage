@@ -2,9 +2,8 @@ package io.github.javaasasecondlanguage.homework01.utils;
 
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
-import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
-import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
-import io.github.javaasasecondlanguage.homework01.ops.reducers.SumReducer;
+import io.github.javaasasecondlanguage.homework01.ops.Mapper;
+import io.github.javaasasecondlanguage.homework01.ops.Reducer;
 
 import java.util.ArrayList;
 import java.util.Collection;

@@ -5,9 +5,8 @@ import io.github.javaasasecondlanguage.homework01.nodes.MapperNode;
 import io.github.javaasasecondlanguage.homework01.nodes.ProcNode;
 import io.github.javaasasecondlanguage.homework01.nodes.ReducerNode;
 import io.github.javaasasecondlanguage.homework01.nodes.SorterNode;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
-import io.github.javaasasecondlanguage.homework01.ops.Operator.Mapper;
-import io.github.javaasasecondlanguage.homework01.ops.Operator.Reducer;
+import io.github.javaasasecondlanguage.homework01.ops.Mapper;
+import io.github.javaasasecondlanguage.homework01.ops.Reducer;
 
 import java.util.List;
 
@@ -22,15 +21,8 @@ public class GraphPartBuilder {
         return graphBuilder;
     }
 
-    public static GraphPartBuilder startWith(Operator operator) {
-        if (operator instanceof Mapper) {
-            var mapper = (Mapper) operator;
-            return startFrom(new MapperNode(mapper));
-        } else if (operator instanceof Reducer) {
-            throw new IllegalArgumentException("Reducers are not supported as first node");
-        } else {
-            throw new IllegalArgumentException("Joiners are not supported as first node");
-        }
+    public static GraphPartBuilder startWith(Mapper mapper) {
+        return startFrom(new MapperNode(mapper));
     }
 
     private ProcNode startNode;

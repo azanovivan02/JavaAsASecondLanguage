@@ -2,7 +2,6 @@ package io.github.javaasasecondlanguage.homework01.nodes;
 
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.Utils;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -28,11 +27,6 @@ public class SorterNode extends ProcNode {
         } else {
             this.recordComparator = comparator;
         }
-    }
-
-    @Override
-    public Operator getOperator() {
-        return new Operator() {};
     }
 
     @Override

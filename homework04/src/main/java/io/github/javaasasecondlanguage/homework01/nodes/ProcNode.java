@@ -2,7 +2,6 @@ package io.github.javaasasecondlanguage.homework01.nodes;
 
 import io.github.javaasasecondlanguage.homework01.Connection;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,8 +30,6 @@ public abstract class ProcNode {
             node.push(record, gateNumber);
         }
     }
-
-    public abstract Operator getOperator();
 
     public abstract void push(Record inputRecord, int gateNumber);
 }

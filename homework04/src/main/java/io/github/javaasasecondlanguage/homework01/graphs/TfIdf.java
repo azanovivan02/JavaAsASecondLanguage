@@ -1,7 +1,7 @@
 package io.github.javaasasecondlanguage.homework01.graphs;
 
-import io.github.javaasasecondlanguage.homework01.ProcGraph;
 import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
+import io.github.javaasasecondlanguage.homework01.ProcGraph;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.AddColumnMapper;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.IdentityMapper;

@@ -2,7 +2,7 @@ package io.github.javaasasecondlanguage.homework01.ops.mappers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
+import io.github.javaasasecondlanguage.homework01.ops.Mapper;
 
 import static java.util.List.of;
 
@@ -11,7 +11,7 @@ import static java.util.List.of;
  *
  * Split should happen on the following symbols: " ", ".", ",", "!", ";", "?", "'", ":"
  */
-public class TokenizerMapper implements Operator.Mapper {
+public class TokenizerMapper implements Mapper {
 
     private static final String SPLIT_PATTERN = "[\\s,\\.\\!\\;\\?\\'\\:\"]+";
 

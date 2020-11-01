@@ -2,14 +2,14 @@ package io.github.javaasasecondlanguage.homework01.ops.mappers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
+import io.github.javaasasecondlanguage.homework01.ops.Mapper;
 
 import java.util.function.Function;
 
 /**
  * Calculates a new value from record using specified lambda. Then saves it into the outputColumn.
  */
-public class AddColumnMapper implements Operator.Mapper {
+public class AddColumnMapper implements Mapper {
 
     private final Function<Record, ?> lambda;
     private final String outputColumn;

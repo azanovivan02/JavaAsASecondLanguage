@@ -2,7 +2,7 @@ package io.github.javaasasecondlanguage.homework01.ops.reducers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
+import io.github.javaasasecondlanguage.homework01.ops.Reducer;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +11,7 @@ import java.util.TreeMap;
 /**
  * Calculate frequency of values in column for each group.
  */
-public class TermFrequencyReducer implements Operator.Reducer {
+public class TermFrequencyReducer implements Reducer {
 
     private final String termColumn;
     private final String outputColumn;

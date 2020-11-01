@@ -2,12 +2,12 @@ package io.github.javaasasecondlanguage.homework01.ops.mappers;
 
 import io.github.javaasasecondlanguage.homework01.OutputCollector;
 import io.github.javaasasecondlanguage.homework01.Record;
-import io.github.javaasasecondlanguage.homework01.ops.Operator;
+import io.github.javaasasecondlanguage.homework01.ops.Mapper;
 
 /**
  * Shifts selected column to lowercase.
  */
-public class LowerCaseMapper implements Operator.Mapper {
+public class LowerCaseMapper implements Mapper {
 
     private final String column;
 
