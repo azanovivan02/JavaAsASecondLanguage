@@ -38,7 +38,7 @@ public class Record {
         return data.get(column).toString();
     }
 
-    public Double getDoubleOrNull(String column) {
+    public Double getDouble(String column) {
         String stringValue = this.get(column).toString();
         try {
             return Double.parseDouble(stringValue);

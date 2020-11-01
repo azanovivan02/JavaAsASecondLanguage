@@ -19,7 +19,7 @@ public class SumReducer implements Operator.Reducer {
 
     @Override
     public void apply(Record inputRecord, OutputCollector collector, Map<String, Object> groupByEntries) {
-        currentSum += inputRecord.getDoubleOrNull(inputColumn);
+        currentSum += inputRecord.getDouble(inputColumn);
     }
 
     @Override

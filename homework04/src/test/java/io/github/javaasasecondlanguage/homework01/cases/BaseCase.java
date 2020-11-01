@@ -4,6 +4,7 @@ import io.github.javaasasecondlanguage.homework01.ProcGraph;
 import io.github.javaasasecondlanguage.homework01.GraphPartBuilder;
 import io.github.javaasasecondlanguage.homework01.Record;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.AddColumnMapper;
+import io.github.javaasasecondlanguage.homework01.ops.mappers.LowerCaseMapper;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.Printer;
 import io.github.javaasasecondlanguage.homework01.ops.mappers.TokenizerMapper;
 import io.github.javaasasecondlanguage.homework01.ops.reducers.CountReducer;
@@ -30,7 +31,7 @@ public class BaseCase implements TestCase {
     public ProcGraph createGraph() {
         var inputPart = GraphPartBuilder
                 .startWith(new TokenizerMapper("Text", "Word"))
-                .map(new AddColumnMapper("Word", record -> record.getString("Word").toLowerCase()))
+                .map(new LowerCaseMapper("Word"))
                 .sortThenReduceBy(of("Word"), new CountReducer("WordCount"));
 
         var commonOutputNode = inputPart

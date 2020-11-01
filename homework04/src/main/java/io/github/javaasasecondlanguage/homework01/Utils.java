@@ -57,7 +57,7 @@ public class Utils {
     }
 
     public static Comparable getComparable(Record record, String column) {
-        Double doubleValue = record.getDoubleOrNull(column);
+        Double doubleValue = record.getDouble(column);
         if (doubleValue != null) {
             return doubleValue;
         } else {
