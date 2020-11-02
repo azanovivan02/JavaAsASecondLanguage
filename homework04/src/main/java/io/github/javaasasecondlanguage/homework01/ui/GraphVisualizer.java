@@ -69,12 +69,8 @@ public class GraphVisualizer {
     }
 
     private static Node createVisualNode(ProcNode currentProcNode, Graph visualGraph) {
-        Object operator = getOperator(currentProcNode);
-        if (operator == null) {
-            throw new IllegalStateException("No operator");
-        }
+        String nodeLabel = createNodeLabel(currentProcNode);
 
-        String nodeLabel = operator.getClass().getSimpleName();
         UUID nodeId = UUID.randomUUID();
         Node currentVisualNode = visualGraph.addNode(nodeLabel + nodeId);
         addCssClasses(currentProcNode, currentVisualNode);
@@ -83,19 +79,26 @@ public class GraphVisualizer {
         return currentVisualNode;
     }
 
-    private static Object getOperator(ProcNode procNode) {
+    private static String createNodeLabel(ProcNode procNode) {
+        String nodeLabel = "";
+        Object operator = null;
+
         if (procNode instanceof ReducerNode) {
-            return ((ReducerNode) procNode).getReducer();
-        } else if (procNode instanceof MapperNode){
-            return ((MapperNode) procNode).getMapper();
+            operator = ((ReducerNode) procNode).getReducer();
+        } else if (procNode instanceof MapperNode) {
+            operator = ((MapperNode) procNode).getMapper();
         }
-        return null;
+
+        if (operator != null) {
+            nodeLabel = operator.getClass().getSimpleName();
+        }
+        return nodeLabel;
     }
 
     private static void addCssClasses(ProcNode currentProcNode, Node currentVisualNode) {
         if (currentProcNode instanceof ReducerNode) {
             currentVisualNode.setAttribute("ui.class", "reducer");
-        } else if (currentProcNode instanceof SorterNode){
+        } else if (currentProcNode instanceof SorterNode) {
             currentVisualNode.setAttribute("ui.class", "sorter");
         } else if (currentProcNode instanceof JoinerNode) {
             currentVisualNode.setAttribute("ui.class", "joiner");
