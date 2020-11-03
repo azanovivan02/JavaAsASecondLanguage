@@ -1,6 +1,13 @@
 # Stream processing graph
 
-## What it is?
+## What it is and why do I need it?
+
+Processing (also known as **computational**) graph is a sequence of operations which transforms input data in a desired way.       
+
+The most important advantage is the ability to separate the **description** of operations from their **execution**. It allows to describe the logic once and then to launch it in different environments:
+* On a user machine / remote machine.
+* Using single thread / multiple threads.
+* Using multiple machines.     
 
 ## Main concepts
 
@@ -36,7 +43,7 @@ Mapper operator accepts a single record and outputs one or more new records. All
 
 #### Reducer
 
-Reducer operator accepts a sorted sequence of records, groups them by certain keys and outputs one or more new records for each group. All reducers must implement [Reducer](src/main/java/io/github/javaasasecondlanguage/homework01/ops/Reducer.java) interface.
+Reducer operator accepts sequence of records, which split into groups by key. All reducers must implement [Reducer](src/main/java/io/github/javaasasecondlanguage/homework01/ops/Reducer.java) interface.
 
 ![Reducer](pics/reducer.png)
 
