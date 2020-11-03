@@ -62,7 +62,7 @@ Each node has several input **gates**, which allows it to accept different strea
 
 Nodes can be divided into four types:
 * [MapperNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/MapperNode.java) skips terminal records. When a terminal record arrives, it is simply redirected to the next node without any processing.
-* [ReducerNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/ReducerNode.java) does not skip terminal records.
+* [ReducerNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/ReducerNode.java) does not skip terminal records. It also groups nodes by specified keys.
 * [JoinerNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/JoinerNode.java) accepts inputs from two gates (0 and 1). 
 * [SorterNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/SorterNode.java)
    
@@ -92,21 +92,41 @@ Since graph is a non-linear data structure, it is difficult to create a convenie
 ## Your task
 
 Your task can be divided into two parts:
-* Develop a "library" of operators.
-* Use these operators to assemble processing graphs for solving actual practical problems.
+* Develop a "toolbox" of operators and nodes. 
+* Use it to assemble processing graphs for solving actual practical problems.
 
-### Operators library
+### Operators toolbox
 
 You must implement the following operators (and pass tests for them):
 * Mappers
+    - [AddColumnMapper](src/main/java/io/github/javaasasecondlanguage/homework01/ops/mappers/AddColumnMapper.java)
+    - [FilterMapper](src/main/java/io/github/javaasasecondlanguage/homework01/ops/mappers/FilterMapper.java)
+    - [LowerCaseMapper](src/main/java/io/github/javaasasecondlanguage/homework01/ops/mappers/LowerCaseMapper.java)
+    - [RetainColumnsMapper](src/main/java/io/github/javaasasecondlanguage/homework01/ops/mappers/RetainColumnsMapper.java)
 * Reducers
-* Joiners
-    - InnerJoiner
+    - [FirstNReducer](src/main/java/io/github/javaasasecondlanguage/homework01/ops/reducers/FirstNReducer.java)
+    - [SumReducer](src/main/java/io/github/javaasasecondlanguage/homework01/ops/reducers/SumReducer.java)
+    - [TermFrequencyReducer](src/main/java/io/github/javaasasecondlanguage/homework01/ops/reducers/TermFrequencyReducer.java)
+* Nodes
+    - [JoinerNode](src/main/java/io/github/javaasasecondlanguage/homework01/nodes/JoinerNode.java)
     
 ### Practical problems
 
-#### Problem 1
-#### Problem 2
+#### Problem 0: Word Count
+
+* **Task**: Count how much words each author has written
+* **Input**: stream of records like:
+    ```json
+    {DocId: 1, Author: "Caesar", Text: "Et tu, Brute"}
+    ```
+* **Output**: stream of records like:
+    ```json
+    {Author: "Caesar", TotalWords: 420}
+    ```
+
+Graph for this task is already implemented in a class [WordCount](src/main/java/io/github/javaasasecondlanguage/homework01/graphs/WordCount.java), but some operators are not implemented yet. You must implement these operators (as part of task "Operators toolbox") and pass the tests in [WordCountTest](src/test/java/io/github/javaasasecondlanguage/homework01/graphs/WordCountTest.java). 
+
+#### Problem 1: to be done
 
 ## Score
 
