@@ -87,6 +87,13 @@ Since graph is a non-linear data structure, it is difficult to create a convenie
 
 ## Our project
 
+We have a single-module gradle project. It includes a lot of things:
+* All basic classes in the [root](src/main/java/io/github/javaasasecondlanguage/homework01) package.
+* Different node types (one not implemented), in package [nodes](src/main/java/io/github/javaasasecondlanguage/homework01/nodes).
+* Different operators (most of them not implemented), in package [operators](src/main/java/io/github/javaasasecondlanguage/homework01/operators).
+* Different graphs (only one implemented), in package  [graphs](src/main/java/io/github/javaasasecondlanguage/homework01/graphs).
+* Utilities for visualizing graphs in package [ui](src/main/java/io/github/javaasasecondlanguage/homework01/ui). 
+
 ### Visualization
 
 ## Your task
