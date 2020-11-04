@@ -1,10 +1,7 @@
 .gradle/
-/gradle/
 /out/
 build/
 /classes
 
 .idea
 *.iml
-gradlew
-gradlew.bat
