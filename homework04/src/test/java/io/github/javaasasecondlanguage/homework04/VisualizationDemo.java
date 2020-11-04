@@ -9,17 +9,12 @@ import static io.github.javaasasecondlanguage.homework04.ui.GraphVisualizer.visu
 /**
  * Only launched manually - remove "Disabled" first
  */
-public class VisualizationTest {
+public class VisualizationDemo {
 
     @Disabled
     @Test
     void launch() throws InterruptedException {
-//        var compGraph = (new BaseCase()).createGraph();
-//        var compGraph = (new JoinCase()).createGraph();
-//        var compGraph = (new TableCase()).createGraph();
-
         var graph = TfIdf.createGraph();
-
         visualizeGraph(graph);
         Thread.sleep(Long.MAX_VALUE);
     }

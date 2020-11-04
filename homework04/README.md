@@ -82,7 +82,6 @@ Since graph is a non-linear data structure, it is difficult to create a convenie
 * Merge with another linear part, which is represented by another builder (by using `join`).
 * Split a new linear part, creating a new builder (by using `branch`).  
   
-
 ![GraphBuilder](pics/builder.png)
 
 ## Our project
@@ -95,6 +94,20 @@ We have a single-module gradle project. It includes a lot of things:
 * Utilities for visualizing graphs in package [ui](src/main/java/io/github/javaasasecondlanguage/homework04/ui). 
 
 ### Visualization
+
+Our project includes tools for visualizing processing graphs you have created. It uses a well-known graph library [GraphStream](https://graphstream-project.org/). All code is located in [ui](src/main/java/io/github/javaasasecondlanguage/homework04/ui) package.
+
+**How to use it**: simply pass your `ProcGraph` object to the method `GraphVisualizer.visualizeGraph`. It will open a Swing UI window which contains your graph. You may do it inside class [VisualizationDemo](src/test/java/io/github/javaasasecondlanguage/homework04/VisualizationDemo.java) (remove `@Disabled` annotation first). You will see something like this:
+
+![UI](pics/ui.png)
+ 
+All nodes are colour coded:
+* Inputs: green
+* Outputs: red
+* Mappers: white
+* Reducer: blue
+* Sorters: violet
+* Joiners: orange
 
 ## Your task
 
