@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static io.github.javaasasecondlanguage.homework04.utils.AssertionUtils.assertRecordsEqual;
-import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.applyToAllRecords;
+import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.applyMapperToAllRecords;
 import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.convertToRecords;
 import static java.lang.String.format;
 
@@ -19,7 +19,7 @@ public class AddColumnMapperTest {
         Function<Record, Object> lambda = record -> format("%s %s", record.get("Name"), record.get("Surname"));
         AddColumnMapper mapper = new AddColumnMapper("Full name", lambda);
 
-        List<Record> actualRecords = applyToAllRecords(mapper, inputRecords);
+        List<Record> actualRecords = applyMapperToAllRecords(mapper, inputRecords);
         assertRecordsEqual(expectedRecords, actualRecords);
     }
 

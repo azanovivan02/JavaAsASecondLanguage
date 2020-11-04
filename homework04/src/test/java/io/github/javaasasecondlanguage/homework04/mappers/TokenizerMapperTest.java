@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework04.utils.AssertionUtils.assertRecordsEqual;
-import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.applyToAllRecords;
+import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.applyMapperToAllRecords;
 import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.convertToRecords;
 
 class TokenizerMapperTest {
@@ -16,7 +16,7 @@ class TokenizerMapperTest {
     void general() {
         var mapper = new TokenizerMapper("Text", "Word");
 
-        var actualrecords = applyToAllRecords(mapper, inputRecords);
+        var actualrecords = applyMapperToAllRecords(mapper, inputRecords);
         assertRecordsEqual(expectedRecords, actualrecords);
     }
 

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework04.utils.AssertionUtils.assertRecordsEqual;
-import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.applyToAllRecords;
+import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.applyMapperToAllRecords;
 import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.convertToRecords;
 
 public class IdentityMapperTest {
@@ -16,7 +16,7 @@ public class IdentityMapperTest {
     void general() {
         var mapper = new IdentityMapper();
 
-        List<Record> actualRecords = applyToAllRecords(mapper, inputRecords);
+        List<Record> actualRecords = applyMapperToAllRecords(mapper, inputRecords);
         assertRecordsEqual(inputRecords, actualRecords);
     }
 

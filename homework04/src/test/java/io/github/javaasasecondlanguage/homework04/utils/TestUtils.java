@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonMap;
 
 public class TestUtils {
@@ -42,26 +41,7 @@ public class TestUtils {
         return outputRecords;
     }
 
-    public static void pushAllRecordsThenPushTerminal(ProcNode node, List<Record> records) {
-        for (var record : records) {
-            node.push(record, 0);
-        }
-        node.push(Record.terminalRecord(), 0);
-    }
-
-    public static List<Record> applyToAllRecordsThenTerminal(Reducer operator, List<Record> records) {
-//        var collector = new ListOutputCollector();
-//
-//        for (var record : records) {
-//            operator.apply(record, collector);
-//        }
-//        operator.apply(Record.terminalRecord(), collector);
-//
-//        return collector.getCollectedRecords();
-        return emptyList();
-    }
-
-    public static List<Record> applyToAllRecords(Mapper operator, List<Record> records) {
+    public static List<Record> applyMapperToAllRecords(Mapper operator, List<Record> records) {
         var collector = new ListCollector();
 
         for (var record : records) {

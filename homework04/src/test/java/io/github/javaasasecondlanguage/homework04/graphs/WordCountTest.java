@@ -11,7 +11,6 @@ import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework04.utils.AssertionUtils.assertRecordsEqual;
 import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.convertToRecords;
-import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.pushAllRecordsThenPushTerminal;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -41,7 +40,10 @@ class WordCountTest {
                 .startFrom(outputNode)
                 .map(listDumper);
 
-        pushAllRecordsThenPushTerminal(inputNode, inputRecords);
+        for (var record : inputRecords) {
+            inputNode.push(record, 0);
+        }
+        inputNode.push(Record.terminalRecord(), 0);
 
         List<Record> actualRecords = listDumper.getRecords();
 

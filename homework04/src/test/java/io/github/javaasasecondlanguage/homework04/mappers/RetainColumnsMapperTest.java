@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework04.utils.AssertionUtils.assertRecordsEqual;
-import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.applyToAllRecords;
+import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.applyMapperToAllRecords;
 import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.convertToRecords;
 import static java.util.List.of;
 
@@ -17,7 +17,7 @@ public class RetainColumnsMapperTest {
     void general() {
         var mapper = new RetainColumnsMapper(of("Id", "Name"));
 
-        var actualrecords = applyToAllRecords(mapper, inputRecords);
+        var actualrecords = applyMapperToAllRecords(mapper, inputRecords);
         assertRecordsEqual(expectedRecords, actualrecords);
     }
 
