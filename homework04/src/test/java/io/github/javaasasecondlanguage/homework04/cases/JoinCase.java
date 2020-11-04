@@ -9,7 +9,7 @@ import io.github.javaasasecondlanguage.homework04.ops.mappers.Printer;
 import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.convertToRecords;
-import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.pushAllRecordsThenTerminal;
+import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.pushAllRecordsThenPushTerminal;
 import static java.util.List.of;
 
 public class JoinCase implements TestCase {
@@ -25,17 +25,19 @@ public class JoinCase implements TestCase {
         ProcNode leftStartNode = startNodes.get(0);
         ProcNode rightStartNode = startNodes.get(1);
 
-        pushAllRecordsThenTerminal(leftStartNode, leftRecords);
-        pushAllRecordsThenTerminal(rightStartNode, rightRecords);
+        pushAllRecordsThenPushTerminal(leftStartNode, leftRecords);
+        pushAllRecordsThenPushTerminal(rightStartNode, rightRecords);
     }
 
     @Override
     public ProcGraph createGraph() {
         var rightPart = GraphPartBuilder
-                .startWith(new Printer("--- right: "));
+                .init()
+                .map(new Printer("--- right: "));
 
         var leftPart = GraphPartBuilder
-                .startWith(new Printer("+++ left: "))
+                .init()
+                .map(new Printer("+++ left: "))
                 .join(rightPart, of("AuthorId"))
                 .map(new Printer("*** output: "));
 

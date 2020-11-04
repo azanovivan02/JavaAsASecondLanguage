@@ -1,6 +1,7 @@
-package io.github.javaasasecondlanguage.homework04;
+package io.github.javaasasecondlanguage.homework04.graphs;
 
-import io.github.javaasasecondlanguage.homework04.graphs.TfIdf;
+import io.github.javaasasecondlanguage.homework04.GraphPartBuilder;
+import io.github.javaasasecondlanguage.homework04.Record;
 import io.github.javaasasecondlanguage.homework04.utils.ListDumper;
 import org.junit.jupiter.api.Test;
 
@@ -9,7 +10,7 @@ import java.util.List;
 import static io.github.javaasasecondlanguage.homework04.Utils.recordsToString;
 import static io.github.javaasasecondlanguage.homework04.utils.AssertionUtils.assertRecordsEqual;
 import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.convertToRecords;
-import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.pushAllRecordsThenTerminal;
+import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.pushAllRecordsThenPushTerminal;
 
 public class TfIdfTest {
 
@@ -24,7 +25,7 @@ public class TfIdfTest {
                 .startFrom(outputNode)
                 .map(listDumper);
 
-        pushAllRecordsThenTerminal(inputNode, inputRecords);
+        pushAllRecordsThenPushTerminal(inputNode, inputRecords);
 
         List<Record> actualRecords = listDumper.getRecords();
         System.out.println(recordsToString(actualRecords));

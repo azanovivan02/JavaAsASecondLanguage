@@ -42,7 +42,7 @@ public class TestUtils {
         return outputRecords;
     }
 
-    public static void pushAllRecordsThenTerminal(ProcNode node, List<Record> records) {
+    public static void pushAllRecordsThenPushTerminal(ProcNode node, List<Record> records) {
         for (var record : records) {
             node.push(record, 0);
         }

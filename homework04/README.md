@@ -137,12 +137,13 @@ You must implement the following operators (and pass tests for them):
 * **Task**: Count how much words each author has written
 * **Input**: stream of records like:
     ```json
-    {DocId: 1, Author: "Caesar", Text: "Et tu, Brute"}
+    {Id: 1, Author: "Caesar", Text: "Et tu, Brute"}
     ```
 * **Output**: stream of records like:
     ```json
     {Author: "Caesar", TotalWords: 420}
     ```
+  Records should be sorted by Author column, ascending. 
 
 Graph for this task is already implemented in a class [WordCount](src/main/java/io/github/javaasasecondlanguage/homework04/graphs/WordCount.java), but some operators are not implemented yet. You must implement these operators (as part of task "Operators toolbox") and pass the tests in [WordCountTest](src/test/java/io/github/javaasasecondlanguage/homework04/graphs/WordCountTest.java). 
 

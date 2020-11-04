@@ -10,7 +10,7 @@ import io.github.javaasasecondlanguage.homework04.ops.reducers.CountReducer;
 import java.util.List;
 
 import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.convertToRecords;
-import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.pushAllRecordsThenTerminal;
+import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.pushAllRecordsThenPushTerminal;
 import static java.util.List.of;
 
 public class TableCase implements TestCase {
@@ -19,13 +19,14 @@ public class TableCase implements TestCase {
     public void launch() {
         var inputRecords = createInputs().get(0);
         var graph = createGraph().getInputNodes().get(0);
-        pushAllRecordsThenTerminal(graph, inputRecords);
+        pushAllRecordsThenPushTerminal(graph, inputRecords);
     }
 
     @Override
     public ProcGraph createGraph() {
         var mainPart = GraphPartBuilder
-                .startWith(new TokenizerMapper("Text", "Word"))
+                .init()
+                .map(new TokenizerMapper("Text", "Word"))
                 .sortThenReduceBy(of("Author", "Word"), new CountReducer("Count"))
                 .map(new Printer("+++ "));
 

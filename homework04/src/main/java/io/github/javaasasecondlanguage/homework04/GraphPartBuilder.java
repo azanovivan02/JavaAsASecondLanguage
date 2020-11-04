@@ -8,6 +8,7 @@ import io.github.javaasasecondlanguage.homework04.nodes.SortOrder;
 import io.github.javaasasecondlanguage.homework04.nodes.SorterNode;
 import io.github.javaasasecondlanguage.homework04.ops.Mapper;
 import io.github.javaasasecondlanguage.homework04.ops.Reducer;
+import io.github.javaasasecondlanguage.homework04.ops.mappers.IdentityMapper;
 
 import java.util.List;
 
@@ -22,8 +23,9 @@ public class GraphPartBuilder {
         return graphBuilder;
     }
 
-    public static GraphPartBuilder startWith(Mapper mapper) {
-        return startFrom(new MapperNode(mapper));
+    public static GraphPartBuilder init() {
+        var identityMapper = new IdentityMapper();
+        return startFrom(new MapperNode(identityMapper));
     }
 
     private ProcNode startNode;

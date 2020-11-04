@@ -16,5 +16,7 @@ public class AssertionUtils {
             var expectedRecord = expectedRecords.get(recordIndex);
             assertEquals(expectedRecord, actualRecord, format("Record index: %d", recordIndex));
         }
+
+        assertEquals(expectedRecords.size(), actualRecords.size());
     }
 }

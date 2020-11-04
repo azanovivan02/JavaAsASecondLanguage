@@ -20,8 +20,7 @@ import static java.util.List.of;
 public class TfIdf {
 
     public static ProcGraph createGraph() {
-        var inputGraph = GraphPartBuilder
-                .startWith(new IdentityMapper());
+        var inputGraph = GraphPartBuilder.init();
 
         var docCountGraph = inputGraph
                 .branch()

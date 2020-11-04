@@ -14,7 +14,7 @@ import java.util.List;
 import static io.github.javaasasecondlanguage.homework04.nodes.SortOrder.ASCENDING;
 import static io.github.javaasasecondlanguage.homework04.nodes.SortOrder.DESCENDING;
 import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.convertToRecords;
-import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.pushAllRecordsThenTerminal;
+import static io.github.javaasasecondlanguage.homework04.utils.TestUtils.pushAllRecordsThenPushTerminal;
 import static java.util.List.of;
 
 public class BaseCase implements TestCase {
@@ -23,13 +23,14 @@ public class BaseCase implements TestCase {
     public void launch() {
         var inputNode = createGraph().getInputNodes().get(0);
         var inputRecords = createInputs().get(0);
-        pushAllRecordsThenTerminal(inputNode, inputRecords);
+        pushAllRecordsThenPushTerminal(inputNode, inputRecords);
     }
 
     @Override
     public ProcGraph createGraph() {
         var inputPart = GraphPartBuilder
-                .startWith(new TokenizerMapper("Text", "Word"))
+                .init()
+                .map(new TokenizerMapper("Text", "Word"))
                 .map(new LowerCaseMapper("Word"))
                 .sortThenReduceBy(of("Word"), new CountReducer("WordCount"));
 
