@@ -11,13 +11,13 @@ import java.util.TreeMap;
 /**
  * Calculate frequency of values in column for each group.
  */
-public class TermFrequencyReducer implements Reducer {
+public class WordFrequencyReducer implements Reducer {
 
     private final String termColumn;
     private final String outputColumn;
     private final Map<String, Integer> wordCounts = new HashMap<>();
 
-    public TermFrequencyReducer(String termColumn, String outputColumn) {
+    public WordFrequencyReducer(String termColumn, String outputColumn) {
         this.termColumn = termColumn;
         this.outputColumn = outputColumn;
     }

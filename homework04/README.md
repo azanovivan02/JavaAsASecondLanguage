@@ -126,7 +126,7 @@ You must implement the following operators (and pass tests for them):
 * Reducers
     - [FirstNReducer](src/main/java/io/github/javaasasecondlanguage/homework04/ops/reducers/FirstNReducer.java)
     - [SumReducer](src/main/java/io/github/javaasasecondlanguage/homework04/ops/reducers/SumReducer.java)
-    - [TermFrequencyReducer](src/main/java/io/github/javaasasecondlanguage/homework04/ops/reducers/TermFrequencyReducer.java)
+    - [WordFrequencyReducer](src/main/java/io/github/javaasasecondlanguage/homework04/ops/reducers/WordFrequencyReducer.java)
 * Nodes
     - [JoinerNode](src/main/java/io/github/javaasasecondlanguage/homework04/nodes/JoinerNode.java)
     
